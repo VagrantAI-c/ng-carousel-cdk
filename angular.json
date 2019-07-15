@@ -119,6 +119,10 @@
               "devServerTarget": "ng-carousel-demo:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "ngx-gh:deploy",
+          "options": {}
         }
       }
     },
