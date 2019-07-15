@@ -1,0 +1,13 @@
+<ul 
+    #galleryRef
+    [style.transform]="transformValue$ | async"
+    (focusin)="focusIn()"
+    (focusout)="focusOut()"
+    class="ng-carousel-block">
+    <li
+        *ngFor="let slide of (slides$ | async); trackBy: trackByFn;"
+        [style.width]="slideWidth$ | async"
+        class="ng-carousel-slide">
+        <ng-container *ngTemplateOutlet="(template$ | async); context: contextOf(slide);"></ng-container>
+    </li>
+</ul>

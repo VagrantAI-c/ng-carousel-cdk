@@ -1,0 +1,137 @@
+<div class="app-body mat-typography">
+    <mat-toolbar color="primary">
+        Демонстрация карусели
+    </mat-toolbar>
+    <ng-carousel
+        [config]="config"
+        (itemIndexChange)="setItemIndex($event)"
+        class="carousel-block">
+        <ng-template ngCarouselSlide let-item let-active="isActive">
+            <div
+                [class.active]="active"
+                [style.background-image]="item.image"
+                class="carousel-slide">
+                <h2>
+                    {{item.name}}
+                </h2>
+                <button 
+                    mat-raised-button
+                    color="primary">
+                    Primary action
+                </button>
+                <button 
+                    mat-button
+                    color="primary">
+                    Secondary action
+                </button>
+            </div>
+        </ng-template>
+    </ng-carousel>
+    <div class="control-panel">
+        <button 
+            *ngFor="let item of config.items; index as i;"
+            [class.active]="i === itemIndex"
+            (click)="goTo(i)"
+            class="bullet-button"
+            mat-icon-button>
+            {{i + 1}}
+        </button>
+    </div>
+    <div class="control-panel">
+        <button
+            (click)="prev()"
+            mat-raised-button
+            color="primary">
+            Назад
+        </button>
+        <button
+            (click)="next()"
+            mat-raised-button
+            color="primary">
+            Вперед
+        </button>
+    </div>
+    <mat-card class="card-block">
+        <form 
+            [formGroup]="configForm"
+            class="form-block">
+            <label class="control-block">
+                <div>Выравнивание активного слайда</div>
+                <mat-button-toggle-group formControlName="alignMode">
+                    <mat-button-toggle [value]="LEFT">По левому краю</mat-button-toggle>
+                    <mat-button-toggle [value]="CENTER">По центру</mat-button-toggle>
+                </mat-button-toggle-group>
+            </label>
+            <label class="control-block">
+                <div>Ширина слайдов в</div>
+                <mat-button-toggle-group formControlName="widthMode">
+                    <mat-button-toggle [value]="PX">Пикселях</mat-button-toggle>
+                    <mat-button-toggle [value]="PERCENT">Процентах</mat-button-toggle>
+                </mat-button-toggle-group>
+            </label>
+            <label class="control-block">
+                <div>Наполнение</div>
+                <mat-button-toggle-group formControlName="shouldLoop">
+                    <mat-button-toggle [value]="true">Цикличное</mat-button-toggle>
+                    <mat-button-toggle [value]="false">Без повторов</mat-button-toggle>
+                </mat-button-toggle-group>
+            </label>
+            <label class="control-block">
+                <div>Ширина слайда: {{slideWidth$ | async}}{{widthMode$ | async}}</div>
+                <div class="range-block">
+                    <mat-slider
+                        [max]="maxWidth"
+                        formControlName="slideWidth"
+                        thumbLabel>
+                    </mat-slider>
+                    <div
+                        aria-hidden="true" 
+                        class="range-labels-block mat-caption">
+                        <div>0</div>
+                        <div>{{maxWidth}}</div>
+                    </div>
+                </div>
+            </label>
+            <label class="control-block">
+                <div>Длительность анимации: {{transitionDuration$ | async}}</div>
+                <div class="range-block">
+                    <mat-slider
+                        max="5000"
+                        formControlName="transitionDuration"
+                        thumbLabel>
+                    </mat-slider>
+                    <div
+                        aria-hidden="true" 
+                        class="range-labels-block mat-caption">
+                        <div>0</div>
+                        <div>5000</div>
+                    </div>
+                </div>
+            </label>
+            <label class="control-block">
+                <div>Количество слайдов: {{slidesQuantity$ | async}}</div>
+                <div class="range-block">
+                    <mat-slider
+                        max="100"
+                        formControlName="slidesQuantity"
+                        thumbLabel>
+                    </mat-slider>
+                    <div
+                        aria-hidden="true" 
+                        class="range-labels-block mat-caption">
+                        <div>0</div>
+                        <div>100</div>
+                    </div>
+                </div>
+            </label>
+            <div class="control-block">
+                <mat-checkbox formControlName="autoplayEnabled">
+                    Автопроигрывание
+                </mat-checkbox>
+                <mat-checkbox formControlName="dragEnabled">
+                    Жесты
+                </mat-checkbox>
+            </div>
+        </form>
+    </mat-card>
+</div>

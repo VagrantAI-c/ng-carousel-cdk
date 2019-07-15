@@ -1,0 +1,93 @@
+:host {
+    height: 100%;
+}
+
+.app-body {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #e8e8e8;
+    
+    .carousel-block {
+        width: 100%;
+    }
+    
+    .carousel-slide {
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border: 16px solid rgb(105, 105, 105);
+
+        &.active {
+            border-color: lightcoral;
+        }
+    }
+
+    .card-title {
+        margin-bottom: 40px;
+    }
+
+    .control-panel {
+        padding: 16px;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        max-height: 300px;
+        overflow-y: auto;
+
+        & > :not(:last-child) {
+            margin-right: 16px;
+        }
+    }
+
+    .bullet-button {
+        &.active {
+            background: lightgray;
+        }
+    }
+
+    .card-block {
+        margin: 8px auto;
+        display: flex;
+
+        & > :not(:last-child) {
+            margin-right: 40px;
+        }
+    }
+
+    .form-block {
+        display: flex;
+        flex-wrap: wrap;
+
+        & > :not(:last-child) {
+            margin-right: 40px;
+            margin-bottom: 40px;
+        }
+    }
+
+    .control-block {
+        display: flex;
+        flex-direction: column;
+        align-items: self-start;
+        margin-bottom: 40px;
+
+        & > :not(:last-child) {
+            margin-bottom: 16px;
+        }
+    }
+
+    .range-block {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        min-width: 240px;
+    }
+
+    .range-labels-block {
+        display: flex;
+        justify-content: space-between;
+    }
+}
+

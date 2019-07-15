@@ -1,0 +1,12 @@
+.ng-carousel-block {
+    width: 100%;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    will-change: transform;
+}
+
+.ng-carousel-slide {
+    flex: none;
+    list-style: none;
+}
