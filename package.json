@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test:lib": "ng test ng-carousel",
-    "test:lib:coverage": "ng test ng-carousel --code-coverage"
+    "test:lib:coverage": "ng test ng-carousel --code-coverage",
+    "gh": "ng build --prod --base-href \"/carousel-demo/\" && npx angular-cli-ghpages --dir dist/ng-carousel-demo"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +40,7 @@
     "@types/jasmine": "~3.3.13",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~12.6.3",
+    "angular-cli-ghpages": "^0.5.3",
     "codelyzer": "^5.1.0",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
