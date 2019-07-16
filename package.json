@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "test:lib": "ng test ng-carousel",
     "test:lib:coverage": "ng test ng-carousel --code-coverage",
-    "gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\" && npx angular-cli-ghpages --dir dist/ng-carousel-demo"
+    "build:gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\""
   },
   "private": true,
   "dependencies": {
