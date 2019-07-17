@@ -1,8 +1,8 @@
 import { IdGenerator } from '../../models/id-generator';
 import { ShuffleSlidesResult } from '../../models/shuffle-slides-result';
-import { SideWeightChart } from '../../models/side-weight-chart';
 import { CarouselSlide } from '../../models/carousel-slide';
 import { collectOccurences } from './collect-occurences';
+import { CopySlidesResult } from '../../models/copy-slides-result';
 
 /**
  * Justifies existing slides in viewport by either
@@ -35,7 +35,7 @@ export function shuffleSlides(
 
     const slideSumWidth = slides.length * slideWidth;
 
-    // Calculate weights for left and right sides
+    // Calculate missing slides for left and right sides
     const leftSideMissingSlides = Math.max(0, Math.ceil(offset / slideWidth));
     const rightSideMissingSlides = Math.max(0, Math.ceil((viewportWidth - (offset + slideSumWidth)) / slideWidth));
 
@@ -147,10 +147,10 @@ export function moveOrCopySlidesToEnd(
     slideWidth: number,
     items: any[],
     idGenerator = new IdGenerator(),
-): ShuffleSlidesResult {
+): CopySlidesResult {
     if (quantity < 1) {
 
-        return new ShuffleSlidesResult(slides, offset, []);
+        return new CopySlidesResult(slides, offset, []);
     }
 
     const newSlides = [];
@@ -285,7 +285,7 @@ export function moveOrCopySlidesToEnd(
     ];
     const resultOffset = offset + spliceQuantity * slideWidth;
 
-    return new ShuffleSlidesResult(resultSlides, resultOffset, unmarkedItemIndexes);
+    return new CopySlidesResult(resultSlides, resultOffset, unmarkedItemIndexes);
 }
 
 /**
@@ -328,10 +328,10 @@ export function moveOrCopySlidesToStart(
     slideWidth: number,
     items: any[],
     idGenerator = new IdGenerator(),
-): ShuffleSlidesResult {
+): CopySlidesResult {
     if (quantity < 1) {
 
-        return new ShuffleSlidesResult(slides, offset, []);
+        return new CopySlidesResult(slides, offset, []);
     }
 
     const newSlides = [];
@@ -462,5 +462,5 @@ export function moveOrCopySlidesToStart(
         ...slides,
     ];
 
-    return new ShuffleSlidesResult(result, offset - newSlides.length * slideWidth, unmarkedItemIndexes);
+    return new CopySlidesResult(result, offset - newSlides.length * slideWidth, unmarkedItemIndexes);
 }

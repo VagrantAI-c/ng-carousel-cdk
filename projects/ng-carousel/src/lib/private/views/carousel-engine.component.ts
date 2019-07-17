@@ -1,13 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, isDevMode, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, takeUntil } from 'rxjs/operators';
+import { fromEvent, Observable, Subject } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
 
+import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
-import { AutoplaySuspender } from '../models/autoplay-suspender';
 
 @Component({
   selector: 'carousel-engine',
@@ -40,6 +40,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.listenToAutoplay();
         this.listenToDrag();
+        this.listenToResize();
         this.carousel.setContainers(this.elementRef.nativeElement, this.galleryRef.nativeElement);
     }
 
@@ -176,6 +177,22 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                 this.hammerManager.on('panend', (event: HammerInput) => {
                     this.carousel.dragEnd(event.deltaX);
                 });
+            });
+    }
+
+    private listenToResize(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
+        this.carousel.carouselStateChanges()
+            .pipe(
+                filter((state: CarouselState) => state.config.shouldRecalculateOnResize),
+                switchMapTo(fromEvent(window, 'resize')),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe(() => {
+                this.carousel.recalculate();
             });
     }
 
