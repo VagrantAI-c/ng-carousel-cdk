@@ -16,6 +16,9 @@ import { CarouselService } from '../service/carousel.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   encapsulation: ViewEncapsulation.None,
 })
+/**
+ * Contains listeners and other DOM controllers
+ */
 export class CarouselEngineComponent implements OnInit, OnDestroy {
 
     @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef;
@@ -23,9 +26,12 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     public readonly slideWidth$ = this.slideWidthChanges();
     public readonly template$ = this.templateChanges();
     public readonly slides$ = this.slidesChanges();
+    public focused = false;
     private readonly destroyed$ = new Subject<void>();
     private mouseEnterDestructor: () => void;
     private mouseLeaveDestructor: () => void;
+    private keyboardListener: () => void;
+    private scrollListener: () => void;
     private hammerManager: HammerManager;
     private hammerAbsenceDeclared = false;
 
@@ -39,21 +45,18 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.listenToAutoplay();
-        this.listenToDrag();
-        this.listenToResize();
+        this.listenToDragEvents();
+        this.listenToResizeEvents();
+        this.listenToKeyEvents();
+        this.listenToScrollEvents();
         this.carousel.setContainers(this.elementRef.nativeElement, this.galleryRef.nativeElement);
     }
 
     ngOnDestroy() {
-        if (this.mouseEnterDestructor) {
-            this.mouseEnterDestructor();
-        }
-        if (this.mouseLeaveDestructor) {
-            this.mouseLeaveDestructor();
-        }
-        if (this.hammerManager) {
-            this.hammerManager.destroy();
-        }
+        this.destroyMouseListeners();
+        this.destroyHammer();
+        this.destroyKeyboardListeners();
+        this.destroyScrollListeners();
         this.destroyed$.next();
         this.destroyed$.complete();
     }
@@ -71,11 +74,40 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     }
 
     focusIn(): void {
+        this.focused = true;
         this.carousel.disableAutoplay(AutoplaySuspender.FOCUS);
     }
 
     focusOut(): void {
+        this.focused = false;
         this.carousel.enableAutoplay(AutoplaySuspender.FOCUS);
+    }
+
+    private destroyMouseListeners(): void {
+        if (this.mouseEnterDestructor) {
+            this.mouseEnterDestructor();
+        }
+        if (this.mouseLeaveDestructor) {
+            this.mouseLeaveDestructor();
+        }
+    }
+
+    private destroyHammer(): void {
+        if (this.hammerManager) {
+            this.hammerManager.destroy();
+        }
+    }
+
+    private destroyKeyboardListeners(): void {
+        if (this.keyboardListener) {
+            this.keyboardListener();
+        }
+    }
+
+    private destroyScrollListeners(): void {
+        if (this.scrollListener) {
+            this.scrollListener();
+        }
     }
 
     private transformValueChanges(): Observable<string> {
@@ -137,7 +169,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
             });
     }
 
-    private listenToDrag(): void {
+    private listenToDragEvents(): void {
         this.carousel.carouselStateChanges()
             .pipe(
                 map((state: CarouselState) => state.config.dragEnabled),
@@ -180,7 +212,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
             });
     }
 
-    private listenToResize(): void {
+    private listenToResizeEvents(): void {
         if (!isPlatformBrowser(this.platformId)) {
 
             return;
@@ -196,4 +228,29 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
             });
     }
 
+    private listenToKeyEvents(): void {
+        this.keyboardListener = this.renderer.listen(
+            this.elementRef.nativeElement,
+            'keydown',
+            (event: KeyboardEvent) => {
+                const key = event.key.toLowerCase();
+                if (['arrowright', 'right'].includes(key)) {
+                    this.carousel.next();
+                } else if (['arrowleft', 'left'].includes(key)) {
+                    this.carousel.prev();
+                }
+            }
+        );
+    }
+
+    /**
+     * Horizontal scroll might accidentaly happen on parent container
+     * when pressing arrow buttons too fast. We should return
+     * container to initial position when that happens.
+     */
+    private listenToScrollEvents(): void {
+        this.scrollListener = this.renderer.listen(this.elementRef.nativeElement, 'scroll', () => {
+            this.elementRef.nativeElement.scrollTo(0, 0);
+        });
+    }
 }

@@ -1,6 +1,7 @@
 <ul 
-    #galleryRef
+    #focusTrapRef="cdkTrapFocus"
     [style.transform]="transformValue$ | async"
+    [cdkTrapFocus]="false"
     (focusin)="focusIn()"
     (focusout)="focusOut()"
     class="ng-carousel-block">
