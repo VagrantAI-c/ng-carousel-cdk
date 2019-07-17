@@ -70,4 +70,12 @@ export class CarouselComponent {
         this.carousel.setItemIndex(newIndex);
     }
 
+    /**
+     * Programmaticaly recalculates carousel position in case of
+     * container size changes or other size interactions
+     */
+    recalculate(): void {
+        this.carousel.recalculate();
+    }
+
 }

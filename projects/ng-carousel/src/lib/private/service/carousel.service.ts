@@ -48,7 +48,6 @@ export class CarouselService implements OnDestroy {
 
     private readonly carouselState$ = new BehaviorSubject<CarouselState>(new CarouselState());
     private readonly destroyed$ = new Subject<void>();
-    private readonly offsetAnimation$ = new Subject<[Offset, Offset]>();
     private currentAnimationId: number | null = null;
 
     constructor(
@@ -63,26 +62,13 @@ export class CarouselService implements OnDestroy {
         this.destroyed$.complete();
     }
 
-    getCarouselState(): CarouselState {
-        const clonedState = new CarouselState(this.carouselState$.getValue());
-        return clonedState;
-    }
-
-    setCarouselState(newState: CarouselState): void {
-        this.carouselState$.next(newState);
-    }
-
     carouselStateChanges(): Observable<CarouselState> {
         return this.carouselState$.asObservable();
     }
 
-    offsetAnimationChanges(): Observable<[Offset, Offset]> {
-        return this.offsetAnimation$.asObservable();
-    }
-
     setItemIndex(newItemIndex: number): void {
         this.enableAutoplay(); // Reset timer on programmatic item index change
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         const slideIndex = findSlideIndex(
             carouselState.slides,
             newItemIndex,
@@ -93,7 +79,7 @@ export class CarouselService implements OnDestroy {
 
     prev(): void {
         this.enableAutoplay(); // Reset timer on programmatic prev
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         let newIndex = carouselState.activeSlideIndex - 1;
         if (newIndex < 0) {
             newIndex = carouselState.slides.length - 1;
@@ -108,7 +94,7 @@ export class CarouselService implements OnDestroy {
         if (!omitAutoplayReset) {
             this.enableAutoplay();
         }
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         let newIndex = carouselState.activeSlideIndex + 1;
         if (newIndex >= carouselState.slides.length) {
             newIndex = 0;
@@ -116,20 +102,60 @@ export class CarouselService implements OnDestroy {
         this.setSlideIndex(newIndex);
     }
 
+    recalculate(): void {
+        const carouselState = this.cloneCarouselState();
+        const viewportWidth = carouselState.viewportWidth;
+        carouselState.offset = calculateOffset(
+            carouselState.activeSlideIndex,
+            carouselState.config.alignMode,
+            carouselState.config.slideWidth,
+            viewportWidth,
+            carouselState.slides.length,
+            carouselState.config.shouldLoop,
+        );
+        carouselState.slides = markVisibleAndActive(
+            carouselState.slides,
+            carouselState.offset,
+            carouselState.config.slideWidth,
+            viewportWidth,
+            carouselState.activeSlideIndex,
+        );
+        const shuffleSlideResult = shuffleSlides(
+            carouselState.slides,
+            carouselState.offset,
+            carouselState.config.slideWidth,
+            viewportWidth,
+            carouselState.config.items,
+            carouselState.config.shouldLoop,
+            this.slideIdGenerator,
+        );
+        carouselState.offset = shuffleSlideResult.modifiedOffset;
+        carouselState.slides = shuffleSlideResult.slides;
+        this.setCarouselState(carouselState);
+    }
+
+    /** Update state to announce that drag sequence just started */
     dragStart(): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         if (carouselState.config.dragEnabled) {
 
             this.disableAutoplay(AutoplaySuspender.DRAG);
         }
     }
 
+    /**
+     * Update state to announce that drag sequence just ended
+     * and perform necessary cleanups
+     */
     dragEnd(passedDistance: number): void {
         this.enableAutoplay(AutoplaySuspender.DRAG);
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
+
+        // Normalize passed distance to current carousel width mode
         if (carouselState.config.widthMode === CarouselWidthMode.PERCENT) {
             passedDistance = 100 * passedDistance / carouselState.viewportWidthInPx;
         }
+
         const activeSlideResult = calculateActiveSlide(
             carouselState.slides,
             carouselState.offset,
@@ -146,7 +172,7 @@ export class CarouselService implements OnDestroy {
      * @param offset delta value in pixel where new offset should be moved to
      */
     drag(fromX: number, toX: number): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         if (!carouselState.config.dragEnabled || fromX === toX) {
 
             return;
@@ -221,27 +247,13 @@ export class CarouselService implements OnDestroy {
     }
 
     setSlideTemplate(newTemplateRef: TemplateRef<any> | null): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         carouselState.template = newTemplateRef;
         this.setCarouselState(carouselState);
     }
 
-    setAnimationPlayer(animation: CarouselAnimation): void {
-        const carouselState = this.getCarouselState();
-        animation.player.onDone(() => {
-            if (this.currentAnimationId !== null && this.currentAnimationId === animation.id) {
-                animation.player.destroy();
-                this.cleanup();
-            }
-        });
-        animation.player.play();
-        carouselState.animation = animation;
-        this.currentAnimationId = animation.id;
-        this.setCarouselState(carouselState);
-    }
-
     disableAutoplay(suspender: AutoplaySuspender): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         if (!carouselState.autoplay) {
             carouselState.autoplay = new CarouselAutoplay();
         }
@@ -256,7 +268,7 @@ export class CarouselService implements OnDestroy {
     }
 
     enableAutoplay(suspender: AutoplaySuspender = null): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         if (!carouselState.autoplay) {
             carouselState.autoplay = new CarouselAutoplay();
         }
@@ -280,21 +292,36 @@ export class CarouselService implements OnDestroy {
     }
 
     setContainers(widthContainer: HTMLElement, animatableContainer: HTMLElement): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         carouselState.widthContainer = widthContainer;
         carouselState.animatableContainer = animatableContainer;
         carouselState.initializationState.viewportWidthInitialized = true;
-        this.applyStateChange(carouselState, this.getCarouselState());
+        this.applyStateChange(carouselState);
     }
 
     setConfig(newConfig: CarouselConfig): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         carouselState.config = newConfig;
         carouselState.initializationState.configInitialized = true;
-        this.applyStateChange(carouselState, this.getCarouselState());
+        this.applyStateChange(carouselState);
     }
 
-    private applyStateChange(newState: CarouselState, oldState: CarouselState): void {
+    private cloneCarouselState(): CarouselState {
+        const clonedState = new CarouselState(this.carouselState$.getValue());
+        return clonedState;
+    }
+
+    private setCarouselState(newState: CarouselState): void {
+        this.carouselState$.next(newState);
+    }
+
+    /**
+     * Narrow case scenario helper: use this when carousel inputs change.
+     * Function task is to initialize carousel whether all the components
+     * are ready.
+     */
+    private applyStateChange(newState: CarouselState): void {
+        const currentState = this.cloneCarouselState();
         if (
             !newState.initializationState.configInitialized
             || !newState.initializationState.viewportWidthInitialized
@@ -305,11 +332,11 @@ export class CarouselService implements OnDestroy {
         }
         if (
             !newState.initializationState.firstInitalization
-            || oldState.config.widthMode !== newState.config.widthMode
-            || oldState.config.slideWidth !== newState.config.slideWidth
-            || oldState.config.alignMode !== newState.config.alignMode
-            || oldState.config.shouldLoop !== newState.config.shouldLoop
-            || oldState.config.items !== newState.config.items
+            || currentState.config.widthMode !== newState.config.widthMode
+            || currentState.config.slideWidth !== newState.config.slideWidth
+            || currentState.config.alignMode !== newState.config.alignMode
+            || currentState.config.shouldLoop !== newState.config.shouldLoop
+            || currentState.config.items !== newState.config.items
         ) {
             newState = this.initializeCarousel(newState);
         }
@@ -396,7 +423,7 @@ export class CarouselService implements OnDestroy {
     }
 
     private setSlideIndex(newSlideIndex: number): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         const viewportWidth = carouselState.viewportWidth;
         let currentOffset = carouselState.offset;
         let slides = carouselState.slides;
@@ -461,7 +488,7 @@ export class CarouselService implements OnDestroy {
     }
 
     private cleanup(): void {
-        const carouselState = this.getCarouselState();
+        const carouselState = this.cloneCarouselState();
         const viewportWidth = carouselState.viewportWidth;
         if (carouselState.animation) {
             this.destroyPlayerWithoutCallback(carouselState.animation.player);
@@ -543,7 +570,7 @@ export class CarouselService implements OnDestroy {
         ]);
         const animationPlayer = animationFactory.create(container);
         const animation = new CarouselAnimation(
-            this.slideIdGenerator.next(),
+            this.animationIdGenerator.next(),
             from,
             to,
             animationPlayer,

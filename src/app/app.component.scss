@@ -8,7 +8,12 @@
     flex-direction: column;
     background: #e8e8e8;
     
+    .toolbar-block {
+        flex: none;
+    }
+
     .carousel-block {
+        flex: none;
         width: 100%;
     }
     
@@ -30,12 +35,13 @@
     }
 
     .control-panel {
-        padding: 16px;
+        flex: none;
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
         max-height: 300px;
         overflow-y: auto;
+        padding: 16px;
 
         & > :not(:last-child) {
             margin-right: 16px;

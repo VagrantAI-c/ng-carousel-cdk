@@ -44,6 +44,12 @@ export class CarouselConfig {
      * Time in ms of how long transition between slides would last
      */
     transitionDuration? = 280;
+    /**
+     * Whether carousel should automatically recalculate on window resize.
+     * This option is recommended when using pixel width mode or left
+     * alignment.
+     */
+    shouldRecalculateOnResize = true;
 
     constructor(config?: CarouselConfig) {
         this.items = config && config.items || [];
@@ -67,5 +73,8 @@ export class CarouselConfig {
         this.transitionDuration = config && typeof config.transitionDuration === 'number'
             ? config.transitionDuration
             : 600;
+        this.shouldRecalculateOnResize = config && typeof config.shouldRecalculateOnResize === 'boolean'
+            ? config.shouldRecalculateOnResize
+            : true;
     }
 }

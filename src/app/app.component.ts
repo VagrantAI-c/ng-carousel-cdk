@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef, Inject } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { startWith, map, takeUntil } from 'rxjs/operators';
@@ -15,9 +15,9 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(CarouselComponent, {static: true}) carouselRef: CarouselComponent;
 
-    config: CarouselConfig = {
+    config: Partial<CarouselConfig> = {
         widthMode: CarouselWidthMode.PERCENT,
-        slideWidth: 10,
+        slideWidth: 33,
         transitionDuration: 2500,
         alignMode: CarouselAlignMode.CENTER,
         shouldLoop: true,

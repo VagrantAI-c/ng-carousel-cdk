@@ -362,7 +362,6 @@ describe('weight calculation test suite', () => {
             );
             expect(emptyShuffle.slides).toEqual([]);
             expect(emptyShuffle.modifiedOffset).toEqual(0);
-            expect(emptyShuffle.unmarkedItemIndexes).toEqual([]);
 
             const undefinedShuffle = shuffleSlides(
                 undefined,
@@ -374,7 +373,6 @@ describe('weight calculation test suite', () => {
             );
             expect(undefinedShuffle.slides).toEqual([]);
             expect(undefinedShuffle.modifiedOffset).toEqual(0);
-            expect(undefinedShuffle.unmarkedItemIndexes).toEqual([]);
         });
 
         it('must mark copy slides', () => {
