@@ -37,22 +37,22 @@ npm i ng-carousel-cdk
 2. Use it in component
     Component:
     ```typescript
-        const config = {
-            items: [
-                {name: 1},
-                {name: 2},
-                {name: 3},  
-            ],
-        }
+    const config = {
+        items: [
+            {name: 1},
+            {name: 2},
+            {name: 3},  
+        ],
+    }
     ```
 
     Template:
     ```HTML
-        <ng-carousel [config]="config">
-            <ng-template ngCarouselSlide let-item>
-                {{item.name}}
-            </ng-template>
-        </ng-carousel>
+    <ng-carousel [config]="config">
+        <ng-template ngCarouselSlide let-item>
+            {{item.name}}
+        </ng-template>
+    </ng-carousel>
     ```
 
 ## API
