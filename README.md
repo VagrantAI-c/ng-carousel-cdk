@@ -38,7 +38,7 @@ npm i ng-carousel-cdk
 
     Component:
     ```typescript
-    const config = {
+    const config: CarouselConfig = {
         items: [
             {name: 1},
             {name: 2},
