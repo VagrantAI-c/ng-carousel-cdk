@@ -34,7 +34,8 @@ npm i ng-carousel-cdk
     })
     export class AnyModule { }
     ```
-2. Use it in component
+2. Apply it in component
+
     Component:
     ```typescript
     const config = {
