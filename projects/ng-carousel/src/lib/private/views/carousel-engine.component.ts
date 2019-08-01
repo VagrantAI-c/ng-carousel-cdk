@@ -39,7 +39,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private carousel: CarouselService,
         private elementRef: ElementRef,
         private renderer: Renderer2,
-        @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(PLATFORM_ID) private platformId: {},
     ) {
     }
 

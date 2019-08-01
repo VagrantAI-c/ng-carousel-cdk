@@ -10,9 +10,9 @@ import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges, 
 export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy {
 
     @Input() untabbable = false;
-    @Input() focusTrapRef: CdkTrapFocus;
+    @Input() untabbableFocusTrapRef: CdkTrapFocus;
     /** Whether focus inside carousel */
-    @Input() focused = false;
+    @Input() untabbableFocused = false;
 
     private readonly lastTabindexValueMap = new Map<HTMLElement, string | null>();
     private viewInitiated: boolean;

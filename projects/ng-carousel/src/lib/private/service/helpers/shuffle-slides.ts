@@ -49,7 +49,7 @@ export function shuffleSlides(
 
     // Should move slides to right side
     if (rightSideMissingSlides) {
-        const moveResult = moveOrCopySlidesToEnd(
+        const rightSideMoveResult = moveOrCopySlidesToEnd(
             slides,
             offset,
             rightSideMissingSlides,
@@ -57,14 +57,14 @@ export function shuffleSlides(
             items,
             idGenerator,
         );
-        slides = moveResult.slides;
-        offset = moveResult.modifiedOffset;
-        unmarkedItemIndexes = moveResult.unmarkedItemIndexes;
+        slides = rightSideMoveResult.slides;
+        offset = rightSideMoveResult.modifiedOffset;
+        unmarkedItemIndexes = rightSideMoveResult.unmarkedItemIndexes;
     }
 
     // Should move slides to left side
     if (leftSideMissingSlides) {
-        const moveResult = moveOrCopySlidesToStart(
+        const leftSideMoveResult = moveOrCopySlidesToStart(
             slides,
             offset,
             leftSideMissingSlides,
@@ -72,9 +72,9 @@ export function shuffleSlides(
             items,
             idGenerator,
         );
-        slides = moveResult.slides;
-        offset = moveResult.modifiedOffset;
-        unmarkedItemIndexes = unmarkedItemIndexes.concat(moveResult.unmarkedItemIndexes);
+        slides = leftSideMoveResult.slides;
+        offset = leftSideMoveResult.modifiedOffset;
+        unmarkedItemIndexes = unmarkedItemIndexes.concat(leftSideMoveResult.unmarkedItemIndexes);
     }
 
     // Move/copy-function returns array of item indexes that should be marked as copy.

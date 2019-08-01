@@ -10,7 +10,9 @@
     "e2e": "ng e2e",
     "test:lib": "ng test ng-carousel",
     "test:lib:coverage": "ng test ng-carousel --code-coverage",
-    "build:gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\""
+    "build:gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\"",
+    "copy:readme": "copyfiles ./README.md ./dist/ng-carousel",
+    "build:lib": "npm run lint && ng build ng-carousel && npm run copy:readme"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +44,7 @@
     "@types/node": "~12.6.6",
     "angular-cli-ghpages": "^0.5.3",
     "codelyzer": "^5.1.0",
+    "copyfiles": "^2.1.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.2.0",

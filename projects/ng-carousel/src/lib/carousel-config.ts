@@ -16,7 +16,7 @@ export class CarouselConfig {
      * Slide width. It could be pixels or percents, based on mode
      * configuration.
      */
-    slideWidth? = 100;
+    slideWidth ? = 100;
     /**
      * Describes how slides should be positioned relative to
      * carousel viewport
@@ -25,25 +25,25 @@ export class CarouselConfig {
     /**
      * Whether autoplay is enabled
      */
-    autoplayEnabled? = true;
+    autoplayEnabled ? = true;
     /**
      * Time in ms of how long carousel would wait until automatic
      * slide increment. Respects `autoplayEnabled` value.
      */
-    autoplayDelay? = 6000;
+    autoplayDelay ? = 6000;
     /**
      * Wheter mouse drag or gesture panning enabled
      */
-    dragEnabled? = true;
+    dragEnabled ? = true;
     /**
      * Whether carousel should start from beginning after last
      * slide
      */
-    shouldLoop? = true;
+    shouldLoop ? = true;
     /**
      * Time in ms of how long transition between slides would last
      */
-    transitionDuration? = 280;
+    transitionDuration ? = 280;
     /**
      * Whether carousel should automatically recalculate on window resize.
      * This option is recommended when using pixel width mode or left
