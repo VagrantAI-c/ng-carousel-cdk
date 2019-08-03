@@ -21,7 +21,7 @@ npm i ng-carousel-cdk
     ```
     import 'hammerjs';
     ```
-
+123
 ## Usage
 1. Import carousel in module
     ```typescript
