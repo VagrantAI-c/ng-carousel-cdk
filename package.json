@@ -12,7 +12,7 @@
     "test:lib:coverage": "ng test ng-carousel --code-coverage",
     "build:gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\"",
     "copy:readme": "copyfiles ./README.md ./dist/ng-carousel",
-    "build:lib": "npm run lint && ng build ng-carousel && npm run copy:readme"
+    "build:lib": "ng build ng-carousel && npm run copy:readme"
   },
   "private": true,
   "dependencies": {

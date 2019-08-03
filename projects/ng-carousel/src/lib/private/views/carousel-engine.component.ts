@@ -39,7 +39,8 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private carousel: CarouselService,
         private elementRef: ElementRef,
         private renderer: Renderer2,
-        @Inject(PLATFORM_ID) private platformId: {},
+        // tslint:disable-next-line: ban-types
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
     }
 

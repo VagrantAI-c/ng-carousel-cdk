@@ -34,8 +34,8 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
             change.currentValue
                 ? this.blockTabindex()
                 : this.unblockTabindex();
-            if (this.focused && this.focusTrapRef) {
-                this.focusTrapRef.focusTrap.focusFirstTabbableElement();
+            if (this.untabbableFocused && this.untabbableFocusTrapRef) {
+                this.untabbableFocusTrapRef.focusTrap.focusFirstTabbableElement();
             }
         }
     }
