@@ -1,5 +1,5 @@
 {
-  "name": "ng-carousel",
+  "name": "ng-carousel-cdk",
   "version": "1.0.0",
   "peerDependencies": {
     "@angular/common": "^7.0.0",
