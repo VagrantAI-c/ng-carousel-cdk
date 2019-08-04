@@ -1,6 +1,6 @@
 {
   "name": "ng-carousel-demo",
-  "version": "0.0.0",
+  "version": "0.0.0-development",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -9,12 +9,56 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "test:lib": "ng test ng-carousel",
-    "test:lib:coverage": "ng test ng-carousel --code-coverage",
+    "test:lib:coverage": "ng test ng-carousel --code-coverage --no-watch",
+    "coverage-report": "cat ./coverage/ng-alert/lcov.info | codecov",
     "build:gh": "ng build --prod --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\"",
+    "publish-demo": "npx angular-cli-ghpages --dir dist/ng-carousel-demo --repo https://GH_TOKEN@github.com/VagrantAI-c/ng-carousel-cdk.git",
     "copy:readme": "copyfiles ./README.md ./dist/ng-carousel",
-    "build:lib": "ng build ng-carousel && npm run copy:readme"
+    "build:lib": "ng build ng-carousel && npm run copy:readme",
+    "publish:lib": "npx semantic-release",
+    "semantic-release": "semantic-release",
+    "adjust-version": "npm-run-all adjust-version:*",
+    "adjust-version:lib": "rjp projects/ng-carousel/package.json version $VERSION",
+    "adjust-version:main": "rjp package.json version $VERSION"
   },
   "private": true,
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "release": {
+    "pkgRoot": "dist/ng-carousel",
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      [
+        "@semantic-release/exec",
+        {
+          "prepareCmd": "VERSION=${nextRelease.version} npm run adjust-version"
+        }
+      ],
+      [
+        "@semantic-release/git",
+        {
+          "assets": [
+            "package.json",
+            "projects/ng-carousel/package.json",
+            "CHANGELOG.md"
+          ],
+          "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+        }
+      ],
+      "@semantic-release/github"
+    ]
+  },
   "dependencies": {
     "@angular/animations": "~8.1.1",
     "@angular/cdk": "^8.1.1",
@@ -38,13 +82,26 @@
     "@angular/cli": "~8.1.1",
     "@angular/compiler-cli": "~8.1.1",
     "@angular/language-service": "~8.1.1",
+    "@commitlint/cli": "^8.1.0",
+    "@commitlint/config-conventional": "^8.1.0",
+    "@commitlint/prompt": "^8.1.0",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/commit-analyzer": "^6.2.0",
+    "@semantic-release/exec": "^3.3.5",
+    "@semantic-release/git": "^7.0.16",
+    "@semantic-release/github": "^5.4.2",
+    "@semantic-release/npm": "^5.1.13",
+    "@semantic-release/release-notes-generator": "^7.2.1",
     "@types/hammerjs": "^2.0.36",
     "@types/jasmine": "~3.3.13",
     "@types/jasminewd2": "~2.0.6",
     "@types/node": "~12.6.6",
     "angular-cli-ghpages": "^0.5.3",
+    "codecov": "^3.5.0",
     "codelyzer": "^5.1.0",
     "copyfiles": "^2.1.1",
+    "cz-conventional-changelog": "^3.0.2",
+    "husky": "^3.0.2",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "~4.2.0",
@@ -54,9 +111,19 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "ng-packagr": "^5.3.0",
     "protractor": "~5.4.2",
+    "semantic-release": "^15.13.19",
     "ts-node": "~8.3.0",
     "tsickle": "^0.36.0",
     "tslint": "~5.18.0",
     "typescript": "3.4.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VagrantAI-c/ng-carousel-cdk.git"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
