@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.0.0...v1.1.0) (2019-08-05)
+
+
+### Features
+
+* trigger initial release ([dc674c2](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/dc674c2))
+
 # 1.0.0 (2019-08-04)
 
 
