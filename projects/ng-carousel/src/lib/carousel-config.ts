@@ -49,7 +49,7 @@ export class CarouselConfig {
      * This option is recommended when using pixel width mode or left
      * alignment.
      */
-    shouldRecalculateOnResize = true;
+    shouldRecalculateOnResize ? = true;
 
     constructor(config?: CarouselConfig) {
         this.items = config && config.items || [];
