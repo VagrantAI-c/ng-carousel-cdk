@@ -6,9 +6,9 @@
     "@angular/core": "^7.0.0",
     "@angular/animations": "^7.0.0",
     "@angular/cdk": "^7.0.0",
-    "bezier-easing": "^2.1.0"
+    "@types/hammerjs": "^2.0.36"
   },
   "devDependencies": {
-    "@types/hammerjs": "^2.0.36"
+    "bezier-easing": "^2.1.0"
   }
 }
