@@ -19,7 +19,8 @@
     "semantic-release": "semantic-release",
     "adjust-version": "npm-run-all adjust-version:*",
     "adjust-version:lib": "rjp projects/ng-carousel/package.json version $VERSION",
-    "adjust-version:main": "rjp package.json version $VERSION"
+    "adjust-version:main": "rjp package.json version $VERSION",
+    "commit": "npx git-cz"
   },
   "private": true,
   "commitlint": {
