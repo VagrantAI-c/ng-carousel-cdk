@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.1.0...v1.2.0) (2019-09-04)
+
+
+### Features
+
+* specify repository ([913ba30](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/913ba30))
+
 # [1.1.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.0.0...v1.1.0) (2019-08-05)
 
 
