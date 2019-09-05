@@ -164,3 +164,21 @@ Use this reference to programmaticaly trigger next events:
 - `carouselRef.prev()`: decrement active slide
 - `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index
 - `carouselRef.recalculate()`: recalculate positions
+
+### PreventGhostClickDirective
+
+selector: `[ngCarouselPreventGhostClick]`
+
+#### Usage
+Use directive on button, anchor or any clickable element. This will prevent ghost clicks after pan ends.
+
+```HTML
+<ng-carousel>
+    <button
+        (click)="processClick($event)"
+        ngCarouselPreventGhostClick>
+        ...
+    </button>
+</ng-carousel>
+```
+When drag starts on button element, it won't be clicked upon drag end.
