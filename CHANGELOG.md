@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.2...v1.2.3) (2019-09-05)
+
+
+### Bug Fixes
+
+* allow empty slides initializer ([1faadbf](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/1faadbf))
+
 ## [1.2.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.1...v1.2.2) (2019-09-05)
 
 
