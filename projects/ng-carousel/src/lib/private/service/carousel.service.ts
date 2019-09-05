@@ -347,6 +347,10 @@ export class CarouselService implements OnDestroy {
      * Cleans current slides if present and creates them anew.
      */
     private initializeCarousel(carouselState: CarouselState): CarouselState {
+        if (!carouselState.config.items || !carouselState.config.items.length) {
+
+            return carouselState;
+        }
         carouselState.initializationState.firstInitalization = true;
         let slides = initializeCarousel(carouselState.config.items, this.slideIdGenerator);
         const viewportWidth = carouselState.viewportWidth;
