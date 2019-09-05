@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.3...v1.2.4) (2019-09-05)
+
+
+### Bug Fixes
+
+* fix incorrect carousel height ([c5779d6](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/c5779d6))
+
 ## [1.2.3](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.2...v1.2.3) (2019-09-05)
 
 
