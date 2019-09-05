@@ -8,6 +8,7 @@ import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
+import { HammerService } from '../service/hammer.service';
 
 @Component({
   selector: 'carousel-engine',
@@ -33,12 +34,12 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     private keyboardListener: () => void;
     private scrollListener: () => void;
     private hammerManager: HammerManager;
-    private hammerAbsenceDeclared = false;
 
     constructor(
         private carousel: CarouselService,
         private elementRef: ElementRef,
         private renderer: Renderer2,
+        private hammer: HammerService,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
@@ -185,18 +186,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
 
                     return;
                 }
-                const hasGestures = isPlatformBrowser(this.platformId) && (window as any).Hammer;
-                if (!hasGestures) {
-                    if (isDevMode() && !this.hammerAbsenceDeclared) {
-                        console.warn(
-                            'Ng-carousel could not listen to drag, because HammerJS was not found. Either disable drag or import HammerJS.'
-                        );
-                        this.hammerAbsenceDeclared = true;
-                    }
-
-                    return;
-                }
-                this.hammerManager = new Hammer(this.elementRef.nativeElement);
+                this.hammerManager = this.hammer.managerFor(this.elementRef.nativeElement);
 
                 let lastDelta = 0;
                 this.hammerManager.on('panright panleft', (event: HammerInput) => {

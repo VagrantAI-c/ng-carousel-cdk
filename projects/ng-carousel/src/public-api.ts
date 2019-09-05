@@ -8,3 +8,4 @@ export * from './lib/carousel-config';
 export * from './lib/carousel-width-mode';
 export * from './lib/carousel-align-mode';
 export * from './lib/carousel-slide.directive';
+export * from './lib/prevent-ghost-click.directive';
