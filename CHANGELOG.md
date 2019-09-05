@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.1...v1.2.2) (2019-09-05)
+
+
+### Bug Fixes
+
+* remove redundant animations module ([ff5a78e](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/ff5a78e))
+
 ## [1.2.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.2.0...v1.2.1) (2019-09-05)
 
 
