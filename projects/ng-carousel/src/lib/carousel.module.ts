@@ -11,7 +11,6 @@ import { CarouselEngineComponent } from './private/views/carousel-engine.compone
 @NgModule({
     imports: [
         CommonModule,
-        BrowserAnimationsModule,
         A11yModule,
     ],
     declarations: [
