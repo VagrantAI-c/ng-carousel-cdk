@@ -1,8 +1,10 @@
 import { Injectable, Inject, PLATFORM_ID, isDevMode } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
-@Injectable()
-export class HammerService {
+@Injectable({
+    providedIn: 'root',
+})
+export class HammerProviderService {
 
     private hammerAbsenceDeclared = false;
 

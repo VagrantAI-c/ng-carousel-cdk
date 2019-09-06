@@ -7,7 +7,6 @@ import { CarouselState } from './private/models/carousel-state';
 import { IdGenerator } from './private/models/id-generator';
 import { CarouselService } from './private/service/carousel.service';
 import { ANIMATION_ID_GENERATOR, SLIDE_ID_GENERATOR } from './private/tokens';
-import { HammerService } from './private/service/hammer.service';
 
 export function idGeneratorFactory(): IdGenerator {
     return new IdGenerator();
@@ -19,7 +18,6 @@ export function idGeneratorFactory(): IdGenerator {
     styleUrls: ['carousel.component.scss'],
     providers: [
         CarouselService,
-        HammerService,
         {
             provide: SLIDE_ID_GENERATOR,
             useFactory: idGeneratorFactory,
