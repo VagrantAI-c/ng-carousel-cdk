@@ -1,8 +1,6 @@
 import { Directive, ElementRef, Inject, PLATFORM_ID, isDevMode, OnInit, OnDestroy } from '@angular/core';
-import { TouchSequence } from 'selenium-webdriver';
-import { isPlatformBrowser } from '@angular/common';
-import { HammerService } from './private/service/hammer.service';
 import { Subscription, fromEvent, asyncScheduler } from 'rxjs';
+import { HammerProviderService } from './private/service/hammer-provider.service';
 
 @Directive({
     selector: '[ngCarouselPreventGhostClick]',
@@ -15,7 +13,7 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
     constructor(
         private elementRef: ElementRef,
-        private hammer: HammerService,
+        private hammer: HammerProviderService,
     ) {
     }
 

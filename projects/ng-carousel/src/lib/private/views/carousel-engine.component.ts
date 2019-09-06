@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, isDevMode, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
-import { HammerService } from '../service/hammer.service';
+import { HammerProviderService } from '../service/hammer-provider.service';
 
 @Component({
   selector: 'carousel-engine',
@@ -39,7 +39,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private carousel: CarouselService,
         private elementRef: ElementRef,
         private renderer: Renderer2,
-        private hammer: HammerService,
+        private hammer: HammerProviderService,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
