@@ -1,3 +1,10 @@
+## [1.3.4](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.3...v1.3.4) (2019-09-06)
+
+
+### Bug Fixes
+
+* fix server side code ([f320c0f](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/f320c0f))
+
 ## [1.3.3](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.2...v1.3.3) (2019-09-06)
 
 
