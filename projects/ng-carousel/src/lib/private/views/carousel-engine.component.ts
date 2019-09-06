@@ -187,7 +187,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     return;
                 }
                 this.hammerManager = this.hammer.managerFor(this.elementRef.nativeElement);
+                if (!this.hammerManager) {
 
+                    return;
+                }
                 let lastDelta = 0;
                 this.hammerManager.on('panright panleft', (event: HammerInput) => {
                     this.carousel.drag(event.center.x, event.center.x + (event.deltaX - lastDelta));

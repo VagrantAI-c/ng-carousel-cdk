@@ -36,6 +36,10 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
     private listenPanEndEvents(): void {
         this.hammerManager = this.hammer.managerFor(this.elementRef.nativeElement);
+        if (!this.hammerManager) {
+
+            return;
+        }
         this.hammerManager.on('panend', () => {
             this.shouldPreventClick = true;
             asyncScheduler.schedule(() => {
