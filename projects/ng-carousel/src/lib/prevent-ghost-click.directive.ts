@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Inject, PLATFORM_ID, isDevMode, OnInit, OnDestroy } from '@angular/core';
+import { Directive, ElementRef, Inject, PLATFORM_ID, isDevMode, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Subscription, fromEvent, asyncScheduler } from 'rxjs';
 import { HammerProviderService } from './private/service/hammer-provider.service';
 
@@ -8,8 +8,15 @@ import { HammerProviderService } from './private/service/hammer-provider.service
 export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
     private hammerManager: HammerManager;
-    private clickSubscription$: Subscription;
     private shouldPreventClick = false;
+
+    @HostListener('click', ['$event'])
+    private processClickEvent(event: Event): void {
+        if (this.shouldPreventClick) {
+            event.preventDefault();
+            event.stopImmediatePropagation();
+        }
+    }
 
     constructor(
         private elementRef: ElementRef,
@@ -19,15 +26,11 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.listenPanEndEvents();
-        this.listenClickEvents();
     }
 
     ngOnDestroy() {
         if (this.hammerManager) {
             this.hammerManager.destroy();
-        }
-        if (this.clickSubscription$) {
-            this.clickSubscription$.unsubscribe();
         }
     }
 
@@ -39,15 +42,6 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
                 this.shouldPreventClick = false;
             });
         });
-    }
-
-    private listenClickEvents(): void {
-        this.clickSubscription$ = fromEvent(this.elementRef.nativeElement, 'click')
-            .subscribe((event: Event) => {
-                if (this.shouldPreventClick) {
-                    event.preventDefault();
-                }
-            });
     }
 
 }
