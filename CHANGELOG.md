@@ -1,3 +1,10 @@
+## [1.3.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.1...v1.3.2) (2019-09-06)
+
+
+### Bug Fixes
+
+* stop ghost click propagation ([0692153](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/0692153))
+
 ## [1.3.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.0...v1.3.1) (2019-09-06)
 
 
