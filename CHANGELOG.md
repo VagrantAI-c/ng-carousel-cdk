@@ -1,3 +1,10 @@
+## [1.3.5](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.4...v1.3.5) (2019-09-09)
+
+
+### Bug Fixes
+
+* don't listen browser events on server ([4efe117](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/4efe117))
+
 ## [1.3.4](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.3...v1.3.4) (2019-09-06)
 
 
