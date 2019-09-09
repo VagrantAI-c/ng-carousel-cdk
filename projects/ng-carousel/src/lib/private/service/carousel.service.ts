@@ -1,5 +1,5 @@
 import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
-import { Inject, Injectable, OnDestroy, TemplateRef } from '@angular/core';
+import { Inject, Injectable, OnDestroy, TemplateRef, PLATFORM_ID } from '@angular/core';
 import bezier from 'bezier-easing';
 import { BehaviorSubject, interval, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -24,6 +24,7 @@ import { initializeCarousel } from './helpers/initialize-carousel';
 import { markVisibleAndActive } from './helpers/mark-visible-and-active';
 import { removeCopies } from './helpers/remove-copies';
 import { shuffleSlides } from './helpers/shuffle-slides';
+import { isPlatformBrowser } from '@angular/common';
 
 /**
  * Short swipe might not change slide to next/prev.
@@ -53,7 +54,9 @@ export class CarouselService implements OnDestroy {
     constructor(
         private animation: AnimationBuilder,
         @Inject(ANIMATION_ID_GENERATOR) private animationIdGenerator: IdGenerator,
-        @Inject(SLIDE_ID_GENERATOR) private slideIdGenerator: IdGenerator
+        @Inject(SLIDE_ID_GENERATOR) private slideIdGenerator: IdGenerator,
+        // tslint:disable-next-line: ban-types
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
     }
 
@@ -592,6 +595,10 @@ export class CarouselService implements OnDestroy {
     }
 
     private autoplaySubscription(intervalTime: number): Subscription {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return null;
+        }
         return interval(intervalTime)
             .pipe(
                 takeUntil(this.destroyed$),
