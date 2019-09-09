@@ -26,6 +26,12 @@
       ],
       "ng-carousel/*": [
         "dist/ng-carousel/*"
+      ],
+      "ng-carousel-cdk": [
+        "dist/ng-carousel"
+      ],
+      "ng-carousel-cdk/*": [
+        "dist/ng-carousel/*"
       ]
     }
   }
