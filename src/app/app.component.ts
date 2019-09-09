@@ -1,9 +1,8 @@
-import { ChangeDetectionStrategy, Component, ViewChild, OnInit, OnDestroy, ChangeDetectorRef, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from 'ng-carousel';
 import { Observable, Subject } from 'rxjs';
-import { startWith, map, takeUntil } from 'rxjs/operators';
-
-import { CarouselConfig, CarouselWidthMode, CarouselAlignMode, CarouselComponent } from '../../projects/ng-carousel/src/public-api';
+import { map, startWith, takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'app-root',
