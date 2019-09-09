@@ -141,6 +141,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     }
 
     private listenToAutoplay(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         this.carousel.carouselStateChanges()
             .pipe(
                 map((state: CarouselState) => state.config.autoplayEnabled),
@@ -172,6 +176,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     }
 
     private listenToDragEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         this.carousel.carouselStateChanges()
             .pipe(
                 map((state: CarouselState) => state.config.dragEnabled),
@@ -223,6 +231,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     }
 
     private listenToKeyEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         this.keyboardListener = this.renderer.listen(
             this.elementRef.nativeElement,
             'keydown',
