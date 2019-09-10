@@ -565,6 +565,10 @@ export class CarouselService implements OnDestroy {
         to: Offset,
         duration: number,
     ): CarouselAnimation {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         const bezierArgs = ANIMATION_BEZIER_ARGS;
         const cubicBezier = `cubic-bezier(${bezierArgs[0]},${bezierArgs[1]},${bezierArgs[2]},${bezierArgs[3]})`;
         const animationFactory = this.animation.build([
@@ -599,6 +603,7 @@ export class CarouselService implements OnDestroy {
 
             return null;
         }
+
         return interval(intervalTime)
             .pipe(
                 takeUntil(this.destroyed$),
