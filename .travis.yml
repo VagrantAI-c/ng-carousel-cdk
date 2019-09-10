@@ -36,7 +36,7 @@ jobs:
       provider: pages
       skip_cleanup: true
       github_token: $GH_TOKEN
-      local_dir: dist/ng-carousel-demo
+      local_dir: dist/browser
     if: branch = master
   - stage: build & publish lib
     script:
