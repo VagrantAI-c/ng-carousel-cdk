@@ -1,3 +1,11 @@
+## [1.3.6](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.5...v1.3.6) (2019-09-10)
+
+
+### Bug Fixes
+
+* infinite loop on server rendering ([402b951](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/402b951))
+* missing browser checks ([a385ddb](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/a385ddb))
+
 ## [1.3.5](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.4...v1.3.5) (2019-09-09)
 
 
