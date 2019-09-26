@@ -22,6 +22,7 @@ export function shuffleSlides(
     viewportWidth: number,
     items: any[],
     shouldLoop: boolean,
+    threshold: number = 0,
     idGenerator = new IdGenerator(),
 ): ShuffleSlidesResult {
     if (!slides || !slides.length) {
@@ -36,8 +37,8 @@ export function shuffleSlides(
     const slideSumWidth = slides.length * slideWidth;
 
     // Calculate missing slides for left and right sides
-    const leftSideMissingSlides = Math.max(0, Math.ceil(offset / slideWidth));
-    const rightSideMissingSlides = Math.max(0, Math.ceil((viewportWidth - (offset + slideSumWidth)) / slideWidth));
+    const leftSideMissingSlides = Math.max(0, Math.ceil((offset + threshold) / slideWidth));
+    const rightSideMissingSlides = Math.max(0, Math.ceil((viewportWidth + threshold - (offset + slideSumWidth)) / slideWidth));
 
     // Let's start to fill missing slides
 

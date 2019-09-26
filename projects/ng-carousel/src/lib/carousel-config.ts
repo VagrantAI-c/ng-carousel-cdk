@@ -50,6 +50,12 @@ export class CarouselConfig {
      * alignment.
      */
     shouldRecalculateOnResize ? = true;
+    /**
+     * Value in current width mode units which are virtally added to both sides
+     * of viewport. Slides within this virtual zone should always be presented
+     * whether loop mode is on.
+     */
+    threshold ? = 5;
 
     constructor(config?: CarouselConfig) {
         this.items = config && config.items || [];

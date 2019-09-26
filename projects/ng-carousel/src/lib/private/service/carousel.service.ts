@@ -130,6 +130,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         carouselState.offset = shuffleSlideResult.modifiedOffset;
@@ -226,6 +227,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         const activeSlideResult = calculateActiveSlide(
@@ -379,6 +381,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         if (carouselState.animation) {
@@ -468,6 +471,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         const activeSlideIndex = this.getActiveSlideIndex(shuffleResult.slides);
