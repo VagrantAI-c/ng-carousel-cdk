@@ -228,12 +228,12 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     }
                 });
 
-                this.hammerManager.on('panend', (event: HammerInput) => {
+                this.hammerManager.on('panend pancancel', (event: HammerInput) => {
                     if (lastTouchAction) {
                         this.carousel.dragEnd(event.deltaX);
                         this.renderer.setStyle(this.elementRef.nativeElement, 'touch-action', lastTouchAction);
+                        lastTouchAction = null;
                     }
-                    lastTouchAction = null;
                 });
             });
     }
