@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser, DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
@@ -32,7 +32,8 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     private mouseEnterDestructor: () => void;
     private mouseLeaveDestructor: () => void;
     private keyboardListener: () => void;
-    private scrollListener: () => void;
+    private containerScrollListener: () => void;
+    private documentScrollListener: () => void;
     private hammerManager: HammerManager;
 
     constructor(
@@ -42,6 +43,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private hammer: HammerProviderService,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
+        @Inject(DOCUMENT) private document: any,
     ) {
     }
 
@@ -58,7 +60,8 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         this.destroyMouseListeners();
         this.destroyHammer();
         this.destroyKeyboardListeners();
-        this.destroyScrollListeners();
+        this.destroyElementScrollListener();
+        this.destroyDocumentScrollListener();
         this.destroyed$.next();
         this.destroyed$.complete();
     }
@@ -106,9 +109,15 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
     }
 
-    private destroyScrollListeners(): void {
-        if (this.scrollListener) {
-            this.scrollListener();
+    private destroyElementScrollListener(): void {
+        if (this.containerScrollListener) {
+            this.containerScrollListener();
+        }
+    }
+
+    private destroyDocumentScrollListener(): void {
+        if (this.documentScrollListener) {
+            this.documentScrollListener();
         }
     }
 
@@ -200,16 +209,33 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     return;
                 }
                 let lastDelta = 0;
+                /** Whether scroll event should be prevented */
+                let panStarted = false;
                 this.hammerManager.on('panright panleft', (event: HammerInput) => {
-                    this.carousel.drag(event.center.x, event.center.x + (event.deltaX - lastDelta));
-                    lastDelta = event.deltaX;
+                    // We should not treat vertical pans as horizontal.
+                    // Be adviced that pan right/left events still counts
+                    // vertical pans as legitimate horizontal pan.
+                    if (panStarted) {
+                        this.carousel.drag(event.center.x, event.center.x + (event.deltaX - lastDelta));
+                        lastDelta = event.deltaX;
+                    }
                 });
                 this.hammerManager.on('panstart', (event: HammerInput) => {
+                    // Checking whether pan started with horizontal gesture,
+                    // we should block all scroll attempts during current pan session then
+                    // tslint:disable-next-line: no-bitwise
+                    panStarted = Boolean(event.offsetDirection & Hammer.DIRECTION_HORIZONTAL);
                     lastDelta = event.deltaX;
                     this.carousel.dragStart();
+                    this.documentScrollListener = this.renderer.listen(this.document, 'scroll', (scrollEvent: Event) => {
+                        if (panStarted) {
+                            scrollEvent.preventDefault();
+                        }
+                    });
                 });
                 this.hammerManager.on('panend', (event: HammerInput) => {
                     this.carousel.dragEnd(event.deltaX);
+                    this.destroyDocumentScrollListener();
                 });
             });
     }
@@ -255,7 +281,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
      * container to initial position when that happens.
      */
     private listenToScrollEvents(): void {
-        this.scrollListener = this.renderer.listen(this.elementRef.nativeElement, 'scroll', () => {
+        this.containerScrollListener = this.renderer.listen(this.elementRef.nativeElement, 'scroll', () => {
             this.elementRef.nativeElement.scrollTo(0, 0);
         });
     }

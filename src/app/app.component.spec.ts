@@ -1,13 +1,32 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { CarouselModule } from '../../projects/ng-carousel/src/public-api';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule
+                NoopAnimationsModule,
+                RouterTestingModule,
+                MatToolbarModule,
+                MatButtonModule,
+                MatCardModule,
+                MatSliderModule,
+                MatButtonToggleModule,
+                MatCheckboxModule,
+                CarouselModule,
+                FormsModule,
+                ReactiveFormsModule,
             ],
             declarations: [
                 AppComponent

@@ -401,6 +401,66 @@ describe('weight calculation test suite', () => {
                 expect(slide.options.isCopy).toBeTruthy();
             }
         });
+
+        it('must move slide to the right with active threshold', () => {
+            const items = [0, 1, 2];
+            // Imagine slide transition from slide 1 to slide 2.
+            // We expect slide 0 to move to the end
+            const slides = [
+                new CarouselSlide(0, 0, {inViewport: false, item: items[0], isActive: false}),
+                new CarouselSlide(0, 1, {inViewport: true, item: items[1], isActive: false}),
+                new CarouselSlide(0, 2, {inViewport: true, item: items[2], isActive: true}),
+            ];
+            const offset = -200;
+            const slideWidth = 100;
+            const viewportWidth = 100;
+            const shouldLoop = true;
+            const threshold = 5;
+            const result = shuffleSlides(
+                slides,
+                offset,
+                slideWidth,
+                viewportWidth,
+                items,
+                shouldLoop,
+                threshold,
+            );
+            expect(result.modifiedOffset).toBe(-100, 'incorrect offset');
+            expect(result.slides.length).toBe(3, 'incorrect slides length');
+            expect(result.slides[0].itemIndex).toBe(1);
+            expect(result.slides[1].itemIndex).toBe(2);
+            expect(result.slides[2].itemIndex).toBe(0);
+        });
+
+        it('must move slide to the left with active threshold', () => {
+            const items = [0, 1, 2];
+            // Imagine slide transition from slide 1 to slide 2.
+            // We expect slide 0 to move to the end
+            const slides = [
+                new CarouselSlide(0, 0, {inViewport: true, item: items[0], isActive: true}),
+                new CarouselSlide(0, 1, {inViewport: true, item: items[1], isActive: false}),
+                new CarouselSlide(0, 2, {inViewport: false, item: items[2], isActive: false}),
+            ];
+            const offset = 0;
+            const slideWidth = 100;
+            const viewportWidth = 100;
+            const shouldLoop = true;
+            const threshold = 5;
+            const result = shuffleSlides(
+                slides,
+                offset,
+                slideWidth,
+                viewportWidth,
+                items,
+                shouldLoop,
+                threshold,
+            );
+            expect(result.modifiedOffset).toBe(-100, 'incorrect offset');
+            expect(result.slides.length).toBe(3, 'incorrect slides length');
+            expect(result.slides[0].itemIndex).toBe(2);
+            expect(result.slides[1].itemIndex).toBe(0);
+            expect(result.slides[2].itemIndex).toBe(1);
+        });
     });
 
     describe('moveOrCopySlidesToEnd test suite', () => {
