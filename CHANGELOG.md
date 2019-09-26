@@ -1,3 +1,10 @@
+## [1.3.8](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.7...v1.3.8) (2019-09-26)
+
+
+### Bug Fixes
+
+* apply different scroll blocking technique ([57a1508](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/57a1508))
+
 ## [1.3.7](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.6...v1.3.7) (2019-09-26)
 
 
