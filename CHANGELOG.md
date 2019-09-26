@@ -1,3 +1,12 @@
+## [1.3.7](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.6...v1.3.7) (2019-09-26)
+
+
+### Bug Fixes
+
+* block scroll when panning carousel horizontally ([6b94b0d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/6b94b0d))
+* fix library 3rd party imports ([b83c36d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/b83c36d))
+* fix next/prev transitioning to wrong side ([69062c5](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/69062c5))
+
 ## [1.3.6](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.5...v1.3.6) (2019-09-10)
 
 
