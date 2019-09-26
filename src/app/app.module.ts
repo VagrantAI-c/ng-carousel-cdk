@@ -9,8 +9,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
-import { CarouselModule } from 'ng-carousel';
 
+import { CarouselModule } from '../../projects/ng-carousel/src/public-api';
 import { AppComponent } from './app.component';
 import { appRoutes } from './app.routes';
 
