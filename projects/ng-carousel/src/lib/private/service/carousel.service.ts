@@ -1,6 +1,6 @@
 import { animate, AnimationBuilder, AnimationPlayer, style } from '@angular/animations';
 import { Inject, Injectable, OnDestroy, TemplateRef, PLATFORM_ID } from '@angular/core';
-import * as bezier from 'bezier-easing';
+import bezier from 'bezier-easing';
 import { BehaviorSubject, interval, Observable, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 

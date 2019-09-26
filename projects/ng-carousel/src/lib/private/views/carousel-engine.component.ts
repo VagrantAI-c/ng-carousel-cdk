@@ -43,7 +43,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private hammer: HammerProviderService,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
-        @Inject(DOCUMENT) private document: Document,
+        @Inject(DOCUMENT) private document: any,
     ) {
     }
 
