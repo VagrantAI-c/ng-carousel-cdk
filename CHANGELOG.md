@@ -1,3 +1,10 @@
+## [1.3.10](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.9...v1.3.10) (2019-09-26)
+
+
+### Bug Fixes
+
+* reupload to npm due to npm publish error ([3f00777](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/3f00777))
+
 ## [1.3.9](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.8...v1.3.9) (2019-09-26)
 
 
