@@ -17,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     config: Partial<CarouselConfig> = {
         widthMode: CarouselWidthMode.PERCENT,
-        slideWidth: 33,
+        slideWidth: 100,
         transitionDuration: 2500,
         alignMode: CarouselAlignMode.CENTER,
         shouldLoop: true,
