@@ -1,3 +1,11 @@
+## [1.3.9](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.8...v1.3.9) (2019-09-26)
+
+
+### Bug Fixes
+
+* also listen for pancancel event ([51a0632](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/51a0632))
+* pancancel for ghost click prevention ([0547be2](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/0547be2))
+
 ## [1.3.8](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.7...v1.3.8) (2019-09-26)
 
 
