@@ -1,3 +1,10 @@
+## [1.3.11](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.10...v1.3.11) (2019-10-09)
+
+
+### Bug Fixes
+
+* check whether node is a text node before blocking ([8361aac](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/8361aac))
+
 ## [1.3.10](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.9...v1.3.10) (2019-09-26)
 
 
