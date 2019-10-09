@@ -32,7 +32,7 @@ export class CarouselConfig {
      */
     autoplayDelay ? = 6000;
     /**
-     * Wheter mouse drag or gesture panning enabled
+     * Whether mouse drag or gesture panning enabled
      */
     dragEnabled ? = true;
     /**
