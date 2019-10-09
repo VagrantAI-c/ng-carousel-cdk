@@ -1,3 +1,10 @@
+## [1.3.12](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.11...v1.3.12) (2019-10-09)
+
+
+### Bug Fixes
+
+* fix next and prev commands for non-loop carousels ([234c889](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/234c889))
+
 ## [1.3.11](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.10...v1.3.11) (2019-10-09)
 
 
