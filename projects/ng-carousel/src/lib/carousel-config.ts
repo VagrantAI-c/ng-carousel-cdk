@@ -32,7 +32,7 @@ export class CarouselConfig {
      */
     autoplayDelay ? = 6000;
     /**
-     * Wheter mouse drag or gesture panning enabled
+     * Whether mouse drag or gesture panning enabled
      */
     dragEnabled ? = true;
     /**
@@ -50,6 +50,12 @@ export class CarouselConfig {
      * alignment.
      */
     shouldRecalculateOnResize ? = true;
+    /**
+     * Value in current width mode units which are virtally added to both sides
+     * of viewport. Slides within this virtual zone should always be presented
+     * whether loop mode is on.
+     */
+    threshold ? = 5;
 
     constructor(config?: CarouselConfig) {
         this.items = config && config.items || [];

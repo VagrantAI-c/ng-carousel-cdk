@@ -95,7 +95,8 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private blockElement(element: HTMLElement): void {
-        if (this.interactivityChecker.isFocusable(element) && this.interactivityChecker.isTabbable(element)) {
+        // nodeType is text node, should not be blocked
+        if (element.nodeType !== 3 && this.interactivityChecker.isFocusable(element) && this.interactivityChecker.isTabbable(element)) {
             const currentTabindexValue = element.getAttribute('tabindex');
             this.lastTabindexValueMap.set(element, currentTabindexValue);
             if (currentTabindexValue !== '-1') {

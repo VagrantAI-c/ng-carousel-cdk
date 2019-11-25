@@ -1,5 +1,6 @@
-import { Directive, ElementRef, Inject, PLATFORM_ID, isDevMode, OnInit, OnDestroy, HostListener } from '@angular/core';
-import { Subscription, fromEvent, asyncScheduler } from 'rxjs';
+import { Directive, ElementRef, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { asyncScheduler } from 'rxjs';
+
 import { HammerProviderService } from './private/service/hammer-provider.service';
 
 @Directive({
@@ -40,7 +41,7 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
             return;
         }
-        this.hammerManager.on('panend', () => {
+        this.hammerManager.on('panend pancancel', () => {
             this.shouldPreventClick = true;
             asyncScheduler.schedule(() => {
                 this.shouldPreventClick = false;

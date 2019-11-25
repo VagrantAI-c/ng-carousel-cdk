@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from 'ng-carousel';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+
+import { CarouselWidthMode, CarouselComponent, CarouselConfig, CarouselAlignMode } from '../../projects/ng-carousel/src/public-api';
 
 @Component({
     selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     config: Partial<CarouselConfig> = {
         widthMode: CarouselWidthMode.PERCENT,
-        slideWidth: 33,
+        slideWidth: 100,
         transitionDuration: 2500,
         alignMode: CarouselAlignMode.CENTER,
         shouldLoop: true,

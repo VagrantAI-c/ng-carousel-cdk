@@ -85,7 +85,9 @@ export class CarouselService implements OnDestroy {
         const carouselState = this.cloneCarouselState();
         let newIndex = carouselState.activeSlideIndex - 1;
         if (newIndex < 0) {
-            newIndex = carouselState.slides.length - 1;
+            newIndex = carouselState.config.shouldLoop
+                ? carouselState.slides.length - 1
+                : 0;
         }
         this.setSlideIndex(newIndex);
     }
@@ -100,7 +102,9 @@ export class CarouselService implements OnDestroy {
         const carouselState = this.cloneCarouselState();
         let newIndex = carouselState.activeSlideIndex + 1;
         if (newIndex >= carouselState.slides.length) {
-            newIndex = 0;
+            newIndex = carouselState.config.shouldLoop
+                ? 0
+                : carouselState.slides.length - 1;
         }
         this.setSlideIndex(newIndex);
     }
@@ -130,6 +134,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         carouselState.offset = shuffleSlideResult.modifiedOffset;
@@ -226,6 +231,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         const activeSlideResult = calculateActiveSlide(
@@ -379,6 +385,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         if (carouselState.animation) {
@@ -431,6 +438,10 @@ export class CarouselService implements OnDestroy {
 
     private setSlideIndex(newSlideIndex: number): void {
         const carouselState = this.cloneCarouselState();
+        if (carouselState.activeSlideIndex === newSlideIndex) {
+
+            return;
+        }
         const viewportWidth = carouselState.viewportWidth;
         let currentOffset = carouselState.offset;
         let slides = carouselState.slides;
@@ -468,6 +479,7 @@ export class CarouselService implements OnDestroy {
             viewportWidth,
             carouselState.config.items,
             carouselState.config.shouldLoop,
+            carouselState.config.threshold,
             this.slideIdGenerator,
         );
         const activeSlideIndex = this.getActiveSlideIndex(shuffleResult.slides);
