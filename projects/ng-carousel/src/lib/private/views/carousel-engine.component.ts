@@ -208,7 +208,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     lastDelta = event.deltaX;
                     this.carousel.dragStart();
                 });
-                this.hammerManager.on('panend', (event: HammerInput) => {
+                this.hammerManager.on('panend pancancel', (event: HammerInput) => {
                     this.carousel.dragEnd(event.deltaX);
                 });
             });
