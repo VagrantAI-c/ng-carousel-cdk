@@ -70,15 +70,17 @@ Use template with `ngCarouselSlide` directive applied to declare slide template.
     <ng-template
         ngCarouselSlide
         let-item
+        let-index="itemIndex"
         let-isActive="isActive"
         let-inViewport="inViewport">
-        Some slide content
+        Slide №{{index}} content
     </ng-template>
 </ng-carousel>
 ```
 Template is enriched with next context structure:
 
 - `$implicit`: injected item
+- `itemIndex`: item index of current slide
 - `isActive`: whether slide is currently active
 - `inViewport`: whether slide is currently visible (at least 1 pixel is in viewport)
 
