@@ -71,6 +71,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     contextOf(slide: CarouselSlide): CarouselSlideContext {
         return new CarouselSlideContext(
             slide.options.item,
+            slide.itemIndex,
             slide.options.isActive,
             slide.options.inViewport,
         );
