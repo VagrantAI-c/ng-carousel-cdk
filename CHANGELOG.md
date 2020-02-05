@@ -1,3 +1,63 @@
+## [1.3.12](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.11...v1.3.12) (2019-10-09)
+
+
+### Bug Fixes
+
+* fix next and prev commands for non-loop carousels ([234c889](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/234c889))
+
+## [1.3.11](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.10...v1.3.11) (2019-10-09)
+
+
+### Bug Fixes
+
+* check whether node is a text node before blocking ([8361aac](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/8361aac))
+
+## [1.3.10](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.9...v1.3.10) (2019-09-26)
+
+
+### Bug Fixes
+
+* reupload to npm due to npm publish error ([3f00777](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/3f00777))
+
+## [1.3.9](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.8...v1.3.9) (2019-09-26)
+
+
+### Bug Fixes
+
+* also listen for pancancel event ([51a0632](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/51a0632))
+* pancancel for ghost click prevention ([0547be2](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/0547be2))
+
+## [1.3.8](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.7...v1.3.8) (2019-09-26)
+
+
+### Bug Fixes
+
+* apply different scroll blocking technique ([57a1508](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/57a1508))
+
+## [1.3.7](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.6...v1.3.7) (2019-09-26)
+
+
+### Bug Fixes
+
+* block scroll when panning carousel horizontally ([6b94b0d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/6b94b0d))
+* fix library 3rd party imports ([b83c36d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/b83c36d))
+* fix next/prev transitioning to wrong side ([69062c5](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/69062c5))
+
+## [1.3.6](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.5...v1.3.6) (2019-09-10)
+
+
+### Bug Fixes
+
+* infinite loop on server rendering ([402b951](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/402b951))
+* missing browser checks ([a385ddb](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/a385ddb))
+
+## [1.3.5](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.4...v1.3.5) (2019-09-09)
+
+
+### Bug Fixes
+
+* don't listen browser events on server ([4efe117](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/4efe117))
+
 ## [1.3.4](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.3...v1.3.4) (2019-09-06)
 
 
