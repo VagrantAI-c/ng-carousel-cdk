@@ -1,3 +1,15 @@
+# [1.4.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.12...v1.4.0) (2020-02-05)
+
+
+### Bug Fixes
+
+* end drag on pancancel ([765f2ea](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/765f2ea8940235131f06433c4ac79b1ce9a97ac7))
+
+
+### Features
+
+* export item index to slide template ([ada075c](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/ada075c8bd4515a67e76ffae42840fc7f2b3452b))
+
 ## [1.3.12](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.11...v1.3.12) (2019-10-09)
 
 
