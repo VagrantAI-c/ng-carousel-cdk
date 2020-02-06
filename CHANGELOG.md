@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.4.0...v1.4.1) (2020-02-06)
+
+
+### Bug Fixes
+
+* postpone setIndex when no slides available ([25fd910](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/25fd9102a2003ce5012093e3c3a1a4a1d8a6c186))
+
 # [1.4.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.3.12...v1.4.0) (2020-02-05)
 
 
