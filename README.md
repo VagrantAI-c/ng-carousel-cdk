@@ -164,7 +164,7 @@ or
 Use this reference to programmaticaly trigger next events:
 - `carouselRef.next()`: increment active slide
 - `carouselRef.prev()`: decrement active slide
-- `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index
+- `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index. When no slides are available, index change would postpone till slide initialization.
 - `carouselRef.recalculate()`: recalculate positions
 
 ### PreventGhostClickDirective

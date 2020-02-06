@@ -83,4 +83,8 @@ describe('findItemIndex test suite', () => {
         )).toThrowError(CarouselError);
     });
 
+    it('must return 0 when no slides available', () => {
+        expect(findSlideIndex([], 10, 10)).toBe(0);
+        expect(findSlideIndex(null, 10, 10)).toBe(0);
+    });
 });

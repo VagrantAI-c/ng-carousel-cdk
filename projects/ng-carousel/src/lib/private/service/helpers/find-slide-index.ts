@@ -11,7 +11,16 @@ export function findSlideIndex(
     newItemIndex: number,
     currentSlideIndex: number,
 ): number {
-    const currentItemIndex = slides[currentSlideIndex].itemIndex;
+    if (!slides) {
+
+        return 0;
+    }
+    const currentActiveSlide = slides[currentSlideIndex];
+    if (!currentActiveSlide) {
+
+        return 0;
+    }
+    const currentItemIndex = currentActiveSlide.itemIndex;
     let targetSlideIndex: IterateSideResult | null = null;
     if (newItemIndex === currentItemIndex || slides.length <= 1) {
 
