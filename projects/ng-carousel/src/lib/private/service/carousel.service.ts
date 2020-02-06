@@ -50,6 +50,11 @@ export class CarouselService implements OnDestroy {
     private readonly carouselState$ = new BehaviorSubject<CarouselState>(new CarouselState());
     private readonly destroyed$ = new Subject<void>();
     private currentAnimationId: number | null = null;
+    /**
+     * Item index that should be applied when carousel slides
+     * are initialized first time
+     */
+    private postponedItemIndex: number;
 
     constructor(
         private animation: AnimationBuilder,
@@ -70,8 +75,13 @@ export class CarouselService implements OnDestroy {
     }
 
     setItemIndex(newItemIndex: number): void {
-        this.enableAutoplay(); // Reset timer on programmatic item index change
         const carouselState = this.cloneCarouselState();
+        if (!carouselState.slides.length) {
+            this.postponedItemIndex = newItemIndex;
+
+            return;
+        }
+        this.enableAutoplay(); // Reset timer on programmatic item index change
         const slideIndex = findSlideIndex(
             carouselState.slides,
             newItemIndex,
@@ -326,7 +336,7 @@ export class CarouselService implements OnDestroy {
 
     /**
      * Narrow case scenario helper: use this when carousel inputs change.
-     * Function task is to initialize carousel whether all the components
+     * Function task is to initialize carousel when all the components
      * are ready.
      */
     private applyStateChange(newState: CarouselState): void {
@@ -348,6 +358,14 @@ export class CarouselService implements OnDestroy {
             || currentState.config.items !== newState.config.items
         ) {
             newState = this.initializeCarousel(newState);
+            this.setCarouselState(newState);
+
+            if (newState.slides.length && this.postponedItemIndex) {
+                this.setItemIndex(this.postponedItemIndex);
+                this.postponedItemIndex = null;
+            }
+
+            return;
         }
         this.setCarouselState(newState);
     }
