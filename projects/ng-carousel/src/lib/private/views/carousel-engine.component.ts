@@ -1,4 +1,4 @@
-import { isPlatformBrowser, DOCUMENT } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
@@ -42,7 +42,6 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         private hammer: HammerProviderService,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
-        @Inject(DOCUMENT) private document: any,
     ) {
     }
 
