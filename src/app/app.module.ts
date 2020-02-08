@@ -18,7 +18,9 @@ import { appRoutes } from './app.routes';
     imports: [
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
         BrowserAnimationsModule,
-        RouterModule.forRoot(appRoutes),
+        RouterModule.forRoot(appRoutes, {
+            initialNavigation: 'enabled'
+        }),
         MatToolbarModule,
         MatButtonModule,
         MatCardModule,
