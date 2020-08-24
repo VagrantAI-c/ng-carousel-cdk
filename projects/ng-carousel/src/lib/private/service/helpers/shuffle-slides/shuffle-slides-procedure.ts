@@ -31,5 +31,5 @@ export function shuffleSlidesProcedure(): Procedure {
         state.offset = result.modifiedOffset;
 
         return new ContinueWith(state);
-    }
+    };
 }

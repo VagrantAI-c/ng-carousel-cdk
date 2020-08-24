@@ -23,5 +23,5 @@ export function enableAutoplayProcedure(suspender: AutoplaySuspender = null): Pr
         state.autoplay = autoplay;
 
         return new ContinueWith(state);
-    }
+    };
 }

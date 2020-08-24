@@ -18,5 +18,5 @@ export function postponeInitializationProcedure(): Procedure {
         }
 
         return new BreakWith(state);
-    }
+    };
 }

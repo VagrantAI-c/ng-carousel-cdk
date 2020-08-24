@@ -15,5 +15,5 @@ export function postponeDragEnabledProcedure(): Procedure {
         }
 
         return new BreakWith(state);
-    }
+    };
 }

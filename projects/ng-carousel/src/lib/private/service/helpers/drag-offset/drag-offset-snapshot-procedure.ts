@@ -29,6 +29,6 @@ export function dragOffsetSnapshotProcedure(fromX: number, toX: number): Procedu
         state.offset = result;
 
         return new ContinueWith(state);
-    }
+    };
 }
 

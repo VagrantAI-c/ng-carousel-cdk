@@ -20,5 +20,5 @@ export function removeExcessiveProcedure(): Procedure {
         state.offset = result.offset;
 
         return new ContinueWith(state);
-    }
+    };
 }

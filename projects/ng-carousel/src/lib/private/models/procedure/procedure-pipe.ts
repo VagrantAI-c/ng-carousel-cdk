@@ -21,7 +21,7 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
                 state: handler?.state ?? state.state,
                 procedureState: procedureState || {},
                 environment: state.environment,
-            }
+            };
             const procedureSlot = `${procedureName}[${procedureIndex}]`;
             const procedureChainString = parentProcedureName
                 ? `${parentProcedureName}->${procedureSlot}`
@@ -47,5 +47,5 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
         }
 
         return handler;
-    }
+    };
 }

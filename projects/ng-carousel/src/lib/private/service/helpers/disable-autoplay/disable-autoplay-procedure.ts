@@ -18,5 +18,5 @@ export function disableAutoplayProcedure(suspender: AutoplaySuspender = null): P
         state.autoplay = autoplay;
 
         return new ContinueWith(state);
-    }
+    };
 }

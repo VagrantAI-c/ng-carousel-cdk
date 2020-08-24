@@ -42,5 +42,5 @@ export function setBeziersProcedure(): Procedure {
         }
 
         return new ContinueWith(state);
-    }
+    };
 }

@@ -131,6 +131,6 @@ describe('markVisibleAndActive test suite', () => {
         const result = markVisibleAndActive(slides, offset, slideWidth, viewportWidth, activeSlideIndex, threshold, alignMode);
         expect(result.inViewportRangeStart).toBe(1, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(7, 'incorrect viewport range end');
-    })
+    });
 
 });

@@ -23,5 +23,5 @@ export function setPostponedIndexProcedure(): ComposedProcedure {
         }
 
         return new ContinueWith(state);
-    }
+    };
 }

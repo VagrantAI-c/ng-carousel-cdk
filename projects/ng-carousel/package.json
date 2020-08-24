@@ -6,14 +6,15 @@
     "url": "https://github.com/VagrantAI-c/ng-carousel-cdk.git"
   },
   "peerDependencies": {
-    "@angular/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@angular/core": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@angular/animations": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "@angular/cdk": "^7.0.0 || ^8.0.0 || ^9.0.0",
+    "@angular/common": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
+    "@angular/core": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
+    "@angular/animations": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
+    "@angular/cdk": "^7.0.0 || ^8.0.0 || ^9.0.0 || ^10.0.0 || ^11.0.0",
     "@types/hammerjs": "^2.0.36",
     "rxjs": "^6.5.0 || ^7.0.0"
   },
   "dependencies": {
-    "bezier-easing": "^2.1.0"
-  }
+    "bezier-easing": "^2.1.0",    
+    "tslib": "^2.0.0"
+}
 }

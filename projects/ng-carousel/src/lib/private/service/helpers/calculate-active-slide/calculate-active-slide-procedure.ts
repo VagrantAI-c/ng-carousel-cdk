@@ -23,5 +23,5 @@ export function calculateActiveSlideProcedure(): Procedure {
         state.activeItemIndex = state.slides[result.slideIndex].itemIndex;
 
         return new ContinueWith(state);
-    }
+    };
 }

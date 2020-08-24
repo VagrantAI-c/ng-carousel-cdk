@@ -18,5 +18,5 @@ export function postponeItemIndexProcedure(newItemIndex: number): Procedure {
         state.postponedItemIndex = null;
 
         return new ContinueWith(state);
-    }
+    };
 }

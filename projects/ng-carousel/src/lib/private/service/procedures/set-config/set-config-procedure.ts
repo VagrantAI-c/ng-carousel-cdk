@@ -13,5 +13,5 @@ export function setConfigProcedure(newConfig: CarouselConfig): Procedure {
         state.initializationState.configInitialized = true;
 
         return new ContinueWith(state);
-    }
+    };
 }

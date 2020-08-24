@@ -7,12 +7,12 @@ import { IdGenerator } from '../id-generator';
  * for every procedure call
  */
 export interface ProcedureEnvironment {
-    slideIdGenerator: IdGenerator,
+    slideIdGenerator: IdGenerator;
     autoplayAction: () => void;
     afterAnimationAction: () => void;
     isBrowser: boolean;
-    animationBuilder: AnimationBuilder,
-    animationBezierArgs: number[],
-    swipeThreshold: number,
-    maxOverscroll: number,
+    animationBuilder: AnimationBuilder;
+    animationBezierArgs: number[];
+    swipeThreshold: number;
+    maxOverscroll: number;
 }

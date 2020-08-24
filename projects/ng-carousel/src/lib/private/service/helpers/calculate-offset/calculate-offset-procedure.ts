@@ -4,7 +4,7 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
 import { calculateOffset } from './calculate-offset';
 
-/** 
+/**
  * Given current slide state, assigns carousel offset
  */
 export function calculateOffsetProcedure(): Procedure {
@@ -21,5 +21,5 @@ export function calculateOffsetProcedure(): Procedure {
         state.offset = result.offset;
 
         return new ContinueWith(state, procedureState);
-    }
+    };
 }

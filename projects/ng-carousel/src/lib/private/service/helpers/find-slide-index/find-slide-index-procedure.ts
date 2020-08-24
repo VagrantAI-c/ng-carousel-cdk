@@ -18,5 +18,5 @@ export function findSlideIndexProcedure(itemIndex?: number): Procedure {
         state.activeItemIndex = itemIndex;
 
         return new ContinueWith(state);
-    }
+    };
 }

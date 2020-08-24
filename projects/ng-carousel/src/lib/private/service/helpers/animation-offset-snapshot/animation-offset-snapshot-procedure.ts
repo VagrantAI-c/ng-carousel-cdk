@@ -23,5 +23,5 @@ export function animationOffsetSnapshotProcedure(): Procedure {
         state.offset = result;
 
         return new ContinueWith(state);
-    }
+    };
 }
