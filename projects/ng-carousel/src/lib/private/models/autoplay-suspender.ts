@@ -1,9 +1,9 @@
 /** Describes suspenders which can block carousel autoplay */
 export const enum AutoplaySuspender {
     /** Whether mouse is inside carousel */
-    MOUSE,
+    MOUSE = 'mouse',
     /** Whether keyboard (not touch) focus is inside carousel */
-    FOCUS,
+    FOCUS = 'focus',
     /** Whether drag is outgoing */
-    DRAG,
+    DRAG = 'drag',
 }

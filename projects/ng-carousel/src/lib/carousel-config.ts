@@ -58,6 +58,7 @@ export class CarouselConfig {
     threshold ? = 5;
 
     constructor(config?: CarouselConfig) {
+        // @TODO nullish coalescing here
         this.items = config && config.items || [];
         this.widthMode = config && config.widthMode || CarouselWidthMode.PERCENT;
         this.alignMode = config && config.alignMode || CarouselAlignMode.CENTER;
