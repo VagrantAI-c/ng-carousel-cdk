@@ -17,5 +17,5 @@ export function getNextIndexProcedure(): Procedure {
         state.activeSlideIndex = result;
 
         return new ContinueWith(state);
-    }
+    };
 }

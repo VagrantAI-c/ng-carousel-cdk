@@ -23,5 +23,5 @@ export function markVisibleAndActiveProcedure(): Procedure {
         procedureState.inViewportRange = [result.inViewportRangeStart, result.inViewportRangeEnd];
 
         return new ContinueWith(state, procedureState);
-    }
+    };
 }

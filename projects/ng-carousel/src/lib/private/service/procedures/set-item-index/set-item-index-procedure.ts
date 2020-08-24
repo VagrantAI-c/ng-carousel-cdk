@@ -11,5 +11,5 @@ export function setItemIndexProcedure(newItemIndex: number): Procedure {
         state.activeItemIndex = newItemIndex;
 
         return new ContinueWith(state);
-    }
+    };
 }

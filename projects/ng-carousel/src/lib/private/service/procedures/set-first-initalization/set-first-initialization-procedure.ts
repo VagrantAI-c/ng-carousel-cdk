@@ -11,5 +11,5 @@ export function setFirstInitializationProcedure(): Procedure {
         state.initializationState.firstInitalization = true;
 
         return new ContinueWith(state);
-    }
+    };
 }

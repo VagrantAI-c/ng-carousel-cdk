@@ -13,5 +13,5 @@ export function setContainersProcedure(widthContainer: HTMLElement, animatableCo
         state.initializationState.viewportWidthInitialized = true;
 
         return new ContinueWith(state);
-    }
+    };
 }

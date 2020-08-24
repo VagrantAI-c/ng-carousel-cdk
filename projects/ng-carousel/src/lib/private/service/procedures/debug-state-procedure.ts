@@ -17,5 +17,5 @@ export function debugStateProcedure(prefixString: string = ''): Procedure {
         console.log(prefixString, clonedStateFacade);
 
         return new ContinueWith(stateFacade.state);
-    }
+    };
 }

@@ -13,5 +13,5 @@ export function destroyAnimationProcedure(): Procedure {
         state.animation = null;
 
         return new ContinueWith(state);
-    }
+    };
 }

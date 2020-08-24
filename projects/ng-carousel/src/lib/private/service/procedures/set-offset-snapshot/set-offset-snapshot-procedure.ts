@@ -11,5 +11,5 @@ export function setOffsetSnapshotProcedure(): Procedure {
         procedureState.offsetSnapshot = state.offset;
 
         return new ContinueWith(state, procedureState);
-    }
+    };
 }

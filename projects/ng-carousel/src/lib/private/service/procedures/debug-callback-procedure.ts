@@ -12,5 +12,5 @@ export function debugCallbackProcedure(callback: (state: ProcedureStateFacade) =
         callback(stateFacade);
 
         return new ContinueWith(stateFacade.state);
-    }
+    };
 }

@@ -6,12 +6,12 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 
 /**
- * Assigns TemplateRef in which slides would be rendered
+ * Assigns TemplateRef where slides would be rendered
  */
 export function setTemplateProcedure(template: TemplateRef<any> | null): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         state.template = template;
 
         return new ContinueWith(state);
-    }
+    };
 }

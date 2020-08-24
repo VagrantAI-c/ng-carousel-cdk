@@ -23,5 +23,5 @@ export function startAnimationProcedure(): Procedure {
         state.animation = animation;
 
         return new ContinueWith(state);
-    }
+    };
 }

@@ -13,5 +13,5 @@ export function normalizePassedDistanceProcedure(passedDistance: number): Proced
             : passedDistance;
 
         return new ContinueWith(state, procedureState);
-    }
+    };
 }

@@ -32,7 +32,7 @@ describe('startAnimation test suite', () => {
         const to = 0;
         const widthMode = CarouselWidthMode.PX;
         const duration = 0;
-        const bezierArgs = [0,0,0,0];
+        const bezierArgs = [0, 0, 0, 0];
         const isBrowser = false;
         const afterAnimationAction = () => {};
         const result = startAnimation(
@@ -55,7 +55,7 @@ describe('startAnimation test suite', () => {
         const to = 50;
         const widthMode = CarouselWidthMode.PX;
         const duration = 0;
-        const bezierArgs = [0,0,0,0];
+        const bezierArgs = [0, 0, 0, 0];
         const isBrowser = true;
         const afterAnimationAction = () => {};
         const result = startAnimation(
@@ -85,7 +85,7 @@ describe('startAnimation test suite', () => {
         const to = 0;
         const widthMode = CarouselWidthMode.PX;
         const duration = 0;
-        const bezierArgs = [0,0,0,0];
+        const bezierArgs = [0, 0, 0, 0];
         const isBrowser = true;
         const afterAnimationActionObject = {action: () => {}};
         spyOn(afterAnimationActionObject, 'action');

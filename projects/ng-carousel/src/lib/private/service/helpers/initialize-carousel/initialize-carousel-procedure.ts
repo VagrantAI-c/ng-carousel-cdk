@@ -18,5 +18,5 @@ export function initializeCarouselProcedure(): Procedure {
         state.activeSlideIndex = 0;
 
         return new ContinueWith(state);
-    }
+    };
 }
