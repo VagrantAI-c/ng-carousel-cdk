@@ -1,3 +1,11 @@
+# [1.5.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.4.1...v1.5.0) (2020-08-24)
+
+
+### Features
+
+* bump deps ([2c18b7d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/2c18b7d27e90dade981fd6bdeb6e41a6d3f590d5))
+* bump peer deps ([fc79870](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/fc798707e800223a6061e2e39d75e0e50e895f3e))
+
 ## [1.4.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.4.0...v1.4.1) (2020-02-06)
 
 
