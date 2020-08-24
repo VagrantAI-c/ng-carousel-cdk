@@ -1,6 +1,7 @@
+import { ElementRef, EmbeddedViewRef, TemplateRef } from '@angular/core';
+
 import { CarouselState } from '../../../models/carousel-state';
 import { setTemplateProcedure } from './set-template-procedure';
-import { TemplateRef, ElementRef, EmbeddedViewRef } from '@angular/core';
 
 describe('setTemplateProcedure test suite', () => {
 

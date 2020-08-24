@@ -6,6 +6,9 @@ import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autop
 import { normalizePassedDistanceProcedure } from './normalize-passed-distance/normalize-passed-distance-procedure';
 import { setSlideIndexProcedure } from './set-slide-index-procedure';
 
+/**
+ * Calculates state after user finish drag event
+ */
 export function dragEndProcedure(passedDistance: number): Procedure {
     return procedurePipe('dragEnd',
         enableAutoplayProcedure(AutoplaySuspender.DRAG),

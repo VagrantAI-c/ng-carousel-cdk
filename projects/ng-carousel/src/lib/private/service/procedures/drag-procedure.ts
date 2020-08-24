@@ -7,8 +7,10 @@ import { dragOffsetSnapshotProcedure } from '../helpers/drag-offset/drag-offset-
 import { markVisibleAndActiveProcedure } from '../helpers/mark-visible-and-active/mark-visible-and-active-procedure';
 import { shuffleSlidesProcedure } from '../helpers/shuffle-slides/shuffle-slides-procedure';
 import { postponeDragEnabledProcedure } from './postpone-drag-enabled/postpone-drag-enabled-procedure';
-import { debugCallbackProcedure } from './debug-callback-procedure';
 
+/**
+ * Processes state after single tick of drag event
+ */
 export function dragProcedure(fromX: number, toX: number): Procedure {
     return procedurePipe('drag',
         postponeDragEnabledProcedure(),

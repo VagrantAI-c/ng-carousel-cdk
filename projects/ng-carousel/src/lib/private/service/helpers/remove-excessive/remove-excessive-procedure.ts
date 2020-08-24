@@ -4,6 +4,9 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { removeExcessive } from './remove-excessive';
 
+/**
+ * Removes slide copies
+ */
 export function removeExcessiveProcedure(): Procedure {
     return ({state, procedureState}: ProcedureStateFacade): ProcedureHandler => {
         const result = removeExcessive(

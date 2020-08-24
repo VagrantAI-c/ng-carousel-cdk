@@ -1,6 +1,6 @@
-import { postponeItemIndexProcedure } from './postpone-item-index-procedure';
-import { CarouselState } from '../../../models/carousel-state';
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { CarouselState } from '../../../models/carousel-state';
+import { postponeItemIndexProcedure } from './postpone-item-index-procedure';
 
 describe('postponeItemIndexProcedure test suite', () => {
 

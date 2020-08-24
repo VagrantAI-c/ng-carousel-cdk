@@ -4,6 +4,9 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { startAnimation } from './start-animation';
 
+/**
+ * Creates new transition from one slide to another
+ */
 export function startAnimationProcedure(): Procedure {
     return ({state, procedureState, environment}: ProcedureStateFacade): ProcedureHandler => {
         const animation = startAnimation(

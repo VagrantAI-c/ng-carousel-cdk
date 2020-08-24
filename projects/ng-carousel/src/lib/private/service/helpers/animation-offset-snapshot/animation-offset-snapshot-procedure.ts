@@ -5,8 +5,8 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 import { animationOffsetSnapshot } from './animation-offset-snapshot';
 
 /**
- * Calculates offset like if animation was paused. Whether animation is
- * not available, current offset will be set
+ * Assigns offset to state like if animation was paused.
+ * If animation is not available, current offset will be assigned.
  */
 export function animationOffsetSnapshotProcedure(): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {

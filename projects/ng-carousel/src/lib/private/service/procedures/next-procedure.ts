@@ -4,6 +4,9 @@ import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autop
 import { getNextIndexProcedure } from '../helpers/get-next-index/get-next-index-procedure';
 import { setSlideIndexProcedure } from './set-slide-index-procedure';
 
+/**
+ * Increments current slide
+ */
 export function nextProcedure(omitAutoplayReset = false): Procedure {
     return procedurePipe('next',
         omitAutoplayReset ? enableAutoplayProcedure() : null,

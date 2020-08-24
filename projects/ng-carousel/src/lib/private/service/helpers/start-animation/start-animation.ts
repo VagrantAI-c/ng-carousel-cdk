@@ -1,8 +1,8 @@
-import { animate, style, AnimationBuilder } from '@angular/animations';
+import { animate, AnimationBuilder, style } from '@angular/animations';
 import { bindCallback } from 'rxjs';
 
-import { CarouselAnimation } from '../../../models/carousel-animation';
 import { CarouselWidthMode } from '../../../../carousel-width-mode';
+import { CarouselAnimation } from '../../../models/carousel-animation';
 
 export function startAnimation(
     container: HTMLElement,

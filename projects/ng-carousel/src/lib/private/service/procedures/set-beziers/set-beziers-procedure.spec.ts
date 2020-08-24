@@ -1,7 +1,7 @@
 import bezier from 'bezier-easing';
 
-import { setBeziersProcedure } from './set-beziers-procedure';
 import { CarouselState } from '../../../models/carousel-state';
+import { setBeziersProcedure } from './set-beziers-procedure';
 
 describe('setBeziersProcedure test suite', () => {
 

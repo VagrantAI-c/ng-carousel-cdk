@@ -1,10 +1,8 @@
-import { CarouselError } from '../../../models/carousel-error';
 import { CarouselSlide } from '../../../models/carousel-slide';
 import { IterateSideResult } from './models/iterate-side-result';
 
 /**
- * Finds slide that is marked as `isActive` and returns its index.
- * Throws error whether such slide was not found.
+ * Finds slide that is marked as `isActive` and returns its index
  */
 export function findSlideIndex(
     slides: CarouselSlide[],

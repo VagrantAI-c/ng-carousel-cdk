@@ -1,5 +1,5 @@
-import { removePostponedIndexProcedure } from './remove-postponed-index-procedure';
 import { CarouselState } from '../../../models/carousel-state';
+import { removePostponedIndexProcedure } from './remove-postponed-index-procedure';
 
 describe('removePostponedIndexProcedure test suite', () => {
 

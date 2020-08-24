@@ -1,7 +1,7 @@
-import { CarouselState } from '../../../models/carousel-state';
-import { normalizePassedDistanceProcedure } from './normalize-passed-distance-procedure';
 import { CarouselWidthMode } from '../../../../carousel-width-mode';
+import { CarouselState } from '../../../models/carousel-state';
 import { ProcedureCarouselState } from '../../../models/procedure/procedure-carousel-state.interface';
+import { normalizePassedDistanceProcedure } from './normalize-passed-distance-procedure';
 
 describe('normalizePassedDistanceProcedure test suite', () => {
 

@@ -7,6 +7,10 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 import { goToProcedure } from '../go-to-procedure';
 import { removePostponedIndexProcedure } from '../remove-postponed-index/remove-postponed-index-procedure';
 
+/**
+ * Saves freshly selected item index till later
+ * until carousel is initialized
+ */
 export function setPostponedIndexProcedure(): ComposedProcedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler | Procedure => {
         if (state.slides.length && state.postponedItemIndex) {

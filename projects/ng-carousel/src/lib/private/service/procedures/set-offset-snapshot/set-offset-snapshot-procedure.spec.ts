@@ -1,5 +1,5 @@
-import { setOffsetSnapshotProcedure } from './set-offset-snapshot-procedure';
 import { CarouselState } from '../../../models/carousel-state';
+import { setOffsetSnapshotProcedure } from './set-offset-snapshot-procedure';
 
 describe('setOffsetSnapshotProcedure test suite', () => {
 

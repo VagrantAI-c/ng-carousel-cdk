@@ -1,3 +1,4 @@
+import { CarouselSlide } from '../../../models/carousel-slide';
 import { IdGenerator } from '../../../models/id-generator';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
@@ -5,8 +6,11 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
 import { shuffleSlides } from './shuffle-slides';
-import { CarouselSlide } from '../../../models/carousel-slide';
 
+/**
+ * Moves slide from left side to right or vise versa
+ * in order to balance weight or predict offset changes
+ */
 export function shuffleSlidesProcedure(): Procedure {
     return ({state, procedureState, environment}: ProcedureStateFacade): ProcedureHandler => {
         const result = shuffleSlides(

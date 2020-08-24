@@ -1,4 +1,3 @@
-import { CarouselError } from '../../../models/carousel-error';
 import { CarouselSlide } from '../../../models/carousel-slide';
 import { findSlideIndex } from './find-slide-index';
 

@@ -4,6 +4,9 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { initializeCarousel } from './initialize-carousel';
 
+/**
+ * Creates new slide set from scratch
+ */
 export function initializeCarouselProcedure(): Procedure {
     return ({state, environment}: ProcedureStateFacade): ProcedureHandler => {
         const result = initializeCarousel(

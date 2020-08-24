@@ -4,6 +4,9 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { getPrevIndex } from './get-prev-index';
 
+/**
+ * Decrements current item index
+ */
 export function getPrevIndexProcedure(): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         const result = getPrevIndex(
