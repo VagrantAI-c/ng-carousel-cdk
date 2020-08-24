@@ -35,6 +35,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     private containerScrollListener: () => void;
     private hammerManager: HammerManager;
 
+    private get htmlElement(): HTMLElement {
+        return this.elementRef.nativeElement;
+    }
+
     constructor(
         private carousel: CarouselService,
         private elementRef: ElementRef,
@@ -51,7 +55,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         this.listenToResizeEvents();
         this.listenToKeyEvents();
         this.listenToScrollEvents();
-        this.carousel.setContainers(this.elementRef.nativeElement, this.galleryRef.nativeElement);
+        this.carousel.setContainers(this.htmlElement, this.galleryRef.nativeElement);
     }
 
     ngOnDestroy() {
@@ -164,12 +168,12 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     return;
                 }
                 this.mouseEnterDestructor = this.renderer.listen(
-                    this.elementRef.nativeElement,
+                    this.htmlElement,
                     'mouseenter',
                     () => this.carousel.disableAutoplay(AutoplaySuspender.MOUSE),
                 );
                 this.mouseLeaveDestructor = this.renderer.listen(
-                    this.elementRef.nativeElement,
+                    this.htmlElement,
                     'mouseleave',
                     () => this.carousel.enableAutoplay(AutoplaySuspender.MOUSE),
                 );
@@ -195,7 +199,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
 
                     return;
                 }
-                this.hammerManager = this.hammer.managerFor(this.elementRef.nativeElement);
+                this.hammerManager = this.hammer.managerFor(this.htmlElement);
                 if (!this.hammerManager) {
 
                     return;
@@ -208,10 +212,10 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     // we should block all scroll attempts during current pan session then
                     // tslint:disable-next-line: no-bitwise
                     if (event.offsetDirection & Hammer.DIRECTION_HORIZONTAL) {
-                        lastDelta = event.deltaX;
+                        lastDelta = Math.round(event.deltaX);
                         this.carousel.dragStart();
-                        lastTouchAction = this.elementRef.nativeElement.style.touchAction;
-                        this.renderer.setStyle(this.elementRef.nativeElement, 'touch-action', 'none');
+                        lastTouchAction = this.htmlElement.style.touchAction;
+                        this.renderer.setStyle(this.htmlElement, 'touch-action', 'none');
                     }
                 });
 
@@ -223,15 +227,17 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     // Next check clarifies that initial gesture was horizontal,
                     // otherwise this variable would be falsy
                     if (lastTouchAction) {
-                        this.carousel.drag(event.center.x, event.center.x + (event.deltaX - lastDelta));
-                        lastDelta = event.deltaX;
+                        const x = Math.round(event.center.x);
+                        const deltaX = Math.round(event.deltaX);
+                        this.carousel.drag(x, x + (deltaX - lastDelta));
+                        lastDelta = deltaX;
                     }
                 });
 
                 this.hammerManager.on('panend pancancel', (event: HammerInput) => {
                     if (lastTouchAction) {
                         this.carousel.dragEnd(event.deltaX);
-                        this.renderer.setStyle(this.elementRef.nativeElement, 'touch-action', lastTouchAction);
+                        this.renderer.setStyle(this.htmlElement, 'touch-action', lastTouchAction);
                         lastTouchAction = null;
                     }
                 });
@@ -260,7 +266,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
             return;
         }
         this.keyboardListener = this.renderer.listen(
-            this.elementRef.nativeElement,
+            this.htmlElement,
             'keydown',
             (event: KeyboardEvent) => {
                 const key = event.key.toLowerCase();
@@ -279,8 +285,8 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
      * container to initial position when that happens.
      */
     private listenToScrollEvents(): void {
-        this.containerScrollListener = this.renderer.listen(this.elementRef.nativeElement, 'scroll', () => {
-            this.elementRef.nativeElement.scrollTo(0, 0);
+        this.containerScrollListener = this.renderer.listen(this.htmlElement, 'scroll', () => {
+            this.htmlElement.scrollTo(0, 0);
         });
     }
 }

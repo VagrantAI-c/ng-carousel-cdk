@@ -12,8 +12,6 @@ export interface CarouselSlideParams {
     inViewport: boolean;
     /** Whether provided slide is selected */
     isActive: boolean;
-    /** Whether slide is a copy parent or was copied */
-    isCopy: boolean;
     /** Item to be put in slide template context */
     item: any;
 }
