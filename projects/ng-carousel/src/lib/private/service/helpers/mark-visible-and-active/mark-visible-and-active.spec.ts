@@ -1,6 +1,6 @@
+import { CarouselAlignMode } from '../../../../carousel-align-mode';
 import { CarouselSlide } from '../../../models/carousel-slide';
 import { markVisibleAndActive } from './mark-visible-and-active';
-import { CarouselAlignMode } from '../../../../carousel-align-mode';
 
 describe('markVisibleAndActive test suite', () => {
 

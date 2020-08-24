@@ -4,6 +4,9 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
 import { markVisibleAndActive } from './mark-visible-and-active';
 
+/**
+ * Assigns inViewport and isActive option to each slide
+ */
 export function markVisibleAndActiveProcedure(): Procedure {
     return ({state, procedureState}: ProcedureStateFacade) => {
         const result = markVisibleAndActive(

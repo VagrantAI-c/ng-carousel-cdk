@@ -1,5 +1,5 @@
 import { CdkTrapFocus, InteractivityChecker } from '@angular/cdk/a11y';
-import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 @Directive({
     selector: '[untabbable]',

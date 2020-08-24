@@ -4,6 +4,9 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { destroyAnimation } from './destroy-animation';
 
+/**
+ * Destroys and removes any ongoing animation state
+ */
 export function destroyAnimationProcedure(): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         destroyAnimation(state.animation);

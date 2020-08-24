@@ -5,6 +5,9 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
 import { calculateActiveSlide } from './calculate-active-slide';
 
+/**
+ * Given current slide state, assigns active slide
+ */
 export function calculateActiveSlideProcedure(): Procedure {
     return ({state, procedureState, environment}: ProcedureStateFacade): ProcedureHandler => {
         const result = calculateActiveSlide(

@@ -7,6 +7,10 @@ import { markVisibleAndActiveProcedure } from '../helpers/mark-visible-and-activ
 import { removeExcessiveProcedure } from '../helpers/remove-excessive/remove-excessive-procedure';
 import { shuffleSlidesProcedure } from '../helpers/shuffle-slides/shuffle-slides-procedure';
 
+/**
+ * Cleans state from excessive slides and completes
+ * corresponding duties after completed transition
+ */
 export function cleanupProcedure(): Procedure {
     return procedurePipe('cleanup',
         destroyAnimationProcedure(),

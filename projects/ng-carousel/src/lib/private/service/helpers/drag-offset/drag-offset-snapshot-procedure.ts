@@ -6,6 +6,9 @@ import { getViewportWidthInPx } from '../get-viewport-width-in-px/get-viewport-w
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
 import { dragOffsetSnapshot } from './drag-offset-snapshot';
 
+/**
+ * Assigns offset to state by given distance coordinates
+ */
 export function dragOffsetSnapshotProcedure(fromX: number, toX: number): Procedure {
     return ({state, environment}: ProcedureStateFacade): ProcedureHandler => {
         const result = dragOffsetSnapshot(

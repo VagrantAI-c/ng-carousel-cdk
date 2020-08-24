@@ -8,6 +8,9 @@ import { shuffleSlidesProcedure } from '../helpers/shuffle-slides/shuffle-slides
 import { startAnimationProcedure } from '../helpers/start-animation/start-animation-procedure';
 import { setOffsetSnapshotProcedure } from './set-offset-snapshot/set-offset-snapshot-procedure';
 
+/**
+ * Calculates corresponding parts for current active slide
+ */
 export function setSlideIndexProcedure(): Procedure {
     return procedurePipe('setSlideIndex',
         animationOffsetSnapshotProcedure(),

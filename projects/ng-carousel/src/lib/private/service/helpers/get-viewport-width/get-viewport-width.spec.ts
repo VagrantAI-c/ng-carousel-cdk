@@ -1,6 +1,6 @@
+import { CarouselWidthMode } from '../../../../carousel-width-mode';
 import { CarouselState } from '../../../models/carousel-state';
 import { getViewportWidth } from './get-viewport-width';
-import { CarouselWidthMode } from '../../../../carousel-width-mode';
 
 describe('getViewportWidth test suite', () => {
 

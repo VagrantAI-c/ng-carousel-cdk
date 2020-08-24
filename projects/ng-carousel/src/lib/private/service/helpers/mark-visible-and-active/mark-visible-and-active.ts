@@ -1,7 +1,7 @@
+import { CarouselAlignMode } from '../../../../carousel-align-mode';
 import { CarouselSlide } from '../../../models/carousel-slide';
 import { CarouselSlideParams } from '../../../models/carousel-slide-params';
 import { MarkVisibleAndActiveResult } from './models/mark-visible-and-active-result';
-import { CarouselAlignMode } from '../../../../carousel-align-mode';
 
 /**
  * Returns cloned slides with modified `inViewport` and `isActive` fields

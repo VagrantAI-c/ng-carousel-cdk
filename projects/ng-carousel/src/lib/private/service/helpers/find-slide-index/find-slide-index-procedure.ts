@@ -4,15 +4,18 @@ import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { findSlideIndex } from './find-slide-index';
 
-export function findSlideIndexProcedure(newIndex?: number): Procedure {
+/**
+ * Assigns slide index by given item index
+ */
+export function findSlideIndexProcedure(itemIndex?: number): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         const result = findSlideIndex(
             state.slides,
-            typeof newIndex === 'undefined' ? state.activeItemIndex : newIndex,
+            itemIndex ?? state.activeItemIndex,
             state.activeSlideIndex,
         );
         state.activeSlideIndex = result;
-        state.activeItemIndex = newIndex;
+        state.activeItemIndex = itemIndex;
 
         return new ContinueWith(state);
     }

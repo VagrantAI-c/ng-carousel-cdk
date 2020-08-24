@@ -1,4 +1,5 @@
 import { AnimationBuilder } from '@angular/animations';
+
 import { IdGenerator } from '../id-generator';
 
 /**

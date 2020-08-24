@@ -1,9 +1,9 @@
+import { ProcedureError } from '../procedure-error';
+import { ComposedProcedure } from './composed-procedure.type';
 import { ProcedureHandler } from './handler/procedure-handler.interface';
+import { ProcedureResult } from './procedure-result.type';
 import { ProcedureStateFacade } from './procedure-state-facade.interface';
 import { Procedure } from './procedure.type';
-import { ProcedureResult } from './procedure-result.type';
-import { ComposedProcedure } from './composed-procedure.type';
-import { ProcedureError } from '../procedure-error';
 
 /** Organizes array of procedures into single procedure, flattens inner procedures */
 export function procedurePipe(procedureName: string, ...args: (ComposedProcedure | null)[]): ProcedureResult {

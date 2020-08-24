@@ -4,6 +4,9 @@ import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autop
 import { getPrevIndexProcedure } from '../helpers/get-prev-index/get-prev-index-procedure';
 import { setSlideIndexProcedure } from './set-slide-index-procedure';
 
+/**
+ * Decrements current slide
+ */
 export function prevProcedure(): Procedure {
     return procedurePipe('prev',
         enableAutoplayProcedure(),

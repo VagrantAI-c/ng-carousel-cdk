@@ -1,7 +1,8 @@
-import { disableAutoplay } from './disable-autoplay';
+import { NEVER } from 'rxjs';
+
 import { AutoplaySuspender } from '../../../models/autoplay-suspender';
 import { CarouselAutoplay } from '../../../models/carousel-autoplay';
-import { NEVER } from 'rxjs';
+import { disableAutoplay } from './disable-autoplay';
 
 describe('disableAutoplay test suite', () => {
 
