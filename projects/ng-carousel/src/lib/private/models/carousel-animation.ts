@@ -1,19 +1,17 @@
 import { AnimationPlayer } from '@angular/animations';
-
-import { Offset } from './offset';
+import { Subscription } from 'rxjs';
 
 /**
  * Animation state that is currently in process
  */
 export class CarouselAnimation {
 
-    startTime = new Date().getTime();
-
     constructor(
-        public id: number,
-        public from: Offset,
-        public to: Offset,
-        public player: AnimationPlayer,
+        public from: number,
+        public to: number,
+        public player?: AnimationPlayer,
+        public onDoneSubscription$?: Subscription,
+        public startTime = new Date().getTime(),
     ) {
     }
 

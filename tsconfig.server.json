@@ -2,7 +2,6 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app-server",
-    "module": "commonjs",
     "paths": {
       "ng-carousel": [
         "dist/ng-carousel"
@@ -16,10 +15,15 @@
       "ng-carousel-cdk/*": [
         "dist/ng-carousel/*"
       ]
-    }
-  },
+    },
+    "typeRoots": [
+      "node_modules/@types"
+    ]
+  ,    "target": "es2016"
+},
   "files": [
-    "src/main.server.ts"
+    "src/main.server.ts",
+    "server.ts"
   ],
   "angularCompilerOptions": {
     "entryModule": "./src/app/app.server.module#AppServerModule"

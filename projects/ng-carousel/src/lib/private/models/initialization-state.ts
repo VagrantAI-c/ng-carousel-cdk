@@ -10,4 +10,3 @@ export class InitializationState {
     /** Whether slides were created for the first time */
     firstInitalization = false;
 }
-
