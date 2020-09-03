@@ -19,7 +19,7 @@ export function markVisibleAndActiveProcedure(): Procedure {
             state.config.alignMode,
         );
         state.slides = result.slides;
-        state.activeItemIndex = result.slides[state.activeSlideIndex].itemIndex;
+        state.activeItemIndex = result.slides[state.activeSlideIndex]?.itemIndex ?? 0; // Undefined when no slides available
         procedureState.inViewportRange = [result.inViewportRangeStart, result.inViewportRangeEnd];
 
         return new ContinueWith(state, procedureState);

@@ -20,7 +20,7 @@ export function calculateActiveSlideProcedure(): Procedure {
             procedureState.passedDistance || null,
         );
         state.activeSlideIndex = result.slideIndex;
-        state.activeItemIndex = state.slides[result.slideIndex].itemIndex;
+        state.activeItemIndex = state.slides[result.slideIndex]?.itemIndex ?? 0;
 
         return new ContinueWith(state);
     };
