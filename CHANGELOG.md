@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.5.0...v1.5.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* fix empty carousel initialization ([46a6808](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/46a68080b4744a181cb4d7607ef5009e17e80485))
+
 # [1.5.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.4.1...v1.5.0) (2020-08-24)
 
 
