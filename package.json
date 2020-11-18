@@ -123,7 +123,7 @@
     "npm-run-all": "^4.1.5",
     "protractor": "~7.0.0",
     "replace-json-property": "^1.4.3",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "^17.2.3",
     "ts-loader": "^8.0.3",
     "ts-node": "~9.0.0",
     "tslint": "~6.1.3",
