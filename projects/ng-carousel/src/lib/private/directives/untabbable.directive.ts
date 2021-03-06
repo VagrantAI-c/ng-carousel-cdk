@@ -10,13 +10,13 @@ import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, Simp
 export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy {
 
     @Input() untabbable = false;
-    @Input() untabbableFocusTrapRef: CdkTrapFocus;
+    @Input() untabbableFocusTrapRef: CdkTrapFocus | null = null;
     /** Whether focus inside carousel */
     @Input() untabbableFocused = false;
 
     private readonly lastTabindexValueMap = new Map<HTMLElement, string | null>();
-    private viewInitiated: boolean;
-    private mutationObserver: MutationObserver;
+    private viewInitiated: boolean = false;
+    private mutationObserver: MutationObserver | null = null;
 
     constructor(
         private elementRef: ElementRef,
@@ -106,8 +106,9 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private unblockElement(element: HTMLElement): void {
-        if (this.lastTabindexValueMap.has(element) && typeof this.lastTabindexValueMap.get(element) === 'number') {
-            element.setAttribute('tabindex', this.lastTabindexValueMap.get(element));
+        const lastTabIndex = this.lastTabindexValueMap.get(element);
+        if (typeof lastTabIndex === 'number') {
+            element.setAttribute('tabindex', lastTabIndex);
         } else {
             element.removeAttribute('tabindex');
         }

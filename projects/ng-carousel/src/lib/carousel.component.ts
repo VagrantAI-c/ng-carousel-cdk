@@ -34,7 +34,7 @@ export function idGeneratorFactory(): IdGenerator {
 /**
  * Defines carousel API to work with
  */
-export class CarouselComponent {
+export class CarouselComponent<T = any> {
 
     @ContentChild(CarouselSlideDirective) set slideRef(newSlideRef: CarouselSlideDirective) {
         this.carousel.setSlideTemplate(newSlideRef
@@ -43,18 +43,18 @@ export class CarouselComponent {
         );
     }
 
-    @Input() set config(newConfig: CarouselConfig) {
-        newConfig = new CarouselConfig(newConfig);
-        this.carousel.setConfig(newConfig);
+    @Input() set config(newConfig: Partial<CarouselConfig<T>>) {
+        const configInstance = new CarouselConfig<T>(newConfig);
+        this.carousel.setConfig(configInstance);
     }
 
     @Output() itemIndexChange = this.carousel.carouselStateChanges()
         .pipe(
-            map((state: CarouselState) => state.activeItemIndex),
+            map((state: CarouselState<T>) => state.activeItemIndex),
         );
 
     constructor(
-        private carousel: CarouselService,
+        private carousel: CarouselService<T>,
     ) {
     }
 

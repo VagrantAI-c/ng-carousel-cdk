@@ -67,7 +67,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(2, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(0, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(1, 'incorrect 2 item index');
-            expect(result.slides[0].options.inViewport).toBeTruthy('incorrect 0 inViewport');
+            expect(result.slides[0].options?.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-85, 'incorrect offset');
         });
 
@@ -88,7 +88,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(2, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(0, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(1, 'incorrect 2 item index');
-            expect(result.slides[0].options.inViewport).toBeTruthy('incorrect 0 inViewport');
+            expect(result.slides[0].options?.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
         });
 
@@ -361,17 +361,6 @@ describe('weight calculation test suite', () => {
             );
             expect(emptyShuffle.slides).toEqual([]);
             expect(emptyShuffle.modifiedOffset).toEqual(0);
-
-            const undefinedShuffle = shuffleSlides(
-                undefined,
-                0,
-                0,
-                0,
-                [],
-                false
-            );
-            expect(undefinedShuffle.slides).toEqual([]);
-            expect(undefinedShuffle.modifiedOffset).toEqual(0);
         });
 
         it('must mark copy slides', () => {

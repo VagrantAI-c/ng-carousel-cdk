@@ -25,8 +25,9 @@ export function shuffleSlidesProcedure(): Procedure {
         );
         state.slides = result.slides;
         state.activeSlideIndex = result.slides.findIndex((item: CarouselSlide) => item.options.isActive) || 0;
-        if (typeof procedureState.offsetSnapshot !== 'undefined') {
+        if (typeof procedureState?.offsetSnapshot !== 'undefined') {
             procedureState.offsetSnapshot = result.modifiedOffset - state.offset + procedureState.offsetSnapshot;
+            // TODO procedureState not passed further, is it intentional?
         }
         state.offset = result.modifiedOffset;
 

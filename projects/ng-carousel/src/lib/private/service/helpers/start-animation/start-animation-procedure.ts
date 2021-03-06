@@ -11,14 +11,14 @@ export function startAnimationProcedure(): Procedure {
     return ({state, procedureState, environment}: ProcedureStateFacade): ProcedureHandler => {
         const animation = startAnimation(
             state.animatableContainer,
-            procedureState.offsetSnapshot,
+            procedureState?.offsetSnapshot ?? null,
             state.offset,
             state.config.widthMode,
             state.config.transitionDuration,
             environment?.animationBezierArgs ?? [],
             environment?.isBrowser ?? false,
             environment?.afterAnimationAction ?? (() => {}),
-            environment?.animationBuilder,
+            environment?.animationBuilder ?? null,
         );
         state.animation = animation;
 

@@ -22,12 +22,12 @@ describe('collectOccurences test suite', () => {
             itemsLength,
         );
         expect(result.size).toBe(3, 'incorrect length');
-        expect(result.get(0).removableSlideIndexes).toEqual([], 'incorrect 0 removables');
-        expect(result.get(0).unremovableSlideIndexes).toEqual([0], 'incorrect 0 unremovables');
-        expect(result.get(1).removableSlideIndexes).toEqual([], 'incorrect 1 removables');
-        expect(result.get(1).unremovableSlideIndexes).toEqual([1], 'incorrect 1 unremovables');
-        expect(result.get(2).removableSlideIndexes).toEqual([], 'incorrect 2 removables');
-        expect(result.get(2).unremovableSlideIndexes).toEqual([2], 'incorrect 2 unremovables');
+        expect(result.get(0)?.removableSlideIndexes).toEqual([], 'incorrect 0 removables');
+        expect(result.get(0)?.unremovableSlideIndexes).toEqual([0], 'incorrect 0 unremovables');
+        expect(result.get(1)?.removableSlideIndexes).toEqual([], 'incorrect 1 removables');
+        expect(result.get(1)?.unremovableSlideIndexes).toEqual([1], 'incorrect 1 unremovables');
+        expect(result.get(2)?.removableSlideIndexes).toEqual([], 'incorrect 2 removables');
+        expect(result.get(2)?.unremovableSlideIndexes).toEqual([2], 'incorrect 2 unremovables');
     });
 
     it('must collect removable elements without inViewport flag', () => {
@@ -48,12 +48,12 @@ describe('collectOccurences test suite', () => {
             itemsLength,
         );
         expect(result.size).toBe(3, 'incorrect length');
-        expect(result.get(0).removableSlideIndexes).toEqual([0], 'incorrect 0 removables');
-        expect(result.get(0).unremovableSlideIndexes).toEqual([], 'incorrect 0 unremovables');
-        expect(result.get(1).removableSlideIndexes).toEqual([1], 'incorrect 1 removables');
-        expect(result.get(1).unremovableSlideIndexes).toEqual([], 'incorrect 1 unremovables');
-        expect(result.get(2).removableSlideIndexes).toEqual([2], 'incorrect 2 removables');
-        expect(result.get(2).unremovableSlideIndexes).toEqual([], 'incorrect 2 unremovables');
+        expect(result.get(0)?.removableSlideIndexes).toEqual([0], 'incorrect 0 removables');
+        expect(result.get(0)?.unremovableSlideIndexes).toEqual([], 'incorrect 0 unremovables');
+        expect(result.get(1)?.removableSlideIndexes).toEqual([1], 'incorrect 1 removables');
+        expect(result.get(1)?.unremovableSlideIndexes).toEqual([], 'incorrect 1 unremovables');
+        expect(result.get(2)?.removableSlideIndexes).toEqual([2], 'incorrect 2 removables');
+        expect(result.get(2)?.unremovableSlideIndexes).toEqual([], 'incorrect 2 unremovables');
     });
 
     it('must collect removable and unremovable elements without inViewport flag', () => {
@@ -77,12 +77,12 @@ describe('collectOccurences test suite', () => {
             itemsLength,
         );
         expect(result.size).toBe(3, 'incorrect length');
-        expect(result.get(0).removableSlideIndexes).toEqual([0], 'incorrect 0 removables');
-        expect(result.get(0).unremovableSlideIndexes).toEqual([3], 'incorrect 0 unremovables');
-        expect(result.get(1).removableSlideIndexes).toEqual([1], 'incorrect 1 removables');
-        expect(result.get(1).unremovableSlideIndexes).toEqual([4], 'incorrect 1 unremovables');
-        expect(result.get(2).removableSlideIndexes).toEqual([], 'incorrect 2 removables');
-        expect(result.get(2).unremovableSlideIndexes).toEqual([2, 5], 'incorrect 2 unremovables');
+        expect(result.get(0)?.removableSlideIndexes).toEqual([0], 'incorrect 0 removables');
+        expect(result.get(0)?.unremovableSlideIndexes).toEqual([3], 'incorrect 0 unremovables');
+        expect(result.get(1)?.removableSlideIndexes).toEqual([1], 'incorrect 1 removables');
+        expect(result.get(1)?.unremovableSlideIndexes).toEqual([4], 'incorrect 1 unremovables');
+        expect(result.get(2)?.removableSlideIndexes).toEqual([], 'incorrect 2 removables');
+        expect(result.get(2)?.unremovableSlideIndexes).toEqual([2, 5], 'incorrect 2 unremovables');
     });
 
     it('must throw on incorrect sequence', () => {

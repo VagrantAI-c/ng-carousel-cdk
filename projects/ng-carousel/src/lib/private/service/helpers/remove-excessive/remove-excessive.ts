@@ -10,11 +10,11 @@ export function removeExcessive(
     offset: number,
     slideWidth: number,
     /** First slide index that is inside viewport */
-    viewportStart: number,
+    viewportStart: number | null,
     /** Last slide index that is inside viewport */
-    viewportEnd: number,
+    viewportEnd: number | null,
 ): RemoveExcessiveResult {
-    if (!slides || !slides.length) {
+    if (!slides || !slides.length || viewportStart === null || viewportEnd === null) {
 
         return new RemoveExcessiveResult([], offset);
     }

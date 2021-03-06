@@ -13,8 +13,8 @@ export function removeExcessiveProcedure(): Procedure {
             state.slides,
             state.offset,
             state.config.slideWidth,
-            procedureState.inViewportRange[0],
-            procedureState.inViewportRange[1],
+            procedureState?.inViewportRange?.[0] ?? null,
+            procedureState?.inViewportRange?.[1] ?? null,
         );
         state.slides = result.slides;
         state.offset = result.offset;

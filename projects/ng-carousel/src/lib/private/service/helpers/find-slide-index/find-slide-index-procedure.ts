@@ -7,7 +7,7 @@ import { findSlideIndex } from './find-slide-index';
 /**
  * Assigns slide index by given item index
  */
-export function findSlideIndexProcedure(itemIndex?: number): Procedure {
+export function findSlideIndexProcedure(itemIndex: number): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         const result = findSlideIndex(
             state.slides,

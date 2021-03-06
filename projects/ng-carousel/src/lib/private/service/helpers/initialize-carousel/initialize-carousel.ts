@@ -7,7 +7,7 @@ import { IdGenerator } from '../../../models/id-generator';
  */
 export function initializeCarousel(
     items: any[],
-    idGenerator: IdGenerator,
+    idGenerator: IdGenerator | null,
 ): CarouselSlide[] {
     if (!items || !items.length || !idGenerator) {
 
@@ -17,7 +17,7 @@ export function initializeCarousel(
     const newSlides = new Array(items.length);
 
     for (let i = 0; i < items.length; i++) {
-        newSlides[i] = new CarouselSlide(idGenerator.next(), i, {item: items[i], isActive: i === 0});
+        newSlides[i] = new CarouselSlide(idGenerator.next(), i, {item: items[i], isActive: i === 0, inViewport: false});
     }
 
     return newSlides;

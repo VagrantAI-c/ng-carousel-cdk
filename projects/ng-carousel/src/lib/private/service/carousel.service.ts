@@ -39,9 +39,9 @@ const MAX_SWIPE_THRESHOLD = 15;
 const MAX_OVERSCROLL = 10;
 
 @Injectable()
-export class CarouselService implements OnDestroy {
+export class CarouselService<T> implements OnDestroy {
 
-    private readonly carouselState$ = new BehaviorSubject<CarouselState>(new CarouselState());
+    private readonly carouselState$ = new BehaviorSubject<CarouselState<T>>(new CarouselState<T>());
     /** Describes constant entities for procedures */
     private readonly procedureEnvironment: ProcedureEnvironment = {
         slideIdGenerator: this.slideIdGenerator,
@@ -66,7 +66,7 @@ export class CarouselService implements OnDestroy {
         this.carouselState$.getValue()?.autoplay?.autoplaySubscription?.unsubscribe();
     }
 
-    carouselStateChanges(): Observable<CarouselState> {
+    carouselStateChanges(): Observable<CarouselState<T>> {
         return this.carouselState$.asObservable();
     }
 
@@ -118,7 +118,7 @@ export class CarouselService implements OnDestroy {
     /**
      * Starts new autoplay timer
      */
-    enableAutoplay(suspender: AutoplaySuspender = null): void {
+    enableAutoplay(suspender: AutoplaySuspender | null = null): void {
         this.apply(enableAutoplayProcedure(suspender));
     }
 
@@ -126,7 +126,7 @@ export class CarouselService implements OnDestroy {
         this.apply(initializeContainersProcedure(widthContainer, animatableContainer));
     }
 
-    setConfig(newConfig: CarouselConfig): void {
+    setConfig(newConfig: CarouselConfig<T>): void {
         this.apply(initializeConfigProcedure(newConfig));
     }
 
@@ -138,7 +138,7 @@ export class CarouselService implements OnDestroy {
      * Applies specified procedure to carousel state
      */
     private apply(procedure: Procedure): void {
-        const state: CarouselState = Object.assign({}, this.carouselState$.getValue());
+        const state: CarouselState<T> = Object.assign({}, this.carouselState$.getValue());
         const result = procedurePipe('applier', procedure)({state, procedureState: {}, environment: this.procedureEnvironment});
         this.carouselState$.next(result.state);
     }

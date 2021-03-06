@@ -15,8 +15,8 @@ export function animationOffsetSnapshotProcedure(): Procedure {
         const result = animationOffsetSnapshot(
             currentPosition,
             state.config.transitionDuration,
-            state.animation?.from,
-            state.animation?.to,
+            state.animation?.from ?? null,
+            state.animation?.to ?? null,
             state.offset,
             state.animationBezierFn,
         );

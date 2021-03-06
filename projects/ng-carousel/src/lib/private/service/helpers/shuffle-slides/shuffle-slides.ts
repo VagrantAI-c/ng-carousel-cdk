@@ -14,8 +14,8 @@ import { ShuffleSlidesResult } from './models/shuffle-slides-result';
  * **BE ADVICED**, that inViewport flag should be calculated for each slide
  * that should not be moved beforehand.
  */
-export function shuffleSlides(
-    slides: CarouselSlide[],
+export function shuffleSlides<T>(
+    slides: CarouselSlide<T>[],
     offset: number,
     slideWidth: number,
     viewportWidth: number,
@@ -45,7 +45,7 @@ export function shuffleSlides(
      * Item indexes that should be marked as copies after
      * function completes
      */
-    let unmarkedItemIndexes = [];
+    let unmarkedItemIndexes: number[] = [];
 
     // Should move slides to right side
     if (rightSideMissingSlides) {
@@ -115,14 +115,14 @@ export function shuffleSlides(
  * wasn't in viewport and now our slide row has
  * [5, 0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4], voila!
  */
-export function moveOrCopySlidesToEnd(
-    slides: CarouselSlide[],
+export function moveOrCopySlidesToEnd<T>(
+    slides: CarouselSlide<T>[],
     offset: number,
     quantity: number,
     slideWidth: number,
     items: any[],
     idGenerator = new IdGenerator(),
-): CopySlidesResult {
+): CopySlidesResult<T> {
     if (quantity < 1) {
 
         return new CopySlidesResult(slides, offset, []);
@@ -194,7 +194,7 @@ export function moveOrCopySlidesToEnd(
 
             // Splice arguments processing
 
-            if (currentSlide.options.inViewport) {
+            if (currentSlide?.options?.inViewport) {
                 canIncreaseQuantity = false;
             }
 
@@ -285,14 +285,14 @@ export function moveOrCopySlidesToEnd(
  * weren't in viewport and now our row has
  * [2, 3, 4, 5, 0, 1, 2, 3, 4, 5, 0, 1], voila!
  */
-export function moveOrCopySlidesToStart(
-    slides: CarouselSlide[],
+export function moveOrCopySlidesToStart<T>(
+    slides: CarouselSlide<T>[],
     offset: number,
     quantity: number,
     slideWidth: number,
     items: any[],
     idGenerator = new IdGenerator(),
-): CopySlidesResult {
+): CopySlidesResult<T> {
     if (quantity < 1) {
 
         return new CopySlidesResult(slides, offset, []);
@@ -365,7 +365,7 @@ export function moveOrCopySlidesToStart(
 
             // spliceFrom can be assigned once and equals first inViewport
             // slide that we met
-            if (spliceFrom === null && currentSlide.options.inViewport) {
+            if (spliceFrom === null && currentSlide?.options?.inViewport) {
                 spliceFrom = slides.length - spliceQuantity;
             }
 

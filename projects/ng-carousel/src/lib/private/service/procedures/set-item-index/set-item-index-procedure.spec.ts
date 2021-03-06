@@ -7,7 +7,7 @@ describe('setItemIndexProcedure test suite', () => {
         const state = new CarouselState();
         state.activeItemIndex = 1;
         const procedure = setItemIndexProcedure(4);
-        expect(procedure({state}).state.activeItemIndex).toBe(4, 'incorrect index');
+        expect(procedure({state, environment: {}, procedureState: {}}).state.activeItemIndex).toBe(4, 'incorrect index');
     });
 
 });

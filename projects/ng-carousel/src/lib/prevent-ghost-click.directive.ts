@@ -8,7 +8,7 @@ import { HammerProviderService } from './private/service/hammer-provider.service
 })
 export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
-    private hammerManager: HammerManager;
+    private hammerManager: HammerManager | null = null;
     private shouldPreventClick = false;
 
     @HostListener('click', ['$event'])

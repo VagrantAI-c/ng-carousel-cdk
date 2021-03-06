@@ -666,4 +666,62 @@ describe('dragOffsetSnapshot test suite', () => {
         );
         expect(result).toBe(45, 'incorrect modified offset');
     });
+
+    it('should not amend offset when no bezier functions are present', () => {
+        const fromX = 2;
+        const toX = 20;
+        const offset = 45;
+        const widthMode = CarouselWidthMode.PERCENT;
+        const alignMode = CarouselAlignMode.CENTER;
+        const shouldLoop = false;
+        const viewportWidth = 100;
+        const viewportWidthInPx = 100;
+        const slideWidth = 10;
+        const slideSumWidth = 10;
+        const result = dragOffsetSnapshot(
+            fromX,
+            toX,
+            offset,
+            widthMode,
+            alignMode,
+            shouldLoop,
+            viewportWidth,
+            viewportWidthInPx,
+            slideWidth,
+            slideSumWidth,
+            maxOverscrollPercent,
+            null,
+            null,
+        );
+        expect(result).toBe(45, 'incorrect modified offset');
+    });
+
+    it('should not amend offset when overscroll value is not available', () => {
+        const fromX = 2;
+        const toX = 20;
+        const offset = 33;
+        const widthMode = CarouselWidthMode.PERCENT;
+        const alignMode = CarouselAlignMode.CENTER;
+        const shouldLoop = false;
+        const viewportWidth = 100;
+        const viewportWidthInPx = 100;
+        const slideWidth = 10;
+        const slideSumWidth = 10;
+        const result = dragOffsetSnapshot(
+            fromX,
+            toX,
+            offset,
+            widthMode,
+            alignMode,
+            shouldLoop,
+            viewportWidth,
+            viewportWidthInPx,
+            slideWidth,
+            slideSumWidth,
+            null,
+            bezierFn,
+            invertedBezierFn,
+        );
+        expect(result).toBe(33, 'incorrect modified offset');
+    });
 });

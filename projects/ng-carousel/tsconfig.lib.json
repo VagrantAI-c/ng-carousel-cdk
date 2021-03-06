@@ -13,13 +13,18 @@
       "dom",
       "es2018"
     ],
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
   },
   "angularCompilerOptions": {
     "skipTemplateCodegen": true,
-    "strictMetadataEmit": true,
     "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
     "strictInjectionParameters": true,
+    "strictMetadataEmit": true,
     "enableResourceInlining": true,
   },
   "exclude": [

@@ -7,6 +7,6 @@ import { AutoplaySuspender } from './autoplay-suspender';
  */
 export class CarouselAutoplay {
     autoplaySuspenders = new Set<AutoplaySuspender>();
-    autoplaySubscription: Subscription = null;
-    interval: number = null;
+    autoplaySubscription: Subscription | null = null;
+    interval: number | null = null;
 }

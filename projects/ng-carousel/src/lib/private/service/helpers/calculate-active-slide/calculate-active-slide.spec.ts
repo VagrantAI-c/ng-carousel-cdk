@@ -13,7 +13,7 @@ describe('calculateActiveSlide suite', () => {
     ];
 
     it('must calculate no slides', () => {
-        const slides = [];
+        const slides: CarouselSlide[] = [];
         const offset = 5000;
         const alignMode = CarouselAlignMode.CENTER;
         const slideWidth = 10210;

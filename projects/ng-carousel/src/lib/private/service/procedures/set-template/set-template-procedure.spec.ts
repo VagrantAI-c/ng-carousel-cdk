@@ -7,11 +7,24 @@ describe('setTemplateProcedure test suite', () => {
 
     class TemplateRefImpl implements TemplateRef<any> {
         get elementRef(): ElementRef {
-            return null;
+            return {
+                nativeElement: null,
+            };
         }
 
         createEmbeddedView(): EmbeddedViewRef<any> {
-            return null;
+            return {
+                context: null,
+                rootNodes: [],
+                destroyed: false,
+                destroy: () => {},
+                checkNoChanges: () => {},
+                detach: () => {},
+                detectChanges: () => {},
+                markForCheck: () => {},
+                onDestroy: () => {},
+                reattach: () => {},
+            };
         }
     }
 
@@ -19,13 +32,13 @@ describe('setTemplateProcedure test suite', () => {
         const templateRef = new TemplateRefImpl();
         const procedure = setTemplateProcedure(templateRef);
         const state = new CarouselState();
-        expect(procedure({state}).state.template).toBe(templateRef);
+        expect(procedure({state, environment: {}, procedureState: {}}).state.template).toBe(templateRef);
     });
 
     it('should assign null', () => {
         const procedure = setTemplateProcedure(null);
         const state = new CarouselState();
-        expect(procedure({state}).state.template).toBe(null);
+        expect(procedure({state, environment: {}, procedureState: {}}).state.template).toBe(null);
     });
 
 });

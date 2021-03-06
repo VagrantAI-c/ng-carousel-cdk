@@ -8,7 +8,7 @@ import { disableAutoplay } from './disable-autoplay';
 /**
  * Turns current autoplay timer off with a specified reason
  */
-export function disableAutoplayProcedure(suspender: AutoplaySuspender = null): Procedure {
+export function disableAutoplayProcedure(suspender: AutoplaySuspender): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
         state = Object.assign({}, state);
         const autoplay = disableAutoplay(

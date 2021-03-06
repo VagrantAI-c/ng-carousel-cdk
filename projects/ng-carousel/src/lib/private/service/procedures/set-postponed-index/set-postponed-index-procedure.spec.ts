@@ -9,7 +9,7 @@ describe('setPostponedIndexProcedure test suite', () => {
     it('should continue when postponed index unavailable', () => {
         const procedure = setPostponedIndexProcedure();
         const state = new CarouselState();
-        const result = procedure({state});
+        const result = procedure({state, environment: {}, procedureState: {}});
         expect(typeof result === 'object').toBeTruthy('result is a higher order procedure');
         expect((result as ProcedureHandler).shouldBreakProcedure).toBeFalsy('procedure not continuing');
         expect((result as ProcedureHandler).state).toBe(state, 'state instance changed');
@@ -25,9 +25,9 @@ describe('setPostponedIndexProcedure test suite', () => {
             new CarouselSlide(2, 2),
             new CarouselSlide(3, 3),
         ];
-        const result = procedure({state});
+        const result = procedure({state, environment: {}, procedureState: {}});
         expect(typeof result === 'function').toBeTruthy('result is a handler');
-        const decomposedResult = (result as ComposedProcedure)({state}) as ProcedureHandler;
+        const decomposedResult = (result as ComposedProcedure)({state, environment: {}, procedureState: {}}) as ProcedureHandler;
         expect(decomposedResult.shouldBreakProcedure).toBeFalsy('procedure not continuing');
         expect(decomposedResult.state.postponedItemIndex).toBeNull('postponed item index persists');
     });

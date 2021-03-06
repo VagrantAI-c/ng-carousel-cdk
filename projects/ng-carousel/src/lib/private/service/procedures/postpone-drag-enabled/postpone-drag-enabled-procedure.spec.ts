@@ -7,7 +7,7 @@ describe('postponeDragEnabledProcedure test suite', () => {
         const procedure = postponeDragEnabledProcedure();
         const state = new CarouselState();
         state.config.dragEnabled = true;
-        const result = procedure({state});
+        const result = procedure({state, environment: {}, procedureState: {}});
         expect(result.shouldBreakProcedure).toBeFalsy('procedure is interrupted');
     });
 
@@ -15,7 +15,7 @@ describe('postponeDragEnabledProcedure test suite', () => {
         const procedure = postponeDragEnabledProcedure();
         const state = new CarouselState();
         state.config.dragEnabled = false;
-        const result = procedure({state});
+        const result = procedure({state, environment: {}, procedureState: {}});
         expect(result.shouldBreakProcedure).toBeTruthy('procedure is not interrupted');
     });
 

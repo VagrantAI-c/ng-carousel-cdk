@@ -10,7 +10,7 @@ export function enableAutoplay(
     autoplayDelay: number,
     isBrowser: boolean,
     autoplayAction: () => void,
-    suspender?: AutoplaySuspender,
+    suspender?: AutoplaySuspender | null,
     autoplay?: CarouselAutoplay,
 ): CarouselAutoplay {
     if (!autoplay) {

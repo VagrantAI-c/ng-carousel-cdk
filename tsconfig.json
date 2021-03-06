@@ -33,6 +33,16 @@
       "ng-carousel-cdk/*": [
         "dist/ng-carousel/*"
       ]
-    }
+    },
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "angularCompilerOptions": {
+    "fullTemplateTypeCheck": true,
+    "strictTemplates": true,
+    "strictInjectionParameters": true,
+    "strictMetadataEmit": true
   }
 }

@@ -22,7 +22,7 @@ export function dragOffsetSnapshotProcedure(fromX: number, toX: number): Procedu
             getViewportWidthInPx(state),
             state.config.slideWidth,
             state.slides.length * state.config.slideWidth,
-            environment.maxOverscroll,
+            environment.maxOverscroll ?? null,
             state.dragBezierFn,
             state.invertedDragBezierFn,
         );
