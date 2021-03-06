@@ -7,7 +7,7 @@
       "bezier-easing": "bezier"
     }
   },
-  "whitelistedNonPeerDependencies": [
+  "allowedNonPeerDependencies": [
     "bezier-easing"
   ]
 }
