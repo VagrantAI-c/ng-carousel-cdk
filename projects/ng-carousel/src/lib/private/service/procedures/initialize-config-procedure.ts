@@ -7,7 +7,7 @@ import { setConfigProcedure } from './set-config/set-config-procedure';
 /**
  * Assigns config and executes initialization effects
  */
-export function initializeConfigProcedure(newConfig: CarouselConfig): Procedure {
+export function initializeConfigProcedure<T>(newConfig: CarouselConfig<T>): Procedure {
     return procedurePipe('initializeConfig',
         setConfigProcedure(newConfig),
         initializeProcedure(),

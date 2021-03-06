@@ -60,9 +60,6 @@ describe('removeExcessive test suite', () => {
     });
 
     it('should return empty slides when no slides available', () => {
-        const nullResult = removeExcessive(null, 10, 0, 0, 0);
-        expect(nullResult.offset).toBe(10, 'incorrect offset');
-        expect(nullResult.slides).toEqual([], 'incorrect slides fallback');
         const emptyResult = removeExcessive([], 11, 0, 0, 0);
         expect(emptyResult.offset).toBe(11, 'incorrect offset');
         expect(emptyResult.slides).toEqual([], 'incorrect slides fallback');

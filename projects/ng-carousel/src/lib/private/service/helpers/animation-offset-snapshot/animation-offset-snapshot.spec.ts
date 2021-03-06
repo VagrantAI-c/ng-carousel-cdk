@@ -113,8 +113,8 @@ describe('animationOffsetSnapshot test suite', () => {
     it('must calculate undefined distance', () => {
         const currentDuration = 1245;
         const totalDuration = 2500;
-        const from = undefined;
-        const to = undefined;
+        const from = null;
+        const to = null;
         const offset = 3;
         const result = animationOffsetSnapshot(
             currentDuration,

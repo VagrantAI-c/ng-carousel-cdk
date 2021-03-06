@@ -68,7 +68,7 @@ describe('findItemIndex test suite', () => {
         expect(result).toBe(1);
     });
 
-    it('must return null whether index not found', () => {
+    it('must return 0 whether index not found', () => {
         const newItemIndex = 1;
         const currentSlideIndex = 1;
         const result = findSlideIndex(
@@ -80,7 +80,7 @@ describe('findItemIndex test suite', () => {
             newItemIndex,
             currentSlideIndex,
         );
-        expect(result).toBeNull('result not null');
+        expect(result).toBe(0, 'result not zero');
     });
 
     it('must return 0 when no slides available', () => {

@@ -16,7 +16,7 @@ export function calculateActiveSlideProcedure(): Procedure {
             state.config.alignMode,
             state.config.slideWidth,
             getViewportWidth(state),
-            Math.min(state.config.slideWidth / 2, environment.swipeThreshold),
+            Math.min(state.config.slideWidth / 2, environment?.swipeThreshold ?? Infinity),
             procedureState.passedDistance || null,
         );
         state.activeSlideIndex = result.slideIndex;

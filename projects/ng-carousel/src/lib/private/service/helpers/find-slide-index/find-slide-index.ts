@@ -5,7 +5,7 @@ import { IterateSideResult } from './models/iterate-side-result';
  * Finds slide that is marked as `isActive` and returns its index
  */
 export function findSlideIndex(
-    slides: CarouselSlide[],
+    slides: CarouselSlide[] | null,
     newItemIndex: number,
     currentSlideIndex: number,
 ): number {
@@ -33,7 +33,7 @@ export function findSlideIndex(
             || iterateRightSide(slides, newItemIndex, currentSlideIndex);
     }
 
-    return targetSlideIndex?.foundIndex ?? null;
+    return targetSlideIndex?.foundIndex ?? 0;
 }
 
 function iterateRightSide(

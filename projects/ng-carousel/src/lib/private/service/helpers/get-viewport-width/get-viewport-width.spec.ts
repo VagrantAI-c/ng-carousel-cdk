@@ -16,12 +16,4 @@ describe('getViewportWidth test suite', () => {
         state.config.widthMode = CarouselWidthMode.PERCENT;
         expect(getViewportWidth(state)).toBe(100, 'incorrect % width');
     });
-
-    it('should return default value upon undefined fields', () => {
-        const state = new CarouselState();
-        delete state.config.widthMode;
-        expect(getViewportWidth(state)).toBe(100, 'incorrect default width');
-        expect(getViewportWidth(null)).toBe(100, 'incorrect default width');
-    });
-
 });

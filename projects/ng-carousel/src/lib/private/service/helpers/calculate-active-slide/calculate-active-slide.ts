@@ -58,7 +58,7 @@ export function calculateActiveSlide(
 
     // Swipe correction: animation must align with swipe direction meaning
     // when user swipes right, final animation should also lead to the right
-    const swipeDirection = Math.sign(swipeDistance);
+    const swipeDirection = Math.sign(swipeDistance ?? 0);
     const offsetDirection = offset > result.modifiedOffset
         ? -1
         : 1;

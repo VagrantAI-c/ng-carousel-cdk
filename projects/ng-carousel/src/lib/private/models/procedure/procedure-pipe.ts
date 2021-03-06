@@ -8,13 +8,13 @@ import { Procedure } from './procedure.type';
 /** Organizes array of procedures into single procedure, flattens inner procedures */
 export function procedurePipe(procedureName: string, ...args: (ComposedProcedure | null)[]): ProcedureResult {
     return (state: ProcedureStateFacade, parentProcedureName?: string): ProcedureHandler => {
-        let handler: ProcedureHandler;
+        let handler: ProcedureHandler | null = null;
         let procedureIndex = 0;
         for (const procedure of args) {
             if (typeof procedure !== 'function') {
                 continue;
             }
-            const procedureState = Object.entries(handler?.procedureState ?? {}).length
+            const procedureState = handler && Object.entries(handler?.procedureState ?? {}).length
                 ? handler.procedureState
                 : state.procedureState;
             const nextState: ProcedureStateFacade = {
@@ -26,7 +26,7 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
             const procedureChainString = parentProcedureName
                 ? `${parentProcedureName}->${procedureSlot}`
                 : procedureSlot;
-            let localHandler: ProcedureHandler | Procedure;
+            let localHandler: ProcedureHandler | Procedure | null = null;
             while (typeof localHandler === 'function' || !localHandler) {
                 try {
                     localHandler = !localHandler
@@ -46,6 +46,6 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
             }
         }
 
-        return handler;
+        return handler!;
     };
 }

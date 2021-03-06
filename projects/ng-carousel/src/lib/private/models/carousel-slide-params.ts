@@ -1,7 +1,7 @@
 /**
  * Slide options that might be changing over time
  */
-export interface CarouselSlideParams {
+export interface CarouselSlideParams<T = any> {
     /**
      * Whether slide in viewport. Should be truthy
      * whether slide was in viewport before
@@ -13,5 +13,5 @@ export interface CarouselSlideParams {
     /** Whether provided slide is selected */
     isActive: boolean;
     /** Item to be put in slide template context */
-    item: any;
+    item: T;
 }

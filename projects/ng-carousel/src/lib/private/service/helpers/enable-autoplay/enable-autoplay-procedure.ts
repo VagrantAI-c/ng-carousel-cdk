@@ -8,7 +8,7 @@ import { enableAutoplay } from './enable-autoplay';
 /**
  * Enables autoplay when such option is available in config
  */
-export function enableAutoplayProcedure(suspender: AutoplaySuspender = null): Procedure {
+export function enableAutoplayProcedure(suspender: AutoplaySuspender | null = null): Procedure {
     return ({state, environment}: ProcedureStateFacade): ProcedureHandler => {
         state = Object.assign({}, state);
         const autoplay = enableAutoplay(

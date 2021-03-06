@@ -7,8 +7,8 @@ import { Procedure } from '../../../models/procedure/procedure.type';
 /**
  * Assigns carousel config, works as part of multiphase carousel initialization
  */
-export function setConfigProcedure(newConfig: CarouselConfig): Procedure {
-    return ({state}: ProcedureStateFacade): ProcedureHandler => {
+export function setConfigProcedure<T>(newConfig: CarouselConfig<T>): Procedure {
+    return ({state}: ProcedureStateFacade<T>): ProcedureHandler => {
         state.config = newConfig;
         state.initializationState.configInitialized = true;
 

@@ -4,6 +4,7 @@ import { fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
+import { CarouselError } from '../models/carousel-error';
 import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
@@ -20,28 +21,28 @@ import { HammerProviderService } from '../service/hammer-provider.service';
 /**
  * Contains listeners and other DOM controllers
  */
-export class CarouselEngineComponent implements OnInit, OnDestroy {
+export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
-    @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef;
+    @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef<HTMLElement> | null = null;
     public readonly transformValue$ = this.transformValueChanges();
     public readonly slideWidth$ = this.slideWidthChanges();
     public readonly template$ = this.templateChanges();
     public readonly slides$ = this.slidesChanges();
     public focused = false;
     private readonly destroyed$ = new Subject<void>();
-    private mouseEnterDestructor: () => void;
-    private mouseLeaveDestructor: () => void;
-    private keyboardListener: () => void;
-    private containerScrollListener: () => void;
-    private hammerManager: HammerManager;
+    private mouseEnterDestructor: (() => void) | null = null;
+    private mouseLeaveDestructor: (() => void) | null = null;
+    private keyboardListener: (() => void) | null = null;
+    private containerScrollListener: (() => void) | null = null;
+    private hammerManager: HammerManager | null = null;
 
     private get htmlElement(): HTMLElement {
         return this.elementRef.nativeElement;
     }
 
     constructor(
-        private carousel: CarouselService,
-        private elementRef: ElementRef,
+        private carousel: CarouselService<T>,
+        private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
         private hammer: HammerProviderService,
         // tslint:disable-next-line: ban-types
@@ -49,16 +50,20 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     ) {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.listenToAutoplay();
         this.listenToDragEvents();
         this.listenToResizeEvents();
         this.listenToKeyEvents();
         this.listenToScrollEvents();
-        this.carousel.setContainers(this.htmlElement, this.galleryRef.nativeElement);
+        if (this.galleryRef?.nativeElement) {
+            this.carousel.setContainers(this.htmlElement, this.galleryRef?.nativeElement ?? null);
+        } else {
+            throw new CarouselError('Error initializing ng-carousel-cdk containers');
+        }
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         this.destroyMouseListeners();
         this.destroyHammer();
         this.destroyKeyboardListeners();
@@ -67,16 +72,16 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         this.destroyed$.complete();
     }
 
-    trackByFn(index: number, item: CarouselSlide): number {
+    trackByFn(index: number, item: CarouselSlide<T>): number {
         return item.id;
     }
 
-    contextOf(slide: CarouselSlide): CarouselSlideContext {
-        return new CarouselSlideContext(
-            slide.options.item,
+    contextOf(slide: CarouselSlide<T>): CarouselSlideContext<T> {
+        return new CarouselSlideContext<T>(
+            slide?.options?.item ?? null,
             slide.itemIndex,
-            slide.options.isActive,
-            slide.options.inViewport,
+            slide.options?.isActive ?? false,
+            slide.options?.inViewport ?? false,
         );
     }
 
@@ -120,28 +125,28 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
     private transformValueChanges(): Observable<string> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => `translateX(${state.offset}${state.config.widthMode})`),
+                map((state: CarouselState<T>) => `translateX(${state.offset}${state.config.widthMode})`),
             );
     }
 
     private slideWidthChanges(): Observable<string> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => `${state.config.slideWidth}${state.config.widthMode}`),
+                map((state: CarouselState<T>) => `${state.config.slideWidth}${state.config.widthMode}`),
             );
     }
 
-    private slidesChanges(): Observable<CarouselSlide[]> {
+    private slidesChanges(): Observable<CarouselSlide<T>[]> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.slides),
+                map((state: CarouselState<T>) => state.slides),
             );
     }
 
-    private templateChanges(): Observable<TemplateRef<any>> {
+    private templateChanges(): Observable<TemplateRef<CarouselSlideContext<T>> | null> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.template),
+                map((state: CarouselState<T>) => state.template),
             );
     }
 
@@ -152,7 +157,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.config.autoplayEnabled),
+                map((state: CarouselState<T>) => state.config.autoplayEnabled),
                 distinctUntilChanged(),
                 takeUntil(this.destroyed$),
             )
@@ -187,7 +192,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.config.dragEnabled),
+                map((state: CarouselState<T>) => state.config.dragEnabled),
                 distinctUntilChanged(),
                 takeUntil(this.destroyed$),
             )
@@ -205,7 +210,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     return;
                 }
                 let lastDelta = 0;
-                let lastTouchAction: string;
+                let lastTouchAction: string | null;
 
                 this.hammerManager.on('panstart', (event: HammerInput) => {
                     // Checking whether pan started with horizontal gesture,
@@ -251,7 +256,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                filter((state: CarouselState) => state.config.shouldRecalculateOnResize),
+                filter((state: CarouselState<T>) => state.config.shouldRecalculateOnResize),
                 switchMapTo(fromEvent(window, 'resize')),
                 takeUntil(this.destroyed$),
             )

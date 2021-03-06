@@ -22,9 +22,9 @@ export function markVisibleAndActive(
 
     const newSlides: CarouselSlide[] = [];
     /** Slide index representing first slide inside viewport */
-    let inViewportStart: number = null;
+    let inViewportStart: number | null = null;
     /** Slide index representing last slide inside viewport */
-    let inViewportEnd: number = null;
+    let inViewportEnd: number | null = null;
     for (let i = 0, currentOffset = offset; i < slides.length; i++, currentOffset += slideWidth) {
         // Calculate slide options
         const slideBeforeViewportEnd = currentOffset < viewportWidth + threshold;
@@ -59,14 +59,14 @@ export function markVisibleAndActive(
     }
 
     if (activeSlideIndex >= 0 && activeSlideIndex <= slides.length - 1) { // Active slide might be outside slide range
-        if (activeSlideIndex <= inViewportStart || inViewportStart === null) {
+        if (inViewportStart === null || activeSlideIndex <= inViewportStart) {
             const distanceToActiveSlideViewportStart = alignMode === CarouselAlignMode.LEFT
                 ? threshold
                 : viewportWidth / 2 - slideWidth / 2 + threshold;
             const slidesToViewportStart = Math.ceil(distanceToActiveSlideViewportStart / slideWidth);
             inViewportStart = Math.max(0, activeSlideIndex - slidesToViewportStart);
         }
-        if (activeSlideIndex >= inViewportEnd || inViewportEnd === null) {
+        if (inViewportEnd === null || activeSlideIndex >= inViewportEnd) {
             const distanceToActiveSlideViewportEnd = alignMode === CarouselAlignMode.LEFT
                 ? viewportWidth + threshold
                 : viewportWidth / 2 + slideWidth / 2 + threshold;

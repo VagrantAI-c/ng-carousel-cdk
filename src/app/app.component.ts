@@ -13,7 +13,7 @@ import { CarouselWidthMode, CarouselComponent, CarouselConfig, CarouselAlignMode
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    @ViewChild(CarouselComponent, {static: true}) carouselRef: CarouselComponent;
+    @ViewChild(CarouselComponent, {static: true}) carouselRef?: CarouselComponent;
 
     config: Partial<CarouselConfig> = {
         widthMode: CarouselWidthMode.PERCENT,
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit, OnDestroy {
         slideWidth: new FormControl(this.config.slideWidth),
         transitionDuration: new FormControl(this.config.transitionDuration),
         shouldLoop: new FormControl(this.config.shouldLoop),
-        slidesQuantity: new FormControl(this.config.items.length),
+        slidesQuantity: new FormControl((this.config?.items ?? []).length),
         autoplayEnabled: new FormControl(this.config.autoplayEnabled),
         dragEnabled: new FormControl(this.config.dragEnabled),
     });
@@ -65,15 +65,15 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     prev(): void {
-        this.carouselRef.prev();
+        this.carouselRef?.prev();
     }
 
     next(): void {
-        this.carouselRef.next();
+        this.carouselRef?.next();
     }
 
     goTo(index: number): void {
-        this.carouselRef.setIndex(index);
+        this.carouselRef?.setIndex(index);
     }
 
     setItemIndex(newIndex: number): void {
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
             )
             .subscribe((value: CarouselConfig & {slidesQuantity: number}) => {
                 const maxWidthNew = this.getMaxWidth(value.widthMode);
-                const widthPercentage = 100 * value.slideWidth / this.maxWidth;
+                const widthPercentage = 100 * (value?.slideWidth ?? 1) / this.maxWidth;
                 value.slideWidth = Math.floor(maxWidthNew * widthPercentage / 100);
                 this.maxWidth = maxWidthNew;
                 this.config = value;
@@ -129,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
             });
     }
 
-    private getMaxWidth(mode: CarouselWidthMode): number {
+    private getMaxWidth(mode?: CarouselWidthMode): number {
         return mode === CarouselWidthMode.PERCENT
             ? this.MAX_WIDTH_PERCENTS
             : this.MAX_WIDTH_PIXELS;

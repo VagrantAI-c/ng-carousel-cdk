@@ -3,7 +3,7 @@ import { CarouselSlideParams } from './carousel-slide-params';
 /**
  * Slide model representation
  */
-export class CarouselSlide {
+export class CarouselSlide<T = any> {
 
     constructor(
         /**
@@ -19,7 +19,7 @@ export class CarouselSlide {
         /**
          * Parameters that might be changed over time
          */
-        public options: Partial<CarouselSlideParams> = {},
+        public options: Partial<CarouselSlideParams<T>> = {},
     ) {
     }
 

@@ -74,17 +74,6 @@ describe('markVisibleAndActive test suite', () => {
         expect(result.inViewportRangeEnd).toBe(1, 'incorrect viewport range end');
     });
 
-    it('should not calculate on incorrect slides input', () => {
-        const emptyResult = markVisibleAndActive([], 0, 0, 0, 0, 0, null);
-        expect(emptyResult.slides).toEqual([]);
-        expect(emptyResult.inViewportRangeStart).toEqual(0);
-        expect(emptyResult.inViewportRangeEnd).toEqual(0);
-        const nullResult = markVisibleAndActive(null, 0, 0, 0, 0, 0, null);
-        expect(nullResult.slides).toEqual([]);
-        expect(nullResult.inViewportRangeStart).toEqual(0, 'incorrect viewport range start');
-        expect(nullResult.inViewportRangeEnd).toEqual(0, 'incorrect viewport range end');
-    });
-
     it('should calculate ranges', () => {
         const slides = [
             new CarouselSlide(0, 0),

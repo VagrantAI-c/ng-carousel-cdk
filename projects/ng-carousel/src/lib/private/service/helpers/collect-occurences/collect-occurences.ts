@@ -18,7 +18,7 @@ export function collectOccurences(
     itemsLength: number,
 ): Map<number, CarouselSlideOccurence> {
     const slideOccurenceMap = new Map<number, CarouselSlideOccurence>();
-    let lastSlideItemIndex = null;
+    let lastSlideItemIndex: number | null = null;
     for (let i = 0, currentOffset = offset; i < slides.length; i++, currentOffset += slideWidth) {
         try {
             lastSlideItemIndex = assertSequence(slides[i].itemIndex, lastSlideItemIndex, itemsLength);
@@ -55,7 +55,7 @@ export function collectOccurences(
  */
 export function assertSequence(
     assertedItemIndex: number,
-    previousItemIndex: number,
+    previousItemIndex: number | null,
     itemsLength: number,
 ): number {
     if (previousItemIndex === null) {

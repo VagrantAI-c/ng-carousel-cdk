@@ -172,7 +172,7 @@ describe('enableAutoplay test suite', () => {
         expect(result.interval).toBe(100, 'incorrect interval');
 
         // Cleanup
-        result.autoplaySubscription.unsubscribe();
+        result.autoplaySubscription?.unsubscribe();
     });
 
     it('should apply interval callback', fakeAsync(() => {
@@ -195,12 +195,12 @@ describe('enableAutoplay test suite', () => {
         );
         expect(result.autoplaySubscription).toBeTruthy('subscription is not created');
         expect(result.interval).toBe(200, 'incorrect interval');
-        tick(result.interval);
+        tick(result.interval!); // We asserted it non null on previous line
         expect(autoplayActionObject.action).toHaveBeenCalledTimes(1);
 
         // Cleanup
 
-        result.autoplaySubscription.unsubscribe();
+        result.autoplaySubscription?.unsubscribe();
     }));
 
     it('should align interval', () => {
@@ -223,7 +223,7 @@ describe('enableAutoplay test suite', () => {
         expect(result.interval).toBe(200, 'incorrect interval');
 
         // Cleanup
-        result.autoplaySubscription.unsubscribe();
+        result.autoplaySubscription?.unsubscribe();
     });
 
 });

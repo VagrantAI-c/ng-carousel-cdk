@@ -11,7 +11,7 @@ export function initializeCarouselProcedure(): Procedure {
     return ({state, environment}: ProcedureStateFacade): ProcedureHandler => {
         const result = initializeCarousel(
             state.config.items,
-            environment.slideIdGenerator,
+            environment.slideIdGenerator ?? null,
         );
         state.slides = result;
         state.offset = 0;
