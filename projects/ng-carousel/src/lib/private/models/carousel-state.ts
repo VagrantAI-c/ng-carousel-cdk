@@ -23,7 +23,7 @@ export class CarouselState<T = any> {
     animatableContainer: HTMLElement | null = null;
     /** Client-side config which regulates carousel behavior */
     config: CarouselConfig<T> = new CarouselConfig<T>();
-    activeSlideIndex: number = 0;
+    activeSlideIndex = 0;
     /** Item index of config's items array */
     activeItemIndex = 0;
     template: TemplateRef<CarouselSlideContext<T>> | null = null;
@@ -46,7 +46,7 @@ export class CarouselState<T = any> {
      */
     postponedItemIndex: number | null = null;
     /** Whether drag is in process right now */
-    isDragged: boolean = false;
+    isDragged = false;
 
     constructor(state?: CarouselState<T>) {
         if (state) {

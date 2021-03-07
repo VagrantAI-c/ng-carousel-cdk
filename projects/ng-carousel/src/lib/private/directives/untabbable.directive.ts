@@ -15,7 +15,7 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     @Input() untabbableFocused = false;
 
     private readonly lastTabindexValueMap = new Map<HTMLElement, string | null>();
-    private viewInitiated: boolean = false;
+    private viewInitiated = false;
     private mutationObserver: MutationObserver | null = null;
 
     constructor(
