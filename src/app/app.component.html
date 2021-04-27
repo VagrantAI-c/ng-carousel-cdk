@@ -5,6 +5,7 @@
         Carousel demo
     </mat-toolbar>
     <ng-carousel
+        #carouselRef="ngCarousel"
         [config]="config"
         (itemIndexChange)="setItemIndex($event)"
         class="carousel-block">
@@ -52,7 +53,7 @@
         <button
             *ngFor="let item of config.items; index as i;"
             [class.active]="i === itemIndex"
-            (click)="goTo(i)"
+            (click)="carouselRef.setIndex(i)"
             class="bullet-button"
             mat-icon-button>
             {{i + 1}}
@@ -60,13 +61,13 @@
     </div>
     <div class="control-panel">
         <button
-            (click)="prev()"
+            (click)="carouselRef.prev()"
             mat-raised-button
             color="primary">
             prev
         </button>
         <button
-            (click)="next()"
+            (click)="carouselRef.next()"
             mat-raised-button
             color="primary">
             next

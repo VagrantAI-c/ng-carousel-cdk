@@ -64,18 +64,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.destroyed$.complete();
     }
 
-    prev(): void {
-        this.carouselRef?.prev();
-    }
-
-    next(): void {
-        this.carouselRef?.next();
-    }
-
-    goTo(index: number): void {
-        this.carouselRef?.setIndex(index);
-    }
-
     setItemIndex(newIndex: number): void {
         this.itemIndex = newIndex;
     }

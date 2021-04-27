@@ -66,6 +66,10 @@ export class CarouselService<T> implements OnDestroy {
         this.carouselState$.getValue()?.autoplay?.autoplaySubscription?.unsubscribe();
     }
 
+    getItemIndex(): number {
+        return this.carouselState$.getValue().activeItemIndex;
+    }
+
     carouselStateChanges(): Observable<CarouselState<T>> {
         return this.carouselState$.asObservable();
     }

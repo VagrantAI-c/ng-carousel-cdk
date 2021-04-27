@@ -42,7 +42,7 @@ npm i ng-carousel-cdk
         items: [
             {name: 1},
             {name: 2},
-            {name: 3},  
+            {name: 3},
         ],
     }
     ```
@@ -83,6 +83,8 @@ Template is enriched with next context structure:
 - `itemIndex`: item index of current slide
 - `isActive`: whether slide is currently active
 - `inViewport`: whether slide is currently visible (at least 1 pixel is in viewport)
+- `activeOnTheLeft`: whether active slide is currently to the left of the current one
+- `activeOnTheRight`: whether active slide is currently to the right of the current one
 
 #### Inputs
 
@@ -155,7 +157,7 @@ Template
 <ng-carousel #carouselRef="ngCarousel"></ng-carousel>
 ```
 
-or 
+or
 
 ```typescript
 @ViewChild(CarouselComponent) carouselRef: CarouselComponent;
@@ -166,13 +168,14 @@ Use this reference to programmaticaly trigger next events:
 - `carouselRef.prev()`: decrement active slide
 - `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index. When no slides are available, index change would postpone till slide initialization.
 - `carouselRef.recalculate()`: recalculate positions
+- `carouselRef.slideIndex`: returns current active slide index, might be useful for composing paginators
 
 ### PreventGhostClickDirective
 
 selector: `[ngCarouselPreventGhostClick]`
 
 #### Usage
-Use directive on button, anchor or any clickable element. This will prevent ghost clicks after pan ends.
+Use directive on button, anchor or any clickable/draggable element. This will prevent ghost clicks after pan ends.
 
 ```HTML
 <ng-carousel>
