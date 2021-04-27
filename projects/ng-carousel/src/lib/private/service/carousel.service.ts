@@ -46,7 +46,7 @@ export class CarouselService<T> implements OnDestroy {
     private readonly procedureEnvironment: ProcedureEnvironment = {
         slideIdGenerator: this.slideIdGenerator,
         isBrowser: isPlatformBrowser(this.platformId),
-        autoplayAction: this.next.bind(this),
+        autoplayAction: this.next.bind(this, true),
         afterAnimationAction: this.cleanup.bind(this),
         animationBuilder: this.animationBuilder,
         animationBezierArgs: ANIMATION_BEZIER_ARGS,
