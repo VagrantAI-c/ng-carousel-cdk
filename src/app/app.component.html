@@ -10,7 +10,7 @@
         (itemIndexChange)="setItemIndex($event)"
         class="carousel-block">
         <ng-template
-            ngCarouselSlide
+            [ngCarouselSlide]="carouselRef"
             let-item
             let-active="isActive"
             let-activeOnTheRight="activeOnTheRight"

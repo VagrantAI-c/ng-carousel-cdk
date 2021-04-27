@@ -1,13 +1,22 @@
-import { Directive, TemplateRef } from '@angular/core';
+import { Directive, Input, TemplateRef } from '@angular/core';
+
+import { CarouselComponent } from './carousel.component';
+import { CarouselSlideContext } from './private/models/carousel-slide-context';
 
 @Directive({
     selector: '[ngCarouselSlide]',
 })
-export class CarouselSlideDirective {
+export class CarouselSlideDirective<T> {
+
+    @Input() ngCarouselSlide: CarouselComponent<T> | null | '' = null;
 
     constructor(
-        public templateRef: TemplateRef<any>,
+        public templateRef: TemplateRef<CarouselSlideContext<T>>,
     ) {
+    }
+
+    static ngTemplateContextGuard<T>(dir: CarouselSlideDirective<T>, ctx: CarouselSlideContext<T>): ctx is CarouselSlideContext<T> {
+        return true;
     }
 
 }

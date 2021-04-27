@@ -36,7 +36,7 @@ export function idGeneratorFactory(): IdGenerator {
  */
 export class CarouselComponent<T = any> {
 
-    @ContentChild(CarouselSlideDirective) set slideRef(newSlideRef: CarouselSlideDirective) {
+    @ContentChild(CarouselSlideDirective) set slideRef(newSlideRef: CarouselSlideDirective<T>) {
         this.carousel.setSlideTemplate(newSlideRef
             ? newSlideRef.templateRef
             : null
