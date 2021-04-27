@@ -3,7 +3,7 @@
  */
 export interface CarouselSlideContext<T> {
 
-    $implicit: T | null;
+    $implicit: T;
     itemIndex: number;
     isActive: boolean;
     inViewport: boolean;

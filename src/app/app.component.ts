@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
+import { CarouselItem } from './models/carousel-item.interface';
 
-import { CarouselWidthMode, CarouselComponent, CarouselConfig, CarouselAlignMode } from '../../projects/ng-carousel/src/public-api';
 
 @Component({
     selector: 'app-root',
@@ -15,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(CarouselComponent, {static: true}) carouselRef?: CarouselComponent;
 
-    config: Partial<CarouselConfig> = {
+    config: Partial<CarouselConfig<CarouselItem>> = {
         widthMode: CarouselWidthMode.PERCENT,
         slideWidth: 100,
         transitionDuration: 2500,
@@ -123,7 +124,7 @@ export class AppComponent implements OnInit, OnDestroy {
             : this.MAX_WIDTH_PIXELS;
     }
 
-    private assignItems(quantity: number): any[] {
+    private assignItems(quantity: number): CarouselItem[] {
         const items = [];
         for (let i = 0; i < quantity; i++) {
             items.push({name: i + 1, image: `url(https://via.placeholder.com/150)`});
