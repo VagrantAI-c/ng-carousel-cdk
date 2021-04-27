@@ -53,6 +53,10 @@ export class CarouselComponent<T = any> {
             map((state: CarouselState<T>) => state.activeItemIndex),
         );
 
+    get slideIndex(): number {
+        return this.carousel.getItemIndex();
+    }
+
     constructor(
         private carousel: CarouselService<T>,
     ) {
