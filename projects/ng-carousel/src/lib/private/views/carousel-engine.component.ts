@@ -280,6 +280,9 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
             return;
         }
+        if (this.document.hidden) {
+            this.carousel.disableAutoplay(AutoplaySuspender.BLUR);
+        }
         this.visibilityListener = this.renderer.listen(this.document, 'visibilitychange', () => {
             if (this.document.hidden) {
                 this.carousel.disableAutoplay(AutoplaySuspender.BLUR);

@@ -9,7 +9,7 @@ import { setSlideIndexProcedure } from './set-slide-index-procedure';
  */
 export function nextProcedure(omitAutoplayReset = false): Procedure {
     return procedurePipe('next',
-        omitAutoplayReset ? enableAutoplayProcedure() : null,
+        omitAutoplayReset ? null : enableAutoplayProcedure(),
         getNextIndexProcedure(),
         setSlideIndexProcedure(),
     );
