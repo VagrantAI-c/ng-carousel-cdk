@@ -1,4 +1,4 @@
-import { isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { fromEvent, Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
@@ -34,6 +34,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     private mouseLeaveDestructor: (() => void) | null = null;
     private keyboardListener: (() => void) | null = null;
     private containerScrollListener: (() => void) | null = null;
+    private visibilityListener: (() => void) | null = null;
     private hammerManager: HammerManager | null = null;
 
     private get htmlElement(): HTMLElement {
@@ -45,6 +46,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
         private hammer: HammerProviderService,
+        @Inject(DOCUMENT) private document: Document,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
@@ -56,6 +58,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         this.listenToResizeEvents();
         this.listenToKeyEvents();
         this.listenToScrollEvents();
+        this.listenToVisibilityEvents();
         if (this.galleryRef?.nativeElement) {
             this.carousel.setContainers(this.htmlElement, this.galleryRef?.nativeElement ?? null);
         } else {
@@ -64,10 +67,11 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     }
 
     ngOnDestroy(): void {
-        this.destroyMouseListeners();
-        this.destroyHammer();
-        this.destroyKeyboardListeners();
-        this.destroyElementScrollListener();
+        this.mouseEnterDestructor?.();
+        this.mouseLeaveDestructor?.();
+        this.keyboardListener?.();
+        this.containerScrollListener?.();
+        this.visibilityListener?.();
         this.destroyed$.next();
         this.destroyed$.complete();
     }
@@ -97,32 +101,6 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         this.carousel.enableAutoplay(AutoplaySuspender.FOCUS);
     }
 
-    private destroyMouseListeners(): void {
-        if (this.mouseEnterDestructor) {
-            this.mouseEnterDestructor();
-        }
-        if (this.mouseLeaveDestructor) {
-            this.mouseLeaveDestructor();
-        }
-    }
-
-    private destroyHammer(): void {
-        if (this.hammerManager) {
-            this.hammerManager.destroy();
-        }
-    }
-
-    private destroyKeyboardListeners(): void {
-        if (this.keyboardListener) {
-            this.keyboardListener();
-        }
-    }
-
-    private destroyElementScrollListener(): void {
-        if (this.containerScrollListener) {
-            this.containerScrollListener();
-        }
-    }
 
     private transformValueChanges(): Observable<string> {
         return this.carousel.carouselStateChanges()
@@ -164,12 +142,8 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
                 takeUntil(this.destroyed$),
             )
             .subscribe((autoplayEnabled: boolean) => {
-                if (this.mouseEnterDestructor) {
-                    this.mouseEnterDestructor();
-                }
-                if (this.mouseLeaveDestructor) {
-                    this.mouseLeaveDestructor();
-                }
+                this.mouseEnterDestructor?.();
+                this.mouseLeaveDestructor?.();
                 if (!autoplayEnabled) {
 
                     return;
@@ -292,8 +266,26 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
      * container to initial position when that happens.
      */
     private listenToScrollEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         this.containerScrollListener = this.renderer.listen(this.htmlElement, 'scroll', () => {
             this.htmlElement.scrollTo(0, 0);
+        });
+    }
+
+    private listenToVisibilityEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
+        this.visibilityListener = this.renderer.listen(this.document, 'visibilitychange', () => {
+            if (this.document.hidden) {
+                this.carousel.disableAutoplay(AutoplaySuspender.BLUR);
+            } else {
+                this.carousel.enableAutoplay(AutoplaySuspender.BLUR);
+            }
         });
     }
 }

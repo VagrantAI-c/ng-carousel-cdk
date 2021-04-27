@@ -6,4 +6,6 @@ export const enum AutoplaySuspender {
     FOCUS = 'focus',
     /** Whether drag is outgoing */
     DRAG = 'drag',
+    /** Whether page is currently invisible (tab switched etc.) */
+    BLUR = 'blur',
 }
