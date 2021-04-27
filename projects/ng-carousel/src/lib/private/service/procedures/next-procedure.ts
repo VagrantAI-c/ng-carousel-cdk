@@ -1,4 +1,4 @@
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
 import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autoplay-procedure';
 import { getNextIndexProcedure } from '../helpers/get-next-index/get-next-index-procedure';

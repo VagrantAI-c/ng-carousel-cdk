@@ -1,4 +1,5 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { CarouselSlideParams } from '../../../models/carousel-slide-params';
 import { IdGenerator } from '../../../models/id-generator';
 
 /**
@@ -17,7 +18,14 @@ export function initializeCarousel(
     const newSlides = new Array(items.length);
 
     for (let i = 0; i < items.length; i++) {
-        newSlides[i] = new CarouselSlide(idGenerator.next(), i, {item: items[i], isActive: i === 0, inViewport: false});
+        const state: CarouselSlideParams = {
+            item: items[i],
+            isActive: i === 0,
+            inViewport: false,
+            activeOnTheLeft: i > 0,
+            activeOnTheRight: false,
+        };
+        newSlides[i] = new CarouselSlide(idGenerator.next(), i, state);
     }
 
     return newSlides;

@@ -1,4 +1,5 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { CarouselSlideParams } from '../../../models/carousel-slide-params';
 import { IdGenerator } from '../../../models/id-generator';
 import { CopySlidesResult } from './models/copy-slides-result';
 import { ShuffleSlidesResult } from './models/shuffle-slides-result';
@@ -13,13 +14,17 @@ import { ShuffleSlidesResult } from './models/shuffle-slides-result';
  *
  * **BE ADVICED**, that inViewport flag should be calculated for each slide
  * that should not be moved beforehand.
+ *
+ * **BE ADVICED**, that slides should be marked with active flag afterwards,
+ * since shuffle might break actual order and does not care where the active
+ * slide is.
  */
 export function shuffleSlides<T>(
     slides: CarouselSlide<T>[],
     offset: number,
     slideWidth: number,
     viewportWidth: number,
-    items: any[],
+    items: T[],
     shouldLoop: boolean,
     threshold: number = 0,
     idGenerator = new IdGenerator(),
@@ -33,6 +38,7 @@ export function shuffleSlides<T>(
         return new ShuffleSlidesResult(slides, offset);
     }
 
+    let shuffledSlides: CarouselSlide<T>[] = slides;
     const slideSumWidth = slides.length * slideWidth;
 
     // Calculate missing slides for left and right sides
@@ -41,43 +47,35 @@ export function shuffleSlides<T>(
 
     // Let's start to fill missing slides
 
-    /**
-     * Item indexes that should be marked as copies after
-     * function completes
-     */
-    let unmarkedItemIndexes: number[] = [];
-
     // Should move slides to right side
     if (rightSideMissingSlides) {
         const rightSideMoveResult = moveOrCopySlidesToEnd(
-            slides,
+            shuffledSlides,
             offset,
             rightSideMissingSlides,
             slideWidth,
             items,
             idGenerator,
         );
-        slides = rightSideMoveResult.slides;
+        shuffledSlides = rightSideMoveResult.slides;
         offset = rightSideMoveResult.modifiedOffset;
-        unmarkedItemIndexes = rightSideMoveResult.unmarkedItemIndexes;
     }
 
     // Should move slides to left side
     if (leftSideMissingSlides) {
         const leftSideMoveResult = moveOrCopySlidesToStart(
-            slides,
+            shuffledSlides,
             offset,
             leftSideMissingSlides,
             slideWidth,
             items,
             idGenerator,
         );
-        slides = leftSideMoveResult.slides;
+        shuffledSlides = leftSideMoveResult.slides;
         offset = leftSideMoveResult.modifiedOffset;
-        unmarkedItemIndexes = unmarkedItemIndexes.concat(leftSideMoveResult.unmarkedItemIndexes);
     }
 
-    const result = new ShuffleSlidesResult(slides, offset);
+    const result = new ShuffleSlidesResult(shuffledSlides, offset);
 
     return result;
 }
@@ -120,17 +118,17 @@ export function moveOrCopySlidesToEnd<T>(
     offset: number,
     quantity: number,
     slideWidth: number,
-    items: any[],
+    items: T[],
     idGenerator = new IdGenerator(),
 ): CopySlidesResult<T> {
     if (quantity < 1) {
 
-        return new CopySlidesResult(slides, offset, []);
+        return new CopySlidesResult(slides, offset);
     }
 
-    const newSlides = [];
-    /** Item indexes that should be marked as copies later */
-    const unmarkedItemIndexes = [];
+    slides = [...slides]; // Shallow copy, since we're going to mutate them;
+
+    const newSlides: CarouselSlide<T>[] = [];
     /** Used as argument for splice call later */
     let spliceQuantity = 0;
     /**
@@ -177,18 +175,22 @@ export function moveOrCopySlidesToEnd<T>(
             const currentSlide = slides[slideIndex];
 
             // Create new slide procedure
-            const newOptions = Object.assign({}, currentSlide.options);
-            // There should be an already existing isActive slide,
-            // so we turning isActive off for copy
-            newOptions.isActive = false;
-            // Every filled item is considered to be in viewport,
-            // because why else would we call this function
-            // otherwise? To fill viewport obviously.
-            newOptions.inViewport = true;
             const newSlide = new CarouselSlide(
                 idGenerator.next(),
                 nextItemId,
-                newOptions
+                {
+                    item: currentSlide.options.item,
+                    // Every filled item is considered to be in viewport,
+                    // because why else would we call this function
+                    // otherwise? To fill viewport obviously.
+                    inViewport: true,
+
+                    // Shuffling does not care about active slides,
+                    // use default values
+                    isActive: false,
+                    activeOnTheLeft: false,
+                    activeOnTheRight: false,
+                },
             );
             newSlides.push(newSlide);
 
@@ -224,13 +226,15 @@ export function moveOrCopySlidesToEnd<T>(
                     // otherwise? To fill viewport obviously.
                     inViewport: true,
                     item: items[nextItemId],
-                    // There should be an already existing isActive slide,
-                    // so we turning isActive off for copy
+
+                    // Shuffling does not care about active slides,
+                    // use default values
                     isActive: false,
+                    activeOnTheLeft: false,
+                    activeOnTheRight: false,
                 },
             );
             newSlides.push(newSlide);
-            unmarkedItemIndexes.push(nextItemId);
         }
 
         // Pick index for next item
@@ -245,11 +249,11 @@ export function moveOrCopySlidesToEnd<T>(
     }
     const resultSlides = [
         ...slides,
-        ...newSlides
+        ...newSlides,
     ];
     const resultOffset = offset + spliceQuantity * slideWidth;
 
-    return new CopySlidesResult(resultSlides, resultOffset, unmarkedItemIndexes);
+    return new CopySlidesResult(resultSlides, resultOffset);
 }
 
 /**
@@ -290,17 +294,17 @@ export function moveOrCopySlidesToStart<T>(
     offset: number,
     quantity: number,
     slideWidth: number,
-    items: any[],
+    items: T[],
     idGenerator = new IdGenerator(),
 ): CopySlidesResult<T> {
     if (quantity < 1) {
 
-        return new CopySlidesResult(slides, offset, []);
+        return new CopySlidesResult(slides, offset);
     }
 
-    const newSlides = [];
-    /** Item indexes that should be marked as copies later */
-    const unmarkedItemIndexes = [];
+    slides = [...slides]; // Shallow copy, since we're going to mutate them;
+
+    const newSlides: CarouselSlide<T>[] = [];
     /** Used as argument for splice call later */
     let spliceFrom = null;
     /** Used as argument for splice call later */
@@ -331,6 +335,11 @@ export function moveOrCopySlidesToStart<T>(
         : firstSlide.itemIndex - 1;
 
     for (let i = 0; i < quantity; i++) {
+        /**
+         * Having this field as true means slides from left and right
+         * side (including new slides) can stack and we can proceed to
+         * COPY option
+         */
         const lastSlideHasNextItemId = slides[slides.length - 1].itemIndex === nextItemId;
 
         if (shouldCopy || lastSlideHasNextItemId) {
@@ -340,18 +349,22 @@ export function moveOrCopySlidesToStart<T>(
             const currentSlide = slides[slideIndex];
 
             // Slide copy procedure
-            const newOptions = Object.assign({}, currentSlide.options);
-            // There should be an already existing isActive slide,
-            // so we turning isActive off for copy
-            newOptions.isActive = false;
-            // Every filled item is considered to be in viewport,
-            // because why else would we call this function
-            // otherwise? To fill viewport obviously.
-            newOptions.inViewport = true;
             const newSlide = new CarouselSlide(
                 idGenerator.next(),
                 nextItemId,
-                newOptions,
+                {
+                    item: currentSlide.options.item,
+                    // Every filled item is considered to be in viewport,
+                    // because why else would we call this function
+                    // otherwise? To fill viewport obviously.
+                    inViewport: true,
+
+                    // Shuffling does not care about active slides,
+                    // use default values
+                    isActive: false,
+                    activeOnTheLeft: false,
+                    activeOnTheRight: false,
+                },
             );
             newSlides.push(newSlide);
 
@@ -392,13 +405,15 @@ export function moveOrCopySlidesToStart<T>(
                     // otherwise? To fill viewport obviously.
                     inViewport: true,
                     item: items[nextItemId],
-                    // There should be an already existing isActive slide,
-                    // so we turning isActive off for copy
+
+                    // Shuffling does not care about active slides,
+                    // use default values
                     isActive: false,
+                    activeOnTheLeft: false,
+                    activeOnTheRight: false,
                 },
             );
             newSlides.push(newSlide);
-            unmarkedItemIndexes.push(nextItemId);
         }
 
         // Pick index for next item
@@ -419,5 +434,5 @@ export function moveOrCopySlidesToStart<T>(
         ...slides,
     ];
 
-    return new CopySlidesResult(result, offset - newSlides.length * slideWidth, unmarkedItemIndexes);
+    return new CopySlidesResult(result, offset - newSlides.length * slideWidth);
 }

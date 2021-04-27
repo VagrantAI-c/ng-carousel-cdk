@@ -1,4 +1,4 @@
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
 import { animationOffsetSnapshotProcedure } from '../helpers/animation-offset-snapshot/animation-offset-snapshot-procedure';
 import { calculateOffsetProcedure } from '../helpers/calculate-offset/calculate-offset-procedure';
@@ -19,6 +19,7 @@ export function setSlideIndexProcedure(): Procedure {
         markVisibleAndActiveProcedure(),
         calculateOffsetProcedure(),
         shuffleSlidesProcedure(),
+        markVisibleAndActiveProcedure(),
         startAnimationProcedure(),
     );
 }

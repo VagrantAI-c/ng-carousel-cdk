@@ -1,4 +1,5 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { MOCK_SLIDE_PARAMS } from '../../../models/test/mock-slide-params.const';
 import { moveOrCopySlidesToEnd, moveOrCopySlidesToStart, shuffleSlides } from './shuffle-slides';
 
 describe('weight calculation test suite', () => {
@@ -12,23 +13,30 @@ describe('weight calculation test suite', () => {
 
         beforeEach(() => {
             slides3 = [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 2),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
             ];
             items3 = [1, 2, 3];
             slides6 = [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 2),
-                new CarouselSlide(3, 3),
-                new CarouselSlide(4, 4),
-                new CarouselSlide(5, 5),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(3, 3, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(4, 4, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(5, 5, MOCK_SLIDE_PARAMS),
             ];
             items6 = [1, 2, 3, 4, 5, 6];
         });
 
-        it('must shuffle common pattern', () => {
+        it('must not shuffle when there is no need to mix', () => {
+            /*
+                0%                         100%
+                [    40    ][    40    ][    |40    ]
+                   slide 0     slide 1     slide 2
+
+                - balance is fine, no shuffle required
+            */
             const modifiedOffset = 0;
             const slideWidth = 40;
             const viewportWidth = 100;
@@ -49,11 +57,27 @@ describe('weight calculation test suite', () => {
         });
 
         it('must shuffle with offset', () => {
+            /*
+                0%                  100%
+                |  [      90      ][  |  90      ][      90      ]
+                  5%    slide 0        slide 1         slide 2
+
+                - slide 2 expected to be shuffled to the right slide
+                - offset change from 5 to -85
+            */
             const modifiedOffset = 5;
             const slideWidth = 90;
             const viewportWidth = 100;
-            slides3[0].options.inViewport = true;
-            slides3[1].options.inViewport = true;
+            slides3[0] = new CarouselSlide(
+                slides3[0].id,
+                slides3[0].itemIndex,
+                {...slides3[0].options, inViewport: true},
+            );
+            slides3[1] = new CarouselSlide(
+                slides3[1].id,
+                slides3[1].itemIndex,
+                {...slides3[0].options, inViewport: true},
+            );
             const shouldLoop = true;
             const result = shuffleSlides(
                 slides3,
@@ -72,6 +96,13 @@ describe('weight calculation test suite', () => {
         });
 
         it('must move slides from right side', () => {
+            /*
+                0%                               100%
+                |      [      40      ][     40    |  ][      40      ]
+                      30%   slide 0        slide 1          slide 2
+
+                - slide 2 expected to be shuffled to the left side
+            */
             const modifiedOffset = 30;
             const slideWidth = 40;
             const viewportWidth = 100;
@@ -123,9 +154,9 @@ describe('weight calculation test suite', () => {
             const shouldLoop = true;
             const result = shuffleSlides(
                 [
-                    new CarouselSlide(0, 0, {inViewport: true}),
-                    new CarouselSlide(1, 1, {inViewport: true}),
-                    new CarouselSlide(2, 2, {inViewport: true}),
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: true}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, inViewport: true}),
+                    new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, inViewport: true}),
                 ],
                 modifiedOffset,
                 slideWidth,
@@ -241,8 +272,8 @@ describe('weight calculation test suite', () => {
             const shouldLoop = true;
             const result = shuffleSlides(
                 [
-                    new CarouselSlide(0, 0),
-                    new CarouselSlide(1, 1, {inViewport: true}),
+                    new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, inViewport: true}),
                 ],
                 modifiedOffset,
                 slideWidth,
@@ -265,7 +296,7 @@ describe('weight calculation test suite', () => {
             const shouldLoop = true;
             const result = shuffleSlides(
                 [
-                    new CarouselSlide(0, 0, {inViewport: true}),
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: true}),
                 ],
                 modifiedOffset,
                 slideWidth,
@@ -308,9 +339,9 @@ describe('weight calculation test suite', () => {
             const shouldLoop = true;
             const result = shuffleSlides(
                 [
-                    new CarouselSlide(0, 0, {isActive: true, inViewport: true}),
-                    new CarouselSlide(1, 1, {inViewport: true}),
-                    new CarouselSlide(2, 2, {inViewport: true}),
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, isActive: true, inViewport: true}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, inViewport: true}),
+                    new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, inViewport: true}),
                 ],
                 offset,
                 slideWidth,
@@ -329,9 +360,9 @@ describe('weight calculation test suite', () => {
 
         it('must not shuffle when not looping', () => {
             const slides = [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 2),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
             ];
             const offset = 45;
             const slideWidth = 10;
@@ -366,10 +397,10 @@ describe('weight calculation test suite', () => {
         it('must mark copy slides', () => {
             const items = [0, 1, 2, 3];
             const slides = [
-                new CarouselSlide(0, 1, {inViewport: true, item: items[1], isActive: false}),
-                new CarouselSlide(0, 2, {inViewport: true, item: items[2], isActive: false}),
-                new CarouselSlide(0, 3, {inViewport: true, item: items[3], isActive: false}),
-                new CarouselSlide(0, 0, {inViewport: true, item: items[0], isActive: true}),
+                new CarouselSlide(0, 1, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}),
+                new CarouselSlide(0, 2, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}),
+                new CarouselSlide(0, 3, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[3], isActive: false}),
+                new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: true}),
             ];
             const offset = 45;
             const slideWidth = 10;
@@ -392,9 +423,9 @@ describe('weight calculation test suite', () => {
             // Imagine slide transition from slide 1 to slide 2.
             // We expect slide 0 to move to the end
             const slides = [
-                new CarouselSlide(0, 0, {inViewport: false, item: items[0], isActive: false}),
-                new CarouselSlide(0, 1, {inViewport: true, item: items[1], isActive: false}),
-                new CarouselSlide(0, 2, {inViewport: true, item: items[2], isActive: true}),
+                new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: false, item: items[0], isActive: false}),
+                new CarouselSlide(0, 1, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}),
+                new CarouselSlide(0, 2, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: true}),
             ];
             const offset = -200;
             const slideWidth = 100;
@@ -422,9 +453,9 @@ describe('weight calculation test suite', () => {
             // Imagine slide transition from slide 1 to slide 2.
             // We expect slide 0 to move to the end
             const slides = [
-                new CarouselSlide(0, 0, {inViewport: true, item: items[0], isActive: true}),
-                new CarouselSlide(0, 1, {inViewport: true, item: items[1], isActive: false}),
-                new CarouselSlide(0, 2, {inViewport: false, item: items[2], isActive: false}),
+                new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: true}),
+                new CarouselSlide(0, 1, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}),
+                new CarouselSlide(0, 2, {...MOCK_SLIDE_PARAMS, inViewport: false, item: items[2], isActive: false}),
             ];
             const offset = 0;
             const slideWidth = 100;
@@ -456,11 +487,11 @@ describe('weight calculation test suite', () => {
 
         beforeEach(() => {
             slides5 = [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 2),
-                new CarouselSlide(3, 3),
-                new CarouselSlide(4, 4),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(3, 3, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(4, 4, MOCK_SLIDE_PARAMS),
             ];
             items5 = ['a', 'b', 'c', 'd', 'e'];
         });
@@ -483,7 +514,6 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(2, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(3, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(20, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must move slide to end for quantity equals one', () => {
@@ -504,7 +534,6 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(4, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(0, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must move zero slides to end on negative quantity', () => {
@@ -525,15 +554,14 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(3, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must move zero slides to end on quantity is higher than slides length', () => {
             const items = ['a', 'b', 'c'];
             const slides = [
-                new CarouselSlide(0, 0, {inViewport: true, item: items[0]}),
-                new CarouselSlide(1, 1, {item: items[1]}),
-                new CarouselSlide(2, 2, {item: items[2]}),
+                new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]}),
+                new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items[1]}),
+                new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, item: items[2]}),
             ];
             const offset = 0;
             const quantity = 4;
@@ -555,39 +583,39 @@ describe('weight calculation test suite', () => {
             expect(result.slides[6].itemIndex).toBe(0, 'incorrect 6 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({item: items[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({item: items[2]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[2]});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.slides[4].options)
                 .withContext('incorrect 4 options')
-                .toEqual({inViewport: true, item: items[1], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
             expect(result.slides[5].options)
                 .withContext('incorrect 5 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[6].options)
                 .withContext('incorrect 6 options')
-                .toEqual({inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must copy slides to end with viewport flag', () => {
             const offset = 0;
             const quantity = 3;
             const slideWidth = 5;
-            const result = moveOrCopySlidesToEnd([
-                    new CarouselSlide(0, 0),
-                    new CarouselSlide(1, 1, {inViewport: true}),
-                    new CarouselSlide(2, 2),
-                    new CarouselSlide(3, 3),
-                    new CarouselSlide(4, 4),
+            const result = moveOrCopySlidesToEnd(
+                [
+                    new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, inViewport: true}),
+                    new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(3, 3, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(4, 4, MOCK_SLIDE_PARAMS),
                 ],
                 offset,
                 quantity,
@@ -604,34 +632,34 @@ describe('weight calculation test suite', () => {
             expect(result.slides[6].itemIndex).toBe(2, 'incorrect 6 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({});
+                .toEqual(MOCK_SLIDE_PARAMS);
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({});
+                .toEqual(MOCK_SLIDE_PARAMS);
             expect(result.slides[4].options)
                .withContext('incorrect 4 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.slides[5].options)
                 .withContext('incorrect 5 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.slides[6].options)
                 .withContext('incorrect 6 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must fill remaining slides to end', () => {
             const offset = 0;
             const quantity = 2;
             const slideWidth = 5;
-            const result = moveOrCopySlidesToEnd([
-                    new CarouselSlide(0, 0, {item: items5[0]}),
-                    new CarouselSlide(1, 1, {item: items5[1]}),
-                    new CarouselSlide(2, 2, {item: items5[2]}),
+            const result = moveOrCopySlidesToEnd(
+                [
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0]}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1]}),
+                    new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, item: items5[2]}),
                 ],
                 offset,
                 quantity,
@@ -646,26 +674,20 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({item: items5[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({item: items5[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({item: items5[2]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({inViewport: true, item: items5[3], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false});
             expect(result.slides[4].options)
                 .withContext('incorrect 4 options')
-                .toEqual({inViewport: true, item: items5[4], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(3);
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(4);
         });
 
         it('must fill and copy slides to end', () => {
@@ -673,9 +695,10 @@ describe('weight calculation test suite', () => {
             const quantity = 2;
             const slideWidth = 5;
             const items = ['a', 'b', 'c'];
-            const result = moveOrCopySlidesToEnd([
-                    new CarouselSlide(0, 0, {item: items5[0], inViewport: true}),
-                    new CarouselSlide(1, 1, {item: items5[1]}),
+            const result = moveOrCopySlidesToEnd(
+                [
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0], inViewport: true}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1]}),
                 ],
                 offset,
                 quantity,
@@ -689,20 +712,17 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(0, 'incorrect 3 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({item: items[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(2);
         });
 
         it('must fill and move slides to end', () => {
@@ -710,9 +730,10 @@ describe('weight calculation test suite', () => {
             const quantity = 2;
             const slideWidth = 5;
             const items = ['a', 'b', 'c'];
-            const result = moveOrCopySlidesToEnd([
-                    new CarouselSlide(0, 0, {item: items5[0]}),
-                    new CarouselSlide(1, 1, {item: items5[1]}),
+            const result = moveOrCopySlidesToEnd(
+                [
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0]}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1]}),
                 ],
                 offset,
                 quantity,
@@ -725,17 +746,14 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({item: items[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(2);
         });
     });
 
@@ -746,11 +764,11 @@ describe('weight calculation test suite', () => {
 
         beforeEach(() => {
             slides5 = [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 2),
-                new CarouselSlide(3, 3),
-                new CarouselSlide(4, 4),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(3, 3, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(4, 4, MOCK_SLIDE_PARAMS),
             ];
             items5 = ['a', 'b', 'c', 'd', 'e'];
         });
@@ -773,7 +791,6 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(0, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(1, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(-15, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must move zero slides to start on negative range', () => {
@@ -794,15 +811,14 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(3, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must copy slides to start on quantity is higher than slides length', () => {
             const items = ['a', 'b', 'c'];
             const slides = [
-                new CarouselSlide(0, 0, {item: items[0]}),
-                new CarouselSlide(1, 1, {item: items[1]}),
-                new CarouselSlide(2, 2, {inViewport: true, item: items[2]}),
+                new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items[0]}),
+                new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items[1]}),
+                new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2]}),
             ];
             const offset = 0;
             const quantity = 4;
@@ -824,27 +840,26 @@ describe('weight calculation test suite', () => {
             expect(result.slides[6].itemIndex).toBe(2, 'incorrect 6 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({inViewport: true, item: items[1], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[4].options)
                 .withContext('incorrect 4 options')
-                .toEqual({item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
             expect(result.slides[5].options)
                 .withContext('incorrect 5 options')
-                .toEqual({item: items[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
             expect(result.slides[6].options)
                 .withContext('incorrect 6 options')
-                .toEqual({inViewport: true, item: items[2]});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2]});
             expect(result.modifiedOffset).toBe(-20, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must move slide to start on range equals one', () => {
@@ -867,21 +882,19 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(2, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(3, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(-5, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length)
-                .withContext('incorrect unmarked items length')
-                .toBe(0);
         });
 
         it('must copy slides to start with viewport flag in the middle', () => {
             const offset = 0;
             const quantity = 3;
             const slideWidth = 5;
-            const result = moveOrCopySlidesToStart([
-                    new CarouselSlide(0, 0),
-                    new CarouselSlide(1, 1),
-                    new CarouselSlide(2, 2),
-                    new CarouselSlide(3, 3, {inViewport: true}),
-                    new CarouselSlide(4, 4),
+            const result = moveOrCopySlidesToStart(
+                [
+                    new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+                    new CarouselSlide(3, 3, {...MOCK_SLIDE_PARAMS, inViewport: true}),
+                    new CarouselSlide(4, 4, MOCK_SLIDE_PARAMS),
                 ],
                 offset,
                 quantity,
@@ -898,24 +911,23 @@ describe('weight calculation test suite', () => {
             expect(result.slides[6].itemIndex).toBe(3, 'incorrect 6 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({inViewport: true, isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({});
+                .toEqual(MOCK_SLIDE_PARAMS);
             expect(result.slides[4].options)
                 .withContext('incorrect 4 options')
-                .toEqual({});
+                .toEqual(MOCK_SLIDE_PARAMS);
             expect(result.slides[6].options)
                 .withContext('incorrect 6 options')
-                .toEqual({inViewport: true});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true});
             expect(result.modifiedOffset).toBe(-15, 'incorrect offset');
-            expect(result.unmarkedItemIndexes.length).toBe(0, 'incorrect unmarked items length');
         });
 
         it('must fill remaining slides to start', () => {
@@ -923,9 +935,9 @@ describe('weight calculation test suite', () => {
             const quantity = 2;
             const slideWidth = 5;
             const result = moveOrCopySlidesToStart([
-                    new CarouselSlide(0, 0, {item: items5[0]}),
-                    new CarouselSlide(1, 1, {item: items5[1]}),
-                    new CarouselSlide(2, 2, {item: items5[2]}),
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0]}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1]}),
+                    new CarouselSlide(2, 2, {...MOCK_SLIDE_PARAMS, item: items5[2]}),
                 ],
                 offset,
                 quantity,
@@ -940,26 +952,20 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(2, 'incorrect 4 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items5[3], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, item: items5[4], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({item: items5[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({item: items5[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]});
             expect(result.slides[4].options)
                 .withContext('incorrect 4 options')
-                .toEqual({item: items5[2]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(3);
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(4);
         });
 
         it('must fill and copy slides to start', () => {
@@ -968,8 +974,8 @@ describe('weight calculation test suite', () => {
             const slideWidth = 5;
             const items = ['a', 'b', 'c'];
             const result = moveOrCopySlidesToStart([
-                    new CarouselSlide(0, 0, {item: items5[0]}),
-                    new CarouselSlide(1, 1, {item: items5[1], inViewport: true}),
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0]}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1], inViewport: true}),
                 ],
                 offset,
                 quantity,
@@ -983,20 +989,17 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(1, 'incorrect 3 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items[1], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
             expect(result.slides[3].options)
                 .withContext('incorrect 3 options')
-                .toEqual({item: items[1], inViewport: true});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1], inViewport: true});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(2);
         });
 
         it('must fill and move slides to start', () => {
@@ -1004,9 +1007,10 @@ describe('weight calculation test suite', () => {
             const quantity = 2;
             const slideWidth = 5;
             const items = ['a', 'b', 'c'];
-            const result = moveOrCopySlidesToStart([
-                    new CarouselSlide(0, 0, {item: items5[0]}),
-                    new CarouselSlide(1, 1, {item: items5[1]}),
+            const result = moveOrCopySlidesToStart(
+                [
+                    new CarouselSlide(0, 0, {...MOCK_SLIDE_PARAMS, item: items5[0]}),
+                    new CarouselSlide(1, 1, {...MOCK_SLIDE_PARAMS, item: items5[1]}),
                 ],
                 offset,
                 quantity,
@@ -1019,17 +1023,14 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
             expect(result.slides[0].options)
                 .withContext('incorrect 0 options')
-                .toEqual({inViewport: true, item: items[1], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
             expect(result.slides[1].options)
                 .withContext('incorrect 1 options')
-                .toEqual({inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
             expect(result.slides[2].options)
                 .withContext('incorrect 2 options')
-                .toEqual({item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
-            expect(result.unmarkedItemIndexes)
-                .withContext('incorrect unmarked items')
-                .toContain(2);
         });
     });
 

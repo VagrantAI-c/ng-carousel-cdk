@@ -13,6 +13,8 @@ describe('initializeCarousel test suite', () => {
                 item: items[i],
                 isActive: i === 0,
                 inViewport: false,
+                activeOnTheLeft: i > 0,
+                activeOnTheRight: false,
             });
         }
     });

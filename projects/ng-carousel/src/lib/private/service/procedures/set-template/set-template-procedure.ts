@@ -1,4 +1,5 @@
 import { TemplateRef } from '@angular/core';
+import { CarouselState } from '../../../models/carousel-state';
 
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
@@ -10,8 +11,11 @@ import { Procedure } from '../../../models/procedure/procedure.type';
  */
 export function setTemplateProcedure(template: TemplateRef<any> | null): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
-        state.template = template;
+        const modifiedState: CarouselState = {
+            ...state,
+            template,
+        };
 
-        return new ContinueWith(state);
+        return new ContinueWith(modifiedState);
     };
 }

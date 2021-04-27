@@ -1,15 +1,16 @@
 import { CarouselAlignMode } from '../../../../../public-api';
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { MOCK_SLIDE_PARAMS } from '../../../models/test/mock-slide-params.const';
 import { calculateActiveSlide } from './calculate-active-slide';
 import { CalculateActiveSlideResult } from './models/calculate-active-slide-result';
 
 describe('calculateActiveSlide suite', () => {
 
     const slides4 = [
-        new CarouselSlide(0, 0),
-        new CarouselSlide(1, 0),
-        new CarouselSlide(2, 0),
-        new CarouselSlide(3, 0),
+        new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+        new CarouselSlide(1, 0, MOCK_SLIDE_PARAMS),
+        new CarouselSlide(2, 0, MOCK_SLIDE_PARAMS),
+        new CarouselSlide(3, 0, MOCK_SLIDE_PARAMS),
     ];
 
     it('must calculate no slides', () => {

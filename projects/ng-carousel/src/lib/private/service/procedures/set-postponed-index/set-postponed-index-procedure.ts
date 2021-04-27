@@ -1,7 +1,7 @@
 import { ComposedProcedure } from '../../../models/procedure/composed-procedure.type';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
-import { procedurePipe } from '../../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../../models/procedure/procedure-pipe/procedure-pipe';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { goToProcedure } from '../go-to-procedure';

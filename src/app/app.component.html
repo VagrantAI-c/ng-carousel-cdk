@@ -1,5 +1,5 @@
 <div class="app-body mat-typography">
-    <mat-toolbar 
+    <mat-toolbar
         color="primary"
         class="toolbar-block">
         Carousel demo
@@ -8,7 +8,12 @@
         [config]="config"
         (itemIndexChange)="setItemIndex($event)"
         class="carousel-block">
-        <ng-template ngCarouselSlide let-item let-active="isActive">
+        <ng-template
+            ngCarouselSlide
+            let-item
+            let-active="isActive"
+            let-activeOnTheRight="activeOnTheRight"
+            let-activeOnTheLeft="activeOnTheLeft">
             <div
                 [class.active]="active"
                 [style.background-image]="item.image"
@@ -16,23 +21,35 @@
                 <h2>
                     {{item.name}}
                 </h2>
-                <button 
+                <button
                     mat-raised-button
                     ngCarouselPreventGhostClick
                     color="primary">
                     Primary action
                 </button>
-                <button 
+                <button
                     mat-button
                     ngCarouselPreventGhostClick
                     color="primary">
                     Secondary action
                 </button>
+                <span *ngIf="active">
+                    This slide is active
+                </span>
+                <span *ngIf="activeOnTheLeft || activeOnTheRight">
+                    <ng-container *ngIf="activeOnTheLeft">
+                        🠐
+                    </ng-container>
+                    <span> Active slide this side </span>
+                    <ng-container *ngIf="activeOnTheRight">
+                        🠒
+                    </ng-container>
+                </span>
             </div>
         </ng-template>
     </ng-carousel>
     <div class="control-panel">
-        <button 
+        <button
             *ngFor="let item of config.items; index as i;"
             [class.active]="i === itemIndex"
             (click)="goTo(i)"
@@ -56,7 +73,7 @@
         </button>
     </div>
     <mat-card class="card-block">
-        <form 
+        <form
             [formGroup]="configForm"
             class="form-block">
             <label class="control-block">
@@ -89,7 +106,7 @@
                         thumbLabel>
                     </mat-slider>
                     <div
-                        aria-hidden="true" 
+                        aria-hidden="true"
                         class="range-labels-block mat-caption">
                         <div>0</div>
                         <div>{{maxWidth}}</div>
@@ -105,7 +122,7 @@
                         thumbLabel>
                     </mat-slider>
                     <div
-                        aria-hidden="true" 
+                        aria-hidden="true"
                         class="range-labels-block mat-caption">
                         <div>0</div>
                         <div>5000</div>
@@ -121,7 +138,7 @@
                         thumbLabel>
                     </mat-slider>
                     <div
-                        aria-hidden="true" 
+                        aria-hidden="true"
                         class="range-labels-block mat-caption">
                         <div>0</div>
                         <div>100</div>

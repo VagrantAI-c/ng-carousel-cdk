@@ -30,17 +30,16 @@ export function markVisibleAndActive(
         const slideBeforeViewportEnd = currentOffset < viewportWidth + threshold;
         const slideAfterViewportStart = currentOffset + slideWidth + threshold > 0;
         const inViewport = slideBeforeViewportEnd && slideAfterViewportStart;
-        const options: Partial<CarouselSlideParams> = {
+        const options: CarouselSlideParams = {
             inViewport,
+            item: slides[i].options.item,
             isActive: i === activeSlideIndex,
+            activeOnTheRight: i < activeSlideIndex,
+            activeOnTheLeft: i > activeSlideIndex,
         };
 
         // Construct new slide
-        const newSlide = new CarouselSlide(
-            slides[i].id,
-            slides[i].itemIndex,
-            Object.assign({}, slides[i].options, options),
-        );
+        const newSlide = new CarouselSlide(slides[i].id, slides[i].itemIndex, options);
         newSlides.push(newSlide);
 
         // Detect viewport range

@@ -1,4 +1,4 @@
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
 import { animationOffsetSnapshotProcedure } from '../helpers/animation-offset-snapshot/animation-offset-snapshot-procedure';
 import { calculateActiveSlideProcedure } from '../helpers/calculate-active-slide/calculate-active-slide-procedure';

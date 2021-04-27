@@ -19,7 +19,7 @@ export class CarouselSlide<T = any> {
         /**
          * Parameters that might be changed over time
          */
-        public options: Partial<CarouselSlideParams<T>> = {},
+        public options: CarouselSlideParams<T>,
     ) {
     }
 
