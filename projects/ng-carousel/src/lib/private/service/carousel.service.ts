@@ -8,7 +8,7 @@ import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselState } from '../models/carousel-state';
 import { IdGenerator } from '../models/id-generator';
 import { ProcedureEnvironment } from '../models/procedure/procedure-environment.interface';
-import { procedurePipe } from '../models/procedure/procedure-pipe';
+import { procedurePipe } from '../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../models/procedure/procedure.type';
 import { SLIDE_ID_GENERATOR } from '../tokens';
 import { disableAutoplayProcedure } from './helpers/disable-autoplay/disable-autoplay-procedure';

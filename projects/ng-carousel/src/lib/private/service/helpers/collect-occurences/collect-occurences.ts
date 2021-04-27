@@ -29,8 +29,10 @@ export function collectOccurences(
         }
 
         const slideOccurence = slideOccurenceMap.get(slides[i].itemIndex) || new CarouselSlideOccurence();
-        slides[i].options.inViewport = currentOffset < viewportWidth && currentOffset + slideWidth > 0;
-        slides[i].options.inViewport
+        // slides[i].options = {...slides[i].options}; // Shallow copy since we're going to mutate it
+        const inViewport = currentOffset < viewportWidth && currentOffset + slideWidth > 0;
+        // slides[i].options.inViewport = currentOffset < viewportWidth && currentOffset + slideWidth > 0;
+        inViewport
             ? slideOccurence.unremovableSlideIndexes.push(i)
             : slideOccurence.removableSlideIndexes.push(i);
         slideOccurenceMap.set(slides[i].itemIndex, slideOccurence);

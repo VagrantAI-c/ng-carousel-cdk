@@ -1,6 +1,7 @@
 import { ElementRef, EmbeddedViewRef, TemplateRef } from '@angular/core';
 
 import { CarouselState } from '../../../models/carousel-state';
+import { MOCK_PROCEDURE_ENVIRONMENT } from '../../../models/test/mock-procedure-environment.const';
 import { setTemplateProcedure } from './set-template-procedure';
 
 describe('setTemplateProcedure test suite', () => {
@@ -32,13 +33,13 @@ describe('setTemplateProcedure test suite', () => {
         const templateRef = new TemplateRefImpl();
         const procedure = setTemplateProcedure(templateRef);
         const state = new CarouselState();
-        expect(procedure({state, environment: {}, procedureState: {}}).state.template).toBe(templateRef);
+        expect(procedure({state, environment: MOCK_PROCEDURE_ENVIRONMENT, procedureState: {}}).state.template).toBe(templateRef);
     });
 
     it('should assign null', () => {
         const procedure = setTemplateProcedure(null);
         const state = new CarouselState();
-        expect(procedure({state, environment: {}, procedureState: {}}).state.template).toBe(null);
+        expect(procedure({state, environment: MOCK_PROCEDURE_ENVIRONMENT, procedureState: {}}).state.template).toBe(null);
     });
 
 });

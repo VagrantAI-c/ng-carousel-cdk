@@ -1,4 +1,6 @@
+import { CarouselState } from '../../../models/carousel-state';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
+import { ProcedureCarouselState } from '../../../models/procedure/procedure-carousel-state.interface';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
@@ -18,10 +20,16 @@ export function markVisibleAndActiveProcedure(): Procedure {
             state.config.threshold,
             state.config.alignMode,
         );
-        state.slides = result.slides;
-        state.activeItemIndex = result.slides[state.activeSlideIndex]?.itemIndex ?? 0; // Undefined when no slides available
-        procedureState.inViewportRange = [result.inViewportRangeStart, result.inViewportRangeEnd];
+        const modifiedState: CarouselState = {
+            ...state,
+            slides: result.slides,
+            activeItemIndex: result.slides[state.activeSlideIndex]?.itemIndex ?? 0, // 0 when no slides available
+        };
+        const modifiedProcedureState: Partial<ProcedureCarouselState> = {
+            ...procedureState,
+            inViewportRange: [result.inViewportRangeStart, result.inViewportRangeEnd],
+        };
 
-        return new ContinueWith(state, procedureState);
+        return new ContinueWith(modifiedState, modifiedProcedureState);
     };
 }

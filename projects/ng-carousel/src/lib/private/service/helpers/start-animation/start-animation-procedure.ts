@@ -1,3 +1,4 @@
+import { CarouselState } from '../../../models/carousel-state';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
@@ -20,8 +21,11 @@ export function startAnimationProcedure(): Procedure {
             environment?.afterAnimationAction ?? (() => {}),
             environment?.animationBuilder ?? null,
         );
-        state.animation = animation;
+        const modifiedState: CarouselState = {
+            ...state,
+            animation,
+        };
 
-        return new ContinueWith(state);
+        return new ContinueWith(modifiedState);
     };
 }

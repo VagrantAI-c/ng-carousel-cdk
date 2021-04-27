@@ -1,3 +1,4 @@
+import { CarouselState } from '../../../models/carousel-state';
 import { BreakWith } from '../../../models/procedure/handler/break-with.model';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
@@ -10,13 +11,16 @@ import { Procedure } from '../../../models/procedure/procedure.type';
  */
 export function postponeItemIndexProcedure(newItemIndex: number): Procedure {
     return ({state}: ProcedureStateFacade): ProcedureHandler => {
-        if (!state.slides || !state.slides.length) {
-            state.postponedItemIndex = newItemIndex;
+        const hasSlides = Boolean(state.slides.length);
+        const modifiedState: CarouselState = {
+            ...state,
+            postponedItemIndex: hasSlides
+                ? null
+                : newItemIndex,
+        };
 
-            return new BreakWith(state);
-        }
-        state.postponedItemIndex = null;
-
-        return new ContinueWith(state);
+        return hasSlides
+            ? new ContinueWith(modifiedState)
+            : new BreakWith(modifiedState);
     };
 }

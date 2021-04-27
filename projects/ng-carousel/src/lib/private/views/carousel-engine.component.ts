@@ -77,12 +77,14 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     }
 
     contextOf(slide: CarouselSlide<T>): CarouselSlideContext<T> {
-        return new CarouselSlideContext<T>(
-            slide?.options?.item ?? null,
-            slide.itemIndex,
-            slide.options?.isActive ?? false,
-            slide.options?.inViewport ?? false,
-        );
+        return {
+            $implicit: slide.options.item,
+            itemIndex: slide.itemIndex,
+            isActive: slide.options.isActive,
+            inViewport: slide.options.inViewport,
+            activeOnTheLeft: slide.options.activeOnTheLeft,
+            activeOnTheRight: slide.options.activeOnTheRight,
+        };
     }
 
     focusIn(): void {

@@ -8,8 +8,6 @@ export class CopySlidesResult<T> {
     constructor(
         public slides: CarouselSlide<T>[] = [],
         public modifiedOffset = 0,
-        /** Item indexes that should be marked as copy */
-        public unmarkedItemIndexes: number[] = [],
     ) {
     }
 

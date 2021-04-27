@@ -7,7 +7,7 @@ export class ContinueWith implements ProcedureHandler {
 
     constructor(
         public state: CarouselState,
-        public procedureState: Partial<ProcedureCarouselState> = {},
+        public procedureState: Partial<ProcedureCarouselState> | null = null,
     ) {
     }
 }

@@ -1,4 +1,4 @@
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
 import { initializeProcedure } from './initialize-procedure';
 import { setContainersProcedure } from './set-containers/set-containers-procedure';

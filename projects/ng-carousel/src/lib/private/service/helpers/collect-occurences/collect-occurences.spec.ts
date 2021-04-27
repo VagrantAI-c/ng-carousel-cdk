@@ -1,14 +1,15 @@
 import { CarouselError } from '../../../models/carousel-error';
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { MOCK_SLIDE_PARAMS } from '../../../models/test/mock-slide-params.const';
 import { assertSequence, collectOccurences } from './collect-occurences';
 
 describe('collectOccurences test suite', () => {
 
     it('must collect unremovable elements without inViewport flag', () => {
         const slides = [
-            new CarouselSlide(0, 0),
-            new CarouselSlide(1, 1),
-            new CarouselSlide(2, 2),
+            new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
         ];
         const offset = 0;
         const slideWidth = 10;
@@ -32,9 +33,9 @@ describe('collectOccurences test suite', () => {
 
     it('must collect removable elements without inViewport flag', () => {
         const slides = [
-            new CarouselSlide(0, 0),
-            new CarouselSlide(1, 1),
-            new CarouselSlide(2, 2),
+            new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
         ];
         const offset = -50;
         const slideWidth = 10;
@@ -58,12 +59,12 @@ describe('collectOccurences test suite', () => {
 
     it('must collect removable and unremovable elements without inViewport flag', () => {
         const slides = [
-            new CarouselSlide(0, 0),
-            new CarouselSlide(1, 1),
-            new CarouselSlide(2, 2),
-            new CarouselSlide(3, 0),
-            new CarouselSlide(4, 1),
-            new CarouselSlide(5, 2),
+            new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(2, 2, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(3, 0, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(4, 1, MOCK_SLIDE_PARAMS),
+            new CarouselSlide(5, 2, MOCK_SLIDE_PARAMS),
         ];
         const offset = -20;
         const slideWidth = 10;
@@ -88,8 +89,8 @@ describe('collectOccurences test suite', () => {
     it('must throw on incorrect sequence', () => {
         expect(() => collectOccurences(
             [
-                new CarouselSlide(0, 1),
-                new CarouselSlide(1, 0),
+                new CarouselSlide(0, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 0, MOCK_SLIDE_PARAMS),
             ], 0, 0, 0, 0,
         )).toThrowError(CarouselError);
     });

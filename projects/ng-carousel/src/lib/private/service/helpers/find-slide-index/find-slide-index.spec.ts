@@ -1,4 +1,5 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { MOCK_SLIDE_PARAMS } from '../../../models/test/mock-slide-params.const';
 import { findSlideIndex } from './find-slide-index';
 
 describe('findItemIndex test suite', () => {
@@ -8,10 +9,10 @@ describe('findItemIndex test suite', () => {
         const currentSlideIndex = 1;
         const result = findSlideIndex(
             [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(0, 1),
-                new CarouselSlide(0, 2),
-                new CarouselSlide(0, 3),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(0, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(0, 2, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(0, 3, MOCK_SLIDE_PARAMS),
             ],
             newItemIndex,
             currentSlideIndex,
@@ -24,11 +25,11 @@ describe('findItemIndex test suite', () => {
         const currentSlideIndex = 1;
         const result = findSlideIndex(
             [
-                new CarouselSlide(0, 1),
-                new CarouselSlide(1, 0),
-                new CarouselSlide(2, 1),
-                new CarouselSlide(2, 0),
-                new CarouselSlide(2, 1),
+                new CarouselSlide(0, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 1, MOCK_SLIDE_PARAMS),
             ],
             newItemIndex,
             currentSlideIndex,
@@ -41,11 +42,11 @@ describe('findItemIndex test suite', () => {
         const currentSlideIndex = 3;
         const result = findSlideIndex(
             [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(0, 1),
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 1),
-                new CarouselSlide(2, 0),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(0, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 1, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 0, MOCK_SLIDE_PARAMS),
             ],
             newItemIndex,
             currentSlideIndex,
@@ -58,9 +59,9 @@ describe('findItemIndex test suite', () => {
         const currentSlideIndex = 1;
         const result = findSlideIndex(
             [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 0),
-                new CarouselSlide(2, 0),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 0, MOCK_SLIDE_PARAMS),
             ],
             newItemIndex,
             currentSlideIndex,
@@ -73,9 +74,9 @@ describe('findItemIndex test suite', () => {
         const currentSlideIndex = 1;
         const result = findSlideIndex(
             [
-                new CarouselSlide(0, 0),
-                new CarouselSlide(1, 0),
-                new CarouselSlide(2, 0),
+                new CarouselSlide(0, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(1, 0, MOCK_SLIDE_PARAMS),
+                new CarouselSlide(2, 0, MOCK_SLIDE_PARAMS),
             ],
             newItemIndex,
             currentSlideIndex,
