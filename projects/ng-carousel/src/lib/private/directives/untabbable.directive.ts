@@ -98,7 +98,7 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
         const focusableConfig: IsFocusableConfig = {
             // Performance flag to skip layout thrashing
             ignoreVisibility: true,
-        }
+        };
 
         if (
             element.nodeType === Node.ELEMENT_NODE // Check only elements
