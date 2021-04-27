@@ -1,4 +1,4 @@
-import { CdkTrapFocus, InteractivityChecker } from '@angular/cdk/a11y';
+import { CdkTrapFocus, InteractivityChecker, IsFocusableConfig } from '@angular/cdk/a11y';
 import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 @Directive({
@@ -95,8 +95,16 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private blockElement(element: HTMLElement): void {
-        // nodeType is text node, should not be blocked
-        if (element.nodeType !== 3 && this.interactivityChecker.isFocusable(element) && this.interactivityChecker.isTabbable(element)) {
+        const focusableConfig: IsFocusableConfig = {
+            // Performance flag to skip layout thrashing
+            ignoreVisibility: true,
+        };
+
+        if (
+            element.nodeType === Node.ELEMENT_NODE // Check only elements
+            && this.interactivityChecker.isFocusable(element, focusableConfig)
+            && this.interactivityChecker.isTabbable(element)
+        ) {
             const currentTabindexValue = element.getAttribute('tabindex');
             this.lastTabindexValueMap.set(element, currentTabindexValue);
             if (currentTabindexValue !== '-1') {
