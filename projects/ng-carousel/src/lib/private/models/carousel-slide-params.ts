@@ -12,6 +12,18 @@ export interface CarouselSlideParams<T = any> {
     inViewport: boolean;
     /** Whether provided slide is selected */
     isActive: boolean;
+    /**
+     * Whether active slide is placed to the right
+     * of the current one. Returns false if the slide
+     * is active
+     */
+    activeOnTheRight: boolean;
+    /**
+     * Whether active slide is placed to the left
+     * of the current one. Returns false if the slide
+     * is active
+     */
+    activeOnTheLeft: boolean;
     /** Item to be put in slide template context */
     item: T;
 }
