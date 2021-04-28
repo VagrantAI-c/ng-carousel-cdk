@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, ContentChild, Input, Output, ViewEncapsulation } from '@angular/core';
 import { map } from 'rxjs/operators';
 
-import { CarouselConfig } from './carousel-config';
+import { CarouselConfig } from './carousel-config.type';
 import { CarouselSlideDirective } from './carousel-slide.directive';
+import { CompleteCarouselConfig } from './private/models/carousel-config';
 import { CarouselState } from './private/models/carousel-state';
 import { IdGenerator } from './private/models/id-generator';
 import { CarouselService } from './private/service/carousel.service';
@@ -43,8 +44,8 @@ export class CarouselComponent<T = any> {
         );
     }
 
-    @Input() set config(newConfig: Partial<CarouselConfig<T>>) {
-        const configInstance = new CarouselConfig<T>(newConfig);
+    @Input() set config(newConfig: CarouselConfig<T>) {
+        const configInstance = new CompleteCarouselConfig<T>(newConfig);
         this.carousel.setConfig(configInstance);
     }
 
