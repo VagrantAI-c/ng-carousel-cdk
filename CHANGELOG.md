@@ -1,3 +1,25 @@
+# [1.6.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.5.1...v1.6.0) (2021-04-28)
+
+
+### Bug Fixes
+
+* fix lint ([8a83a5b](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/8a83a5ba99036efa2145427c51f00a7faa304941))
+* fix ngPreventGhostClick not preventing routerLink navigation ([f75fdfc](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/f75fdfc4adeae16caa48fe2cbcc328c370b1d562))
+* fix programmatic next not resetting autoplay timer ([b691d63](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/b691d6318829e9f3de5521921df7a05aa9ad7282))
+* listen to element resize if ResizeObserver is available ([06dc294](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/06dc294be63f772ac4d7d6de89d5bcd0e0df6f25))
+* narrow check to set tabindex only on elements ([69c277e](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/69c277e7e9d6767b3a2c71646e0561be910e8a69))
+
+
+### Features
+
+* allow Angular version 12.0.0 ([3684d9f](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/3684d9fa44580203131db37d1dcf7cad81745bc6))
+* allow to get current slide index ([202e54f](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/202e54fbf1801606753347993c97aa11d2a9f6e0))
+* don't animate when page is not active ([424928a](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/424928a9378a6c73e61a207fdf4aadf6f722918d))
+* introduce active slide direction ([48f7ce4](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/48f7ce44f4074f9969c88259619def00b52b5537))
+* introduce typecheck for ng-template by providing a carousel reference to ngCarouselSlide input ([6a172b1](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/6a172b1e44d234c912e3a4afbb161076da4d462e))
+* introduce typed config ([9d043a6](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/9d043a63935960b465c6db76d3c64881a36bda22))
+* stretch carousel to take available height ([9d5bc81](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/9d5bc81dd566a9478cbf29df0970e597d68b626d))
+
 ## [1.5.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.5.0...v1.5.1) (2020-09-03)
 
 
