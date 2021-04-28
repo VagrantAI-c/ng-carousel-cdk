@@ -22,7 +22,6 @@ jobs:
   - stage: test
     script:
     - npm run test:lib:coverage
-    - npm run coverage-report
   - stage: build & publish showcase
     script:
     - npm run build:lib
