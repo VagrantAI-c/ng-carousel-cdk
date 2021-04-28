@@ -73,6 +73,14 @@
             next
         </button>
     </div>
+    <div class="control-panel">
+        <button
+            (click)="carouselRef.recalculate()"
+            mat-raised-button
+            color="primary">
+            Recalculate positions
+        </button>
+    </div>
     <mat-card class="card-block">
         <form
             [formGroup]="configForm"
@@ -152,6 +160,9 @@
                 </mat-checkbox>
                 <mat-checkbox formControlName="dragEnabled">
                     Gestures
+                </mat-checkbox>
+                <mat-checkbox formControlName="shouldRecalculateOnResize">
+                    Autoresize
                 </mat-checkbox>
             </div>
         </form>

@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { fromEvent, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { fromEvent, NEVER, Observable, Subject, Subscriber } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselError } from '../models/carousel-error';
@@ -10,6 +10,33 @@ import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
 import { HammerProviderService } from '../service/hammer-provider.service';
+
+// TODO declared until https://github.com/Microsoft/TypeScript/issues/28502 is resolved
+declare class ResizeObserver {
+    constructor(callback: ResizeObserverCallback);
+    observe: (target: Element) => void;
+    unobserve: (target: Element) => void;
+    disconnect: () => void;
+}
+
+type ResizeObserverCallback = (entries: ResizeObserverEntry[], observer: ResizeObserver) => void;
+
+declare class ResizeObserverEntry {
+  /**
+   * @param target The Element whose size has changed.
+   */
+  constructor(target: Element);
+
+  /**
+   * The Element whose size has changed.
+   */
+  readonly target: Element;
+
+  /**
+   * Element's content rect when ResizeObserverCallback is invoked.
+   */
+  readonly contentRect: DOMRectReadOnly;
+}
 
 @Component({
   selector: 'carousel-engine',
@@ -46,6 +73,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
         private hammer: HammerProviderService,
+        private zone: NgZone,
         @Inject(DOCUMENT) private document: any, // TODO make Document type when Ivy library is out
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
@@ -232,12 +260,21 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                filter((state: CarouselState<T>) => state.config.shouldRecalculateOnResize),
-                switchMapTo(fromEvent(window, 'resize')),
+                map((state: CarouselState<T>) => state.config.shouldRecalculateOnResize),
+                distinctUntilChanged(),
+                switchMap((shouldRecalculate: boolean) => shouldRecalculate
+                    ? this.resizeObserverSupported()
+                        ? this.fromElementResize(this.elementRef.nativeElement)
+                        : fromEvent(window, 'resize', {passive: true}).pipe(mapTo(null))
+                    : NEVER
+                ),
+                debounceTime(300),
                 takeUntil(this.destroyed$),
             )
             .subscribe(() => {
-                this.carousel.recalculate();
+                this.zone.run(() => { // ResizeObserver runs outside zone
+                    this.carousel.recalculate();
+                });
             });
     }
 
@@ -289,6 +326,27 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
             } else {
                 this.carousel.enableAutoplay(AutoplaySuspender.BLUR);
             }
+        });
+    }
+
+    private resizeObserverSupported(): boolean {
+        return 'ResizeObserver' in this.document.defaultView;
+    }
+
+    private fromElementResize(element: HTMLElement | null): Observable<void> {
+        if (!element) {
+            return NEVER;
+        }
+
+        return new Observable<void>((subscriber: Subscriber<void>) => {
+            const observer = new ResizeObserver(() => {
+                subscriber.next();
+            });
+            observer.observe(element);
+
+            return () => {
+                observer.disconnect();
+            };
         });
     }
 }

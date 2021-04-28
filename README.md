@@ -199,7 +199,7 @@ Use this reference to programmaticaly trigger next events:
 - `carouselRef.next()`: increment active slide
 - `carouselRef.prev()`: decrement active slide
 - `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index. When no slides are available, index change would postpone till slide initialization.
-- `carouselRef.recalculate()`: recalculate positions
+- `carouselRef.recalculate()`: recalculate positions. Might be useful when `shouldRecalculateOnResize` is turned off and carousel width mode is `CarouselWidthMode.PX` (pixels).
 - `carouselRef.slideIndex`: returns current active slide index, might be useful for composing paginators
 
 ### PreventGhostClickDirective

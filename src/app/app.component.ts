@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnIni
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
+
 import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
 import { CarouselItem } from './models/carousel-item.interface';
-
 
 @Component({
     selector: 'app-root',
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
         items: this.assignItems(3),
         autoplayEnabled: true,
         dragEnabled: true,
+        shouldRecalculateOnResize: true,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy {
         slidesQuantity: new FormControl((this.config?.items ?? []).length),
         autoplayEnabled: new FormControl(this.config.autoplayEnabled),
         dragEnabled: new FormControl(this.config.dragEnabled),
+        shouldRecalculateOnResize: new FormControl(this.config.shouldRecalculateOnResize),
     });
     readonly slideWidth$ = this.slideWidthChanges();
     readonly widthMode$ = this.widthModeChanges();
