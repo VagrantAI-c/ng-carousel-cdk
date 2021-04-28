@@ -1,4 +1,4 @@
-import { CdkTrapFocus, InteractivityChecker } from '@angular/cdk/a11y';
+import { CdkTrapFocus, InteractivityChecker, IsFocusableConfig } from '@angular/cdk/a11y';
 import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 
 @Directive({
@@ -10,13 +10,13 @@ import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, Simp
 export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy {
 
     @Input() untabbable = false;
-    @Input() untabbableFocusTrapRef: CdkTrapFocus;
+    @Input() untabbableFocusTrapRef: CdkTrapFocus | null = null;
     /** Whether focus inside carousel */
     @Input() untabbableFocused = false;
 
     private readonly lastTabindexValueMap = new Map<HTMLElement, string | null>();
-    private viewInitiated: boolean;
-    private mutationObserver: MutationObserver;
+    private viewInitiated = false;
+    private mutationObserver: MutationObserver | null = null;
 
     constructor(
         private elementRef: ElementRef,
@@ -95,8 +95,16 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private blockElement(element: HTMLElement): void {
-        // nodeType is text node, should not be blocked
-        if (element.nodeType !== 3 && this.interactivityChecker.isFocusable(element) && this.interactivityChecker.isTabbable(element)) {
+        const focusableConfig: IsFocusableConfig = {
+            // Performance flag to skip layout thrashing
+            ignoreVisibility: true,
+        };
+
+        if (
+            element.nodeType === Node.ELEMENT_NODE // Check only elements
+            && this.interactivityChecker.isFocusable(element, focusableConfig)
+            && this.interactivityChecker.isTabbable(element)
+        ) {
             const currentTabindexValue = element.getAttribute('tabindex');
             this.lastTabindexValueMap.set(element, currentTabindexValue);
             if (currentTabindexValue !== '-1') {
@@ -106,8 +114,9 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private unblockElement(element: HTMLElement): void {
-        if (this.lastTabindexValueMap.has(element) && typeof this.lastTabindexValueMap.get(element) === 'number') {
-            element.setAttribute('tabindex', this.lastTabindexValueMap.get(element));
+        const lastTabIndex = this.lastTabindexValueMap.get(element);
+        if (typeof lastTabIndex === 'number') {
+            element.setAttribute('tabindex', lastTabIndex);
         } else {
             element.removeAttribute('tabindex');
         }

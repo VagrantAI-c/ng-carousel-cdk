@@ -1,6 +1,7 @@
 import { CarouselWidthMode } from '../../../../carousel-width-mode';
 import { CarouselState } from '../../../models/carousel-state';
 import { ProcedureCarouselState } from '../../../models/procedure/procedure-carousel-state.interface';
+import { MOCK_PROCEDURE_ENVIRONMENT } from '../../../models/test/mock-procedure-environment.const';
 import { normalizePassedDistanceProcedure } from './normalize-passed-distance-procedure';
 
 describe('normalizePassedDistanceProcedure test suite', () => {
@@ -11,9 +12,9 @@ describe('normalizePassedDistanceProcedure test suite', () => {
         state.widthContainer = {offsetWidth: 320};
         state.config.widthMode = CarouselWidthMode.PERCENT;
         const procedureState: Partial<ProcedureCarouselState> = {};
-        const result = procedure({state, procedureState});
+        const result = procedure({state, procedureState, environment: MOCK_PROCEDURE_ENVIRONMENT});
         expect(result.shouldBreakProcedure).toBeFalsy('procedure is interrupted');
-        expect(result.procedureState.passedDistance).toBe(10, 'incorrect passed distance');
+        expect(result?.procedureState?.passedDistance).toBe(10, 'incorrect passed distance');
     });
 
     it('should not convert for px units', () => {
@@ -21,9 +22,9 @@ describe('normalizePassedDistanceProcedure test suite', () => {
         const state: CarouselState = new CarouselState();
         state.config.widthMode = CarouselWidthMode.PX;
         const procedureState: Partial<ProcedureCarouselState> = {};
-        const result = procedure({state, procedureState});
+        const result = procedure({state, procedureState, environment: MOCK_PROCEDURE_ENVIRONMENT});
         expect(result.shouldBreakProcedure).toBeFalsy('procedure is interrupted');
-        expect(result.procedureState.passedDistance).toBe(32, 'incorrect passed distance');
+        expect(result?.procedureState?.passedDistance).toBe(32, 'incorrect passed distance');
     });
 
 });

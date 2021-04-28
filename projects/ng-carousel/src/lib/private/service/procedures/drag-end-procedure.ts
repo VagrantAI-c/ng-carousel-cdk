@@ -1,5 +1,5 @@
 import { AutoplaySuspender } from '../../models/autoplay-suspender';
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
 import { calculateActiveSlideProcedure } from '../helpers/calculate-active-slide/calculate-active-slide-procedure';
 import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autoplay-procedure';

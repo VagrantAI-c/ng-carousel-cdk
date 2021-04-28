@@ -50,7 +50,7 @@ describe('startAnimation test suite', () => {
     });
 
     it('should create animation instance', () => {
-        const container = null;
+        const container = {} as HTMLElement;
         const from = -20;
         const to = 50;
         const widthMode = CarouselWidthMode.PX;
@@ -70,17 +70,17 @@ describe('startAnimation test suite', () => {
             animationBuilder,
         );
         expect(result instanceof CarouselAnimation).toBeTruthy('result is not created');
-        expect(result.onDoneSubscription$ instanceof Subscription).toBeTruthy('subscription is not Subscription');
-        expect(result.player).toBeTruthy('player is not created');
-        expect(result.from).toBe(-20, 'incorrect from value');
-        expect(result.to).toBe(50, 'incorrect to value');
+        expect(result?.onDoneSubscription$ instanceof Subscription).toBeTruthy('subscription is not Subscription');
+        expect(result?.player).toBeTruthy('player is not created');
+        expect(result?.from).toBe(-20, 'incorrect from value');
+        expect(result?.to).toBe(50, 'incorrect to value');
 
         // Cleanup
-        result.onDoneSubscription$.unsubscribe();
+        result?.onDoneSubscription$?.unsubscribe();
     });
 
     it('should emit onDone', fakeAsync(() => {
-        const container = null;
+        const container = {} as HTMLElement;
         const from = 0;
         const to = 0;
         const widthMode = CarouselWidthMode.PX;
@@ -104,6 +104,6 @@ describe('startAnimation test suite', () => {
         expect(afterAnimationActionObject.action).toHaveBeenCalledTimes(1);
 
         // Cleanup
-        result.onDoneSubscription$.unsubscribe();
+        result?.onDoneSubscription$?.unsubscribe();
     }));
 });

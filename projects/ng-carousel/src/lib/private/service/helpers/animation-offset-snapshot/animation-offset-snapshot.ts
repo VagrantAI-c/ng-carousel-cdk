@@ -6,18 +6,22 @@ import { EasingFunction } from 'bezier-easing';
 export function animationOffsetSnapshot(
     currentPosition: number,
     totalDuration: number,
-    from: number,
-    to: number,
+    from: number | null,
+    to: number | null,
     offsetFallback: number,
-    bezierFn: EasingFunction,
+    bezierFn: EasingFunction | null,
 ): number {
-    if (typeof from === 'undefined' || typeof to === 'undefined') {
+    if (from === null || to === null) {
 
         return offsetFallback;
     }
     if (totalDuration <= 0 || currentPosition < 0 || to === from) {
 
         return to;
+    }
+    if (!bezierFn) {
+
+        return from;
     }
     const animationDistance = Math.abs(to - from);
     const completedDistancePercent = currentPosition / totalDuration;

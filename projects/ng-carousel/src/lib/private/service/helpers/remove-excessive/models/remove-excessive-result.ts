@@ -4,6 +4,8 @@ export class RemoveExcessiveResult {
     constructor(
         public slides: CarouselSlide[],
         public offset: number,
+        public activeSlideIndex: number,
+        public activeItemIndex: number,
     ) {
     }
 }

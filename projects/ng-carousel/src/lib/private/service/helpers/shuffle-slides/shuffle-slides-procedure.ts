@@ -1,7 +1,9 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
+import { CarouselState } from '../../../models/carousel-state';
 import { IdGenerator } from '../../../models/id-generator';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
+import { ProcedureCarouselState } from '../../../models/procedure/procedure-carousel-state.interface';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
 import { Procedure } from '../../../models/procedure/procedure.type';
 import { getViewportWidth } from '../get-viewport-width/get-viewport-width';
@@ -23,13 +25,18 @@ export function shuffleSlidesProcedure(): Procedure {
             state.config.threshold,
             environment?.slideIdGenerator ?? new IdGenerator(),
         );
-        state.slides = result.slides;
-        state.activeSlideIndex = result.slides.findIndex((item: CarouselSlide) => item.options.isActive) || 0;
-        if (typeof procedureState.offsetSnapshot !== 'undefined') {
-            procedureState.offsetSnapshot = result.modifiedOffset - state.offset + procedureState.offsetSnapshot;
-        }
-        state.offset = result.modifiedOffset;
+        const modifiedState: CarouselState = {
+            ...state,
+            slides: result.slides,
+            activeSlideIndex: result.slides.findIndex((item: CarouselSlide) => item.options.isActive) || 0,
+            offset: result.modifiedOffset,
+        };
+        // Might be necessary for animations
+        const modifiedProcedureState: Partial<ProcedureCarouselState> = {
+            ...procedureState,
+            offsetSnapshot: result.modifiedOffset - state.offset + (procedureState?.offsetSnapshot ?? 0),
+        };
 
-        return new ContinueWith(state);
+        return new ContinueWith(modifiedState, modifiedProcedureState);
     };
 }

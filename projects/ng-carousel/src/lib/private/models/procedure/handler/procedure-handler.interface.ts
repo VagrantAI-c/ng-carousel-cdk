@@ -3,6 +3,6 @@ import { ProcedureCarouselState } from '../procedure-carousel-state.interface';
 
 export interface ProcedureHandler {
     state: CarouselState;
-    procedureState: Partial<ProcedureCarouselState>;
+    procedureState: Partial<ProcedureCarouselState> | null;
     shouldBreakProcedure: boolean;
 }

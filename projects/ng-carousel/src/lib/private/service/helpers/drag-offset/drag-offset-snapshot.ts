@@ -24,11 +24,19 @@ export function dragOffsetSnapshot(
     slideWidth: number,
     slideSumWidth: number,
     /** How much in percents user can overscroll unlooped carousel */
-    maxOverscrollPercent: number,
-    bezierFn: EasingFunction,
-    invertedBezierFn: EasingFunction,
+    maxOverscrollPercent: number | null,
+    bezierFn: EasingFunction | null,
+    invertedBezierFn: EasingFunction | null,
 ): number {
     if (fromX === toX) {
+
+        return currentOffset;
+    }
+    if (maxOverscrollPercent === null) {
+
+        return currentOffset;
+    }
+    if (!bezierFn || !invertedBezierFn) {
 
         return currentOffset;
     }

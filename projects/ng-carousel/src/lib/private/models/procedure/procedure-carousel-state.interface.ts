@@ -8,7 +8,10 @@ export interface ProcedureCarouselState {
      * expanded to active slide (in case it is outside viewport)
      */
     inViewportRange: [number, number];
-    /** Saved offset for later use */
+    /**
+     * Saved offset for later use, might be used for deducing animation
+     * from and to offsets
+     */
     offsetSnapshot: number;
     /** Represents distance passed during single drag session */
     passedDistance: number;

@@ -1,3 +1,4 @@
+import { CarouselState } from '../../../models/carousel-state';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
@@ -13,12 +14,18 @@ export function removeExcessiveProcedure(): Procedure {
             state.slides,
             state.offset,
             state.config.slideWidth,
-            procedureState.inViewportRange[0],
-            procedureState.inViewportRange[1],
+            state.activeSlideIndex,
+            procedureState?.inViewportRange?.[0] ?? null,
+            procedureState?.inViewportRange?.[1] ?? null,
         );
-        state.slides = result.slides;
-        state.offset = result.offset;
+        const modifiedState: CarouselState = {
+            ...state,
+            slides: result.slides,
+            offset: result.offset,
+            activeSlideIndex: result.activeSlideIndex,
+            activeItemIndex: result.activeItemIndex,
+        };
 
-        return new ContinueWith(state);
+        return new ContinueWith(modifiedState);
     };
 }

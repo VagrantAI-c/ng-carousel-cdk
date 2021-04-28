@@ -3,7 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
 
-import { CarouselWidthMode, CarouselComponent, CarouselConfig, CarouselAlignMode } from '../../projects/ng-carousel/src/public-api';
+import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
+import { CarouselItem } from './models/carousel-item.interface';
 
 @Component({
     selector: 'app-root',
@@ -13,9 +14,9 @@ import { CarouselWidthMode, CarouselComponent, CarouselConfig, CarouselAlignMode
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-    @ViewChild(CarouselComponent, {static: true}) carouselRef: CarouselComponent;
+    @ViewChild(CarouselComponent, {static: true}) carouselRef?: CarouselComponent;
 
-    config: Partial<CarouselConfig> = {
+    config: Partial<CarouselConfig<CarouselItem>> = {
         widthMode: CarouselWidthMode.PERCENT,
         slideWidth: 100,
         transitionDuration: 2500,
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit, OnDestroy {
         items: this.assignItems(3),
         autoplayEnabled: true,
         dragEnabled: true,
+        shouldRecalculateOnResize: true,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -31,9 +33,10 @@ export class AppComponent implements OnInit, OnDestroy {
         slideWidth: new FormControl(this.config.slideWidth),
         transitionDuration: new FormControl(this.config.transitionDuration),
         shouldLoop: new FormControl(this.config.shouldLoop),
-        slidesQuantity: new FormControl(this.config.items.length),
+        slidesQuantity: new FormControl((this.config?.items ?? []).length),
         autoplayEnabled: new FormControl(this.config.autoplayEnabled),
         dragEnabled: new FormControl(this.config.dragEnabled),
+        shouldRecalculateOnResize: new FormControl(this.config.shouldRecalculateOnResize),
     });
     readonly slideWidth$ = this.slideWidthChanges();
     readonly widthMode$ = this.widthModeChanges();
@@ -62,18 +65,6 @@ export class AppComponent implements OnInit, OnDestroy {
     ngOnDestroy() {
         this.destroyed$.next();
         this.destroyed$.complete();
-    }
-
-    prev(): void {
-        this.carouselRef.prev();
-    }
-
-    next(): void {
-        this.carouselRef.next();
-    }
-
-    goTo(index: number): void {
-        this.carouselRef.setIndex(index);
     }
 
     setItemIndex(newIndex: number): void {
@@ -119,7 +110,7 @@ export class AppComponent implements OnInit, OnDestroy {
             )
             .subscribe((value: CarouselConfig & {slidesQuantity: number}) => {
                 const maxWidthNew = this.getMaxWidth(value.widthMode);
-                const widthPercentage = 100 * value.slideWidth / this.maxWidth;
+                const widthPercentage = 100 * (value?.slideWidth ?? 1) / this.maxWidth;
                 value.slideWidth = Math.floor(maxWidthNew * widthPercentage / 100);
                 this.maxWidth = maxWidthNew;
                 this.config = value;
@@ -129,13 +120,13 @@ export class AppComponent implements OnInit, OnDestroy {
             });
     }
 
-    private getMaxWidth(mode: CarouselWidthMode): number {
+    private getMaxWidth(mode?: CarouselWidthMode): number {
         return mode === CarouselWidthMode.PERCENT
             ? this.MAX_WIDTH_PERCENTS
             : this.MAX_WIDTH_PIXELS;
     }
 
-    private assignItems(quantity: number): any[] {
+    private assignItems(quantity: number): CarouselItem[] {
         const items = [];
         for (let i = 0; i < quantity; i++) {
             items.push({name: i + 1, image: `url(https://via.placeholder.com/150)`});

@@ -1,3 +1,4 @@
+import { CarouselState } from '../../../models/carousel-state';
 import { ContinueWith } from '../../../models/procedure/handler/contiue-with.model';
 import { ProcedureHandler } from '../../../models/procedure/handler/procedure-handler.interface';
 import { ProcedureStateFacade } from '../../../models/procedure/procedure-state-facade.interface';
@@ -16,12 +17,15 @@ export function calculateActiveSlideProcedure(): Procedure {
             state.config.alignMode,
             state.config.slideWidth,
             getViewportWidth(state),
-            Math.min(state.config.slideWidth / 2, environment.swipeThreshold),
+            Math.min(state.config.slideWidth / 2, environment?.swipeThreshold ?? Infinity),
             procedureState.passedDistance || null,
         );
-        state.activeSlideIndex = result.slideIndex;
-        state.activeItemIndex = state.slides[result.slideIndex]?.itemIndex ?? 0;
+        const modifiedState: CarouselState = {
+            ...state,
+            activeSlideIndex: result.slideIndex,
+            activeItemIndex: state.slides[result.slideIndex]?.itemIndex ?? 0,
+        };
 
-        return new ContinueWith(state);
+        return new ContinueWith(modifiedState);
     };
 }

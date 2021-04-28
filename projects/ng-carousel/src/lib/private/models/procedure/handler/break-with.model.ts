@@ -7,7 +7,7 @@ export class BreakWith implements ProcedureHandler {
 
     constructor(
         public state: CarouselState,
-        public procedureState: ProcedureCarouselState = null,
+        public procedureState: ProcedureCarouselState | null = null,
     ) {
     }
 }

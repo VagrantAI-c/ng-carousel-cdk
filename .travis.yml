@@ -3,7 +3,7 @@ sudo: false
 
 language: node_js
 node_js:
-  - "12"
+  - "16"
 
 os:
   - linux
@@ -22,7 +22,6 @@ jobs:
   - stage: test
     script:
     - npm run test:lib:coverage
-    - npm run coverage-report
   - stage: build & publish showcase
     script:
     - npm run build:lib

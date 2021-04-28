@@ -1,14 +1,42 @@
-import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { fromEvent, Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMapTo, takeUntil } from 'rxjs/operators';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { ChangeDetectionStrategy, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { fromEvent, NEVER, Observable, Subject, Subscriber } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
+import { CarouselError } from '../models/carousel-error';
 import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
 import { HammerProviderService } from '../service/hammer-provider.service';
+
+// TODO declared until https://github.com/Microsoft/TypeScript/issues/28502 is resolved
+declare class ResizeObserver {
+    constructor(callback: ResizeObserverCallback);
+    observe: (target: Element) => void;
+    unobserve: (target: Element) => void;
+    disconnect: () => void;
+}
+
+type ResizeObserverCallback = (entries: ResizeObserverEntry[], observer: ResizeObserver) => void;
+
+declare class ResizeObserverEntry {
+  /**
+   * @param target The Element whose size has changed.
+   */
+  constructor(target: Element);
+
+  /**
+   * The Element whose size has changed.
+   */
+  readonly target: Element;
+
+  /**
+   * Element's content rect when ResizeObserverCallback is invoked.
+   */
+  readonly contentRect: DOMRectReadOnly;
+}
 
 @Component({
   selector: 'carousel-engine',
@@ -20,64 +48,75 @@ import { HammerProviderService } from '../service/hammer-provider.service';
 /**
  * Contains listeners and other DOM controllers
  */
-export class CarouselEngineComponent implements OnInit, OnDestroy {
+export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
-    @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef;
+    @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef<HTMLElement> | null = null;
     public readonly transformValue$ = this.transformValueChanges();
     public readonly slideWidth$ = this.slideWidthChanges();
     public readonly template$ = this.templateChanges();
     public readonly slides$ = this.slidesChanges();
     public focused = false;
     private readonly destroyed$ = new Subject<void>();
-    private mouseEnterDestructor: () => void;
-    private mouseLeaveDestructor: () => void;
-    private keyboardListener: () => void;
-    private containerScrollListener: () => void;
-    private hammerManager: HammerManager;
+    private mouseEnterDestructor: (() => void) | null = null;
+    private mouseLeaveDestructor: (() => void) | null = null;
+    private keyboardListener: (() => void) | null = null;
+    private containerScrollListener: (() => void) | null = null;
+    private visibilityListener: (() => void) | null = null;
+    private hammerManager: HammerManager | null = null;
 
     private get htmlElement(): HTMLElement {
         return this.elementRef.nativeElement;
     }
 
     constructor(
-        private carousel: CarouselService,
-        private elementRef: ElementRef,
+        private carousel: CarouselService<T>,
+        private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
         private hammer: HammerProviderService,
+        private zone: NgZone,
+        @Inject(DOCUMENT) private document: any, // TODO make Document type when Ivy library is out
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
     }
 
-    ngOnInit() {
+    ngOnInit(): void {
         this.listenToAutoplay();
         this.listenToDragEvents();
         this.listenToResizeEvents();
         this.listenToKeyEvents();
         this.listenToScrollEvents();
-        this.carousel.setContainers(this.htmlElement, this.galleryRef.nativeElement);
+        this.listenToVisibilityEvents();
+        if (this.galleryRef?.nativeElement) {
+            this.carousel.setContainers(this.htmlElement, this.galleryRef?.nativeElement ?? null);
+        } else {
+            throw new CarouselError('Error initializing ng-carousel-cdk containers');
+        }
     }
 
-    ngOnDestroy() {
-        this.destroyMouseListeners();
-        this.destroyHammer();
-        this.destroyKeyboardListeners();
-        this.destroyElementScrollListener();
+    ngOnDestroy(): void {
+        this.mouseEnterDestructor?.();
+        this.mouseLeaveDestructor?.();
+        this.keyboardListener?.();
+        this.containerScrollListener?.();
+        this.visibilityListener?.();
         this.destroyed$.next();
         this.destroyed$.complete();
     }
 
-    trackByFn(index: number, item: CarouselSlide): number {
+    trackByFn(index: number, item: CarouselSlide<T>): number {
         return item.id;
     }
 
-    contextOf(slide: CarouselSlide): CarouselSlideContext {
-        return new CarouselSlideContext(
-            slide.options.item,
-            slide.itemIndex,
-            slide.options.isActive,
-            slide.options.inViewport,
-        );
+    contextOf(slide: CarouselSlide<T>): CarouselSlideContext<T> {
+        return {
+            $implicit: slide.options.item,
+            itemIndex: slide.itemIndex,
+            isActive: slide.options.isActive,
+            inViewport: slide.options.inViewport,
+            activeOnTheLeft: slide.options.activeOnTheLeft,
+            activeOnTheRight: slide.options.activeOnTheRight,
+        };
     }
 
     focusIn(): void {
@@ -90,58 +129,32 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         this.carousel.enableAutoplay(AutoplaySuspender.FOCUS);
     }
 
-    private destroyMouseListeners(): void {
-        if (this.mouseEnterDestructor) {
-            this.mouseEnterDestructor();
-        }
-        if (this.mouseLeaveDestructor) {
-            this.mouseLeaveDestructor();
-        }
-    }
-
-    private destroyHammer(): void {
-        if (this.hammerManager) {
-            this.hammerManager.destroy();
-        }
-    }
-
-    private destroyKeyboardListeners(): void {
-        if (this.keyboardListener) {
-            this.keyboardListener();
-        }
-    }
-
-    private destroyElementScrollListener(): void {
-        if (this.containerScrollListener) {
-            this.containerScrollListener();
-        }
-    }
 
     private transformValueChanges(): Observable<string> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => `translateX(${state.offset}${state.config.widthMode})`),
+                map((state: CarouselState<T>) => `translateX(${state.offset}${state.config.widthMode})`),
             );
     }
 
     private slideWidthChanges(): Observable<string> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => `${state.config.slideWidth}${state.config.widthMode}`),
+                map((state: CarouselState<T>) => `${state.config.slideWidth}${state.config.widthMode}`),
             );
     }
 
-    private slidesChanges(): Observable<CarouselSlide[]> {
+    private slidesChanges(): Observable<CarouselSlide<T>[]> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.slides),
+                map((state: CarouselState<T>) => state.slides),
             );
     }
 
-    private templateChanges(): Observable<TemplateRef<any>> {
+    private templateChanges(): Observable<TemplateRef<CarouselSlideContext<T>> | null> {
         return this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.template),
+                map((state: CarouselState<T>) => state.template),
             );
     }
 
@@ -152,17 +165,13 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.config.autoplayEnabled),
+                map((state: CarouselState<T>) => state.config.autoplayEnabled),
                 distinctUntilChanged(),
                 takeUntil(this.destroyed$),
             )
             .subscribe((autoplayEnabled: boolean) => {
-                if (this.mouseEnterDestructor) {
-                    this.mouseEnterDestructor();
-                }
-                if (this.mouseLeaveDestructor) {
-                    this.mouseLeaveDestructor();
-                }
+                this.mouseEnterDestructor?.();
+                this.mouseLeaveDestructor?.();
                 if (!autoplayEnabled) {
 
                     return;
@@ -187,7 +196,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                map((state: CarouselState) => state.config.dragEnabled),
+                map((state: CarouselState<T>) => state.config.dragEnabled),
                 distinctUntilChanged(),
                 takeUntil(this.destroyed$),
             )
@@ -205,7 +214,7 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
                     return;
                 }
                 let lastDelta = 0;
-                let lastTouchAction: string;
+                let lastTouchAction: string | null;
 
                 this.hammerManager.on('panstart', (event: HammerInput) => {
                     // Checking whether pan started with horizontal gesture,
@@ -251,12 +260,21 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
         }
         this.carousel.carouselStateChanges()
             .pipe(
-                filter((state: CarouselState) => state.config.shouldRecalculateOnResize),
-                switchMapTo(fromEvent(window, 'resize')),
+                map((state: CarouselState<T>) => state.config.shouldRecalculateOnResize),
+                distinctUntilChanged(),
+                switchMap((shouldRecalculate: boolean) => shouldRecalculate
+                    ? this.resizeObserverSupported()
+                        ? this.fromElementResize(this.elementRef.nativeElement)
+                        : fromEvent(window, 'resize', {passive: true}).pipe(mapTo(null))
+                    : NEVER
+                ),
+                debounceTime(300),
                 takeUntil(this.destroyed$),
             )
             .subscribe(() => {
-                this.carousel.recalculate();
+                this.zone.run(() => { // ResizeObserver runs outside zone
+                    this.carousel.recalculate();
+                });
             });
     }
 
@@ -285,8 +303,50 @@ export class CarouselEngineComponent implements OnInit, OnDestroy {
      * container to initial position when that happens.
      */
     private listenToScrollEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
         this.containerScrollListener = this.renderer.listen(this.htmlElement, 'scroll', () => {
             this.htmlElement.scrollTo(0, 0);
+        });
+    }
+
+    private listenToVisibilityEvents(): void {
+        if (!isPlatformBrowser(this.platformId)) {
+
+            return;
+        }
+        if (this.document.hidden) {
+            this.carousel.disableAutoplay(AutoplaySuspender.BLUR);
+        }
+        this.visibilityListener = this.renderer.listen(this.document, 'visibilitychange', () => {
+            if (this.document.hidden) {
+                this.carousel.disableAutoplay(AutoplaySuspender.BLUR);
+            } else {
+                this.carousel.enableAutoplay(AutoplaySuspender.BLUR);
+            }
+        });
+    }
+
+    private resizeObserverSupported(): boolean {
+        return 'ResizeObserver' in this.document.defaultView;
+    }
+
+    private fromElementResize(element: HTMLElement | null): Observable<void> {
+        if (!element) {
+            return NEVER;
+        }
+
+        return new Observable<void>((subscriber: Subscriber<void>) => {
+            const observer = new ResizeObserver(() => {
+                subscriber.next();
+            });
+            observer.observe(element);
+
+            return () => {
+                observer.disconnect();
+            };
         });
     }
 }

@@ -12,14 +12,15 @@ describe('initializeCarousel test suite', () => {
             expect(slides[i].options).toEqual({
                 item: items[i],
                 isActive: i === 0,
+                inViewport: false,
+                activeOnTheLeft: i > 0,
+                activeOnTheRight: false,
             });
-            expect(slides[i].options.inViewport).toBeUndefined();
         }
     });
 
     it('should not create when items are empty', () => {
         expect(initializeCarousel([], new IdGenerator())).toEqual([]);
-        expect(initializeCarousel(null, new IdGenerator())).toEqual([]);
     });
 
     it('should not create when id generator is not defined', () => {

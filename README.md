@@ -29,7 +29,7 @@ npm i ng-carousel-cdk
 
     @NgModule({
         imports: [
-            CarouselModule
+            CarouselModule,
         ],
     })
     export class AnyModule { }
@@ -38,23 +38,34 @@ npm i ng-carousel-cdk
 
     Component:
     ```typescript
-    const config: CarouselConfig = {
+    interface CarouselItem {
+        name: number;
+    }
+
+    ...
+
+    const config: CarouselConfig<CarouselItem> = {
         items: [
             {name: 1},
             {name: 2},
-            {name: 3},  
+            {name: 3},
         ],
     }
     ```
 
     Template:
     ```HTML
-    <ng-carousel [config]="config">
-        <ng-template ngCarouselSlide let-item>
+    <ng-carousel
+        #carouselRef="ngCarousel"
+        [config]="config">
+        <ng-template
+            [ngCarouselSlide]="carouselRef"
+            let-item>
             {{item.name}}
         </ng-template>
     </ng-carousel>
     ```
+Providing a carousel reference to `ngCarouselSlide` is optional, but gives a type defense for `$implicit` variable
 
 ## API
 
@@ -79,10 +90,33 @@ Use template with `ngCarouselSlide` directive applied to declare slide template.
 ```
 Template is enriched with next context structure:
 
-- `$implicit`: injected item
+- `$implicit`: injected item, would have correct type if carousel reference is provided to `ngCarouselSlide` input
 - `itemIndex`: item index of current slide
 - `isActive`: whether slide is currently active
 - `inViewport`: whether slide is currently visible (at least 1 pixel is in viewport)
+- `activeOnTheLeft`: whether active slide is currently to the left of the current one
+- `activeOnTheRight`: whether active slide is currently to the right of the current one
+
+Template variables can (and should) be typed with carousel input:
+```typescript
+readonly config: CarouselConfig<number> = {
+    ...,
+    items: [1, 2, 3],
+}
+```
+
+```html
+<ng-carousel
+    #carouselRef="ngCarousel"
+    [config]="config">
+    <ng-template
+        [ngCarouselSlide]="carouselRef"
+        let-item>
+        Slide №{{index}} content
+    </ng-template>
+</ng-carousel>
+```
+`item` ng-template variable would have a correct type of `number`
 
 #### Inputs
 
@@ -92,7 +126,7 @@ Possible options:
 
 -
     ```typescript
-    items: any[] = [];
+    items: T[] = [];
     ```
     Items to be rendered inside carouse
 -
@@ -155,7 +189,7 @@ Template
 <ng-carousel #carouselRef="ngCarousel"></ng-carousel>
 ```
 
-or 
+or
 
 ```typescript
 @ViewChild(CarouselComponent) carouselRef: CarouselComponent;
@@ -165,14 +199,15 @@ Use this reference to programmaticaly trigger next events:
 - `carouselRef.next()`: increment active slide
 - `carouselRef.prev()`: decrement active slide
 - `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index. When no slides are available, index change would postpone till slide initialization.
-- `carouselRef.recalculate()`: recalculate positions
+- `carouselRef.recalculate()`: recalculate positions. Might be useful when `shouldRecalculateOnResize` is turned off and carousel width mode is `CarouselWidthMode.PX` (pixels).
+- `carouselRef.slideIndex`: returns current active slide index, might be useful for composing paginators
 
 ### PreventGhostClickDirective
 
 selector: `[ngCarouselPreventGhostClick]`
 
 #### Usage
-Use directive on button, anchor or any clickable element. This will prevent ghost clicks after pan ends.
+Use directive on button, anchor or any clickable/draggable element. This will prevent ghost clicks after pan ends.
 
 ```HTML
 <ng-carousel>

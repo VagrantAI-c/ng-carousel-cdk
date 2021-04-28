@@ -1,14 +1,13 @@
 /**
  * Template context for carousel slide
  */
-export class CarouselSlideContext {
+export interface CarouselSlideContext<T> {
 
-    constructor(
-        public $implicit: any,
-        public itemIndex: number,
-        public isActive: boolean,
-        public inViewport: boolean,
-    ) {
-    }
+    $implicit: T;
+    itemIndex: number;
+    isActive: boolean;
+    inViewport: boolean;
+    activeOnTheLeft: boolean;
+    activeOnTheRight: boolean;
 
 }

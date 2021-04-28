@@ -1,5 +1,5 @@
 import { NoopAnimationPlayer } from '@angular/animations';
-import { NEVER } from 'rxjs';
+import { NEVER, Subscription } from 'rxjs';
 
 import { CarouselAnimation } from '../../../models/carousel-animation';
 import { destroyAnimation } from './destroy-animation';
@@ -11,10 +11,10 @@ describe('destroyAnimation test suite', () => {
         spyOn(animationPlayer, 'finish');
         spyOn(animationPlayer, 'destroy');
         const animation = new CarouselAnimation(
-            null,
-            null,
+            0,
+            0,
             animationPlayer,
-            null,
+            new Subscription(),
         );
         destroyAnimation(animation);
         expect(animationPlayer.destroy).toHaveBeenCalledTimes(1);
@@ -24,8 +24,8 @@ describe('destroyAnimation test suite', () => {
     it('should unsubscribe', () => {
         const subscription$ = NEVER.subscribe();
         const animation = new CarouselAnimation(
-            null,
-            null,
+            0,
+            0,
             null,
             subscription$,
         );

@@ -8,7 +8,7 @@ import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselState } from '../models/carousel-state';
 import { IdGenerator } from '../models/id-generator';
 import { ProcedureEnvironment } from '../models/procedure/procedure-environment.interface';
-import { procedurePipe } from '../models/procedure/procedure-pipe';
+import { procedurePipe } from '../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../models/procedure/procedure.type';
 import { SLIDE_ID_GENERATOR } from '../tokens';
 import { disableAutoplayProcedure } from './helpers/disable-autoplay/disable-autoplay-procedure';
@@ -39,14 +39,14 @@ const MAX_SWIPE_THRESHOLD = 15;
 const MAX_OVERSCROLL = 10;
 
 @Injectable()
-export class CarouselService implements OnDestroy {
+export class CarouselService<T> implements OnDestroy {
 
-    private readonly carouselState$ = new BehaviorSubject<CarouselState>(new CarouselState());
+    private readonly carouselState$ = new BehaviorSubject<CarouselState<T>>(new CarouselState<T>());
     /** Describes constant entities for procedures */
     private readonly procedureEnvironment: ProcedureEnvironment = {
         slideIdGenerator: this.slideIdGenerator,
         isBrowser: isPlatformBrowser(this.platformId),
-        autoplayAction: this.next.bind(this),
+        autoplayAction: this.next.bind(this, true),
         afterAnimationAction: this.cleanup.bind(this),
         animationBuilder: this.animationBuilder,
         animationBezierArgs: ANIMATION_BEZIER_ARGS,
@@ -66,7 +66,11 @@ export class CarouselService implements OnDestroy {
         this.carouselState$.getValue()?.autoplay?.autoplaySubscription?.unsubscribe();
     }
 
-    carouselStateChanges(): Observable<CarouselState> {
+    getItemIndex(): number {
+        return this.carouselState$.getValue().activeItemIndex;
+    }
+
+    carouselStateChanges(): Observable<CarouselState<T>> {
         return this.carouselState$.asObservable();
     }
 
@@ -118,7 +122,7 @@ export class CarouselService implements OnDestroy {
     /**
      * Starts new autoplay timer
      */
-    enableAutoplay(suspender: AutoplaySuspender = null): void {
+    enableAutoplay(suspender: AutoplaySuspender | null = null): void {
         this.apply(enableAutoplayProcedure(suspender));
     }
 
@@ -126,7 +130,7 @@ export class CarouselService implements OnDestroy {
         this.apply(initializeContainersProcedure(widthContainer, animatableContainer));
     }
 
-    setConfig(newConfig: CarouselConfig): void {
+    setConfig(newConfig: CarouselConfig<T>): void {
         this.apply(initializeConfigProcedure(newConfig));
     }
 
@@ -138,7 +142,7 @@ export class CarouselService implements OnDestroy {
      * Applies specified procedure to carousel state
      */
     private apply(procedure: Procedure): void {
-        const state: CarouselState = Object.assign({}, this.carouselState$.getValue());
+        const state: CarouselState<T> = Object.assign({}, this.carouselState$.getValue());
         const result = procedurePipe('applier', procedure)({state, procedureState: {}, environment: this.procedureEnvironment});
         this.carouselState$.next(result.state);
     }

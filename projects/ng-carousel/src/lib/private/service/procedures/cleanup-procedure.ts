@@ -1,6 +1,5 @@
-import { procedurePipe } from '../../models/procedure/procedure-pipe';
+import { procedurePipe } from '../../models/procedure/procedure-pipe/procedure-pipe';
 import { Procedure } from '../../models/procedure/procedure.type';
-import { calculateActiveSlideProcedure } from '../helpers/calculate-active-slide/calculate-active-slide-procedure';
 import { calculateOffsetProcedure } from '../helpers/calculate-offset/calculate-offset-procedure';
 import { destroyAnimationProcedure } from '../helpers/destroy-animation/destroy-animation-procedure';
 import { markVisibleAndActiveProcedure } from '../helpers/mark-visible-and-active/mark-visible-and-active-procedure';
@@ -16,9 +15,8 @@ export function cleanupProcedure(): Procedure {
         destroyAnimationProcedure(),
         markVisibleAndActiveProcedure(),
         calculateOffsetProcedure(),
-        calculateActiveSlideProcedure(),
         removeExcessiveProcedure(),
         shuffleSlidesProcedure(),
-        calculateActiveSlideProcedure(),
+        markVisibleAndActiveProcedure(),
     );
 }
