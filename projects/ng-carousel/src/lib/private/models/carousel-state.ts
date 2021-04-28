@@ -1,9 +1,9 @@
 import { TemplateRef } from '@angular/core';
 import { EasingFunction } from 'bezier-easing';
 
-import { CarouselConfig } from '../../carousel-config';
 import { CarouselAnimation } from './carousel-animation';
 import { CarouselAutoplay } from './carousel-autoplay';
+import { CompleteCarouselConfig } from './carousel-config';
 import { CarouselSlide } from './carousel-slide';
 import { CarouselSlideContext } from './carousel-slide-context';
 import { InitializationState } from './initialization-state';
@@ -22,7 +22,7 @@ export class CarouselState<T = any> {
     /** Container that should be animated during index change */
     animatableContainer: HTMLElement | null = null;
     /** Client-side config which regulates carousel behavior */
-    config: CarouselConfig<T> = new CarouselConfig<T>();
+    config: CompleteCarouselConfig<T> = new CompleteCarouselConfig<T>();
     activeSlideIndex = 0;
     /** Item index of config's items array */
     activeItemIndex = 0;

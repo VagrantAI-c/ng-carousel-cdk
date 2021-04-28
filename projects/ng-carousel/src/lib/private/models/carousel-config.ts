@@ -1,7 +1,8 @@
-import { CarouselWidthMode } from './carousel-width-mode';
-import { CarouselAlignMode } from './carousel-align-mode';
+import { CarouselAlignMode } from '../../carousel-align-mode';
+import { CarouselConfig } from '../../carousel-config.type';
+import { CarouselWidthMode } from '../../carousel-width-mode';
 
-export class CarouselConfig<T = any> {
+export class CompleteCarouselConfig<T = any> {
     /**
      * Array of data to display
      */
@@ -57,7 +58,7 @@ export class CarouselConfig<T = any> {
      */
     threshold = 5;
 
-    constructor(config?: Partial<CarouselConfig<T>>) {
+    constructor(config?: CarouselConfig<T>) {
         this.items = config?.items ?? [];
         this.widthMode = config?.widthMode ?? CarouselWidthMode.PERCENT;
         this.alignMode = config?.alignMode ?? CarouselAlignMode.CENTER;
