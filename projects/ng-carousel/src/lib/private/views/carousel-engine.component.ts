@@ -46,7 +46,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
         private hammer: HammerProviderService,
-        @Inject(DOCUMENT) private document: Document,
+        @Inject(DOCUMENT) private document: any, // TODO make Document type when Ivy library is out
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
