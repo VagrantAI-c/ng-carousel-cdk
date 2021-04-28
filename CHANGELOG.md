@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.0...v1.6.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* allow partial config ([734c396](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/734c3963f0cb1a67acdbd33968cf1989c635aa02))
+
 # [1.6.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.5.1...v1.6.0) (2021-04-28)
 
 
