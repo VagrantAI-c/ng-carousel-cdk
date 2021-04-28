@@ -1,5 +1,5 @@
-import { CarouselConfig } from '../../../carousel-config';
 import { CarouselAutoplay } from '../carousel-autoplay';
+import { CompleteCarouselConfig } from '../carousel-config';
 import { CarouselState } from '../carousel-state';
 
 export const MOCK_CAROUSEL_STATE: CarouselState = {
@@ -11,7 +11,7 @@ export const MOCK_CAROUSEL_STATE: CarouselState = {
   dragBezierFn: null,
   invertedDragBezierFn: null,
   autoplay: new CarouselAutoplay(),
-  config: new CarouselConfig(),
+  config: new CompleteCarouselConfig(),
   initializationState: {
     configInitialized: false,
     firstInitalization: false,

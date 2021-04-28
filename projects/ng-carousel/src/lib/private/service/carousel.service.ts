@@ -2,9 +2,8 @@ import { AnimationBuilder } from '@angular/animations';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-
-import { CarouselConfig } from '../../carousel-config';
 import { AutoplaySuspender } from '../models/autoplay-suspender';
+import { CompleteCarouselConfig } from '../models/carousel-config';
 import { CarouselState } from '../models/carousel-state';
 import { IdGenerator } from '../models/id-generator';
 import { ProcedureEnvironment } from '../models/procedure/procedure-environment.interface';
@@ -25,6 +24,7 @@ import { prevProcedure } from './procedures/prev-procedure';
 import { recalculateProcedure } from './procedures/recalculate-procedure';
 import { ANIMATION_BEZIER_ARGS } from './procedures/set-beziers/set-beziers-procedure';
 import { setTemplateProcedure } from './procedures/set-template/set-template-procedure';
+
 
 /**
  * Short swipe might not change slide to next/prev.
@@ -130,7 +130,7 @@ export class CarouselService<T> implements OnDestroy {
         this.apply(initializeContainersProcedure(widthContainer, animatableContainer));
     }
 
-    setConfig(newConfig: CarouselConfig<T>): void {
+    setConfig(newConfig: CompleteCarouselConfig<T>): void {
         this.apply(initializeConfigProcedure(newConfig));
     }
 

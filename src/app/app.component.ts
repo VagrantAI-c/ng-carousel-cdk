@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     @ViewChild(CarouselComponent, {static: true}) carouselRef?: CarouselComponent;
 
-    config: Partial<CarouselConfig<CarouselItem>> = {
+    config: CarouselConfig<CarouselItem> = {
         widthMode: CarouselWidthMode.PERCENT,
         slideWidth: 100,
         transitionDuration: 2500,
