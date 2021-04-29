@@ -26,6 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
         autoplayEnabled: true,
         dragEnabled: true,
         shouldRecalculateOnResize: true,
+        recalculateDebounce: 300,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -37,11 +38,13 @@ export class AppComponent implements OnInit, OnDestroy {
         autoplayEnabled: new FormControl(this.config.autoplayEnabled),
         dragEnabled: new FormControl(this.config.dragEnabled),
         shouldRecalculateOnResize: new FormControl(this.config.shouldRecalculateOnResize),
+        recalculateDebounce: new FormControl(this.config.recalculateDebounce),
     });
     readonly slideWidth$ = this.slideWidthChanges();
     readonly widthMode$ = this.widthModeChanges();
     readonly transitionDuration$ = this.transitionDurationChanges();
     readonly slidesQuantity$ = this.slidesQuantityChanges();
+    readonly recalculateDebounce$ = this.recalculateDebounceChanges();
     readonly PX = CarouselWidthMode.PX;
     readonly PERCENT = CarouselWidthMode.PERCENT;
     readonly LEFT = CarouselAlignMode.LEFT;
@@ -100,6 +103,14 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(
                 map((form: {slidesQuantity: number}) => form.slidesQuantity),
                 startWith(this.configForm.controls.slidesQuantity.value),
+            );
+    }
+
+    private recalculateDebounceChanges(): Observable<number> {
+        return this.configForm.valueChanges
+            .pipe(
+                map((form: {recalculateDebounce: number}) => form.recalculateDebounce),
+                startWith(this.configForm.controls.recalculateDebounce.value),
             );
     }
 
