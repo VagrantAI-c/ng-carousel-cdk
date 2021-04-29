@@ -174,6 +174,11 @@ Possible options:
     shouldRecalculateOnResize = true;
     ```
     Whether carousel should recalculate upon window resize. Useful when carousel takes full page width or carousel width is relative to viewport width (either in `%` or `vw`)
+-
+    ```typescript
+    recalculateDebounce = 300;
+    ```
+    Specifies time for which carousel would wait after resize event to recalculate its positions. 0 means no debounce is applied.
 
 #### Outputs
 `itemIndexChange`
