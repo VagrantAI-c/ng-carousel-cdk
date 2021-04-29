@@ -1,3 +1,10 @@
+# [1.7.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.1...v1.7.0) (2021-04-29)
+
+
+### Features
+
+* allow to modify autorecalculate debounce time ([2e9cf12](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/2e9cf128ff421e1c7fe7d46f64962bf21129b815))
+
 ## [1.6.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.0...v1.6.1) (2021-04-28)
 
 
