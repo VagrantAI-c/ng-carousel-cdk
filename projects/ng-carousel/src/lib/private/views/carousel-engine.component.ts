@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { fromEvent, NEVER, Observable, Subject, Subscriber } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
+import { fromEvent, interval, NEVER, Observable, Subject, Subscriber } from 'rxjs';
+import { debounce, distinctUntilChanged, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselError } from '../models/carousel-error';
@@ -268,7 +268,13 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
                         : fromEvent(window, 'resize', {passive: true}).pipe(mapTo(null))
                     : NEVER
                 ),
-                debounceTime(300),
+                debounce(() => this.carousel.carouselStateChanges()
+                    .pipe(
+                        map((state: CarouselState<T>) => state.config.recalculateDebounce),
+                        distinctUntilChanged(),
+                        switchMap((debounceTime: number) => interval(debounceTime)),
+                    )
+                ),
                 takeUntil(this.destroyed$),
             )
             .subscribe(() => {

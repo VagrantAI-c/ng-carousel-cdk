@@ -154,6 +154,22 @@
                     </div>
                 </div>
             </label>
+            <label class="control-block">
+                <div>Recalculate debounce: {{recalculateDebounce$ | async}}</div>
+                <div class="range-block">
+                    <mat-slider
+                        max="3000"
+                        formControlName="recalculateDebounce"
+                        thumbLabel>
+                    </mat-slider>
+                    <div
+                        aria-hidden="true"
+                        class="range-labels-block mat-caption">
+                        <div>0</div>
+                        <div>3000</div>
+                    </div>
+                </div>
+            </label>
             <div class="control-block">
                 <mat-checkbox formControlName="autoplayEnabled">
                     Autoplay
