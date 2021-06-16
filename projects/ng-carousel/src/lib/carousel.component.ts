@@ -44,7 +44,7 @@ export class CarouselComponent<T = any> {
         );
     }
 
-    @Input() set config(newConfig: CarouselConfig<T>) {
+    @Input() set config(newConfig: CarouselConfig<T> | null | undefined) {
         const configInstance = new CompleteCarouselConfig<T>(newConfig);
         this.carousel.setConfig(configInstance);
     }
