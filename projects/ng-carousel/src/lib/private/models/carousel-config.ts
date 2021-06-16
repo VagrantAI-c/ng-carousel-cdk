@@ -87,33 +87,37 @@ export class CompleteCarouselConfig<T = any> {
      */
     threshold = 5;
 
-    constructor(config?: CarouselConfig<T>) {
+    constructor(config?: CarouselConfig<T> | null) {
         this.items = config?.items ?? [];
         this.widthMode = config?.widthMode ?? CarouselWidthMode.PERCENT;
         this.alignMode = config?.alignMode ?? CarouselAlignMode.CENTER;
-        this.slideWidth = typeof config?.slideWidth === 'number'
-            ? config.slideWidth
-            : 100;
-        this.autoplayEnabled = typeof config?.autoplayEnabled === 'boolean'
-            ? config.autoplayEnabled
-            : true;
-        this.autoplayDelay = typeof config?.autoplayDelay === 'number'
-            ? config.autoplayDelay
-            : 6000;
-        this.dragEnabled = typeof config?.dragEnabled === 'boolean'
-            ? config.dragEnabled
-            : true;
-        this.shouldLoop = typeof config?.shouldLoop === 'boolean'
-            ? config.shouldLoop
-            : true;
-        this.transitionDuration = typeof config?.transitionDuration === 'number'
-            ? config.transitionDuration
-            : 600;
-        this.shouldRecalculateOnResize = typeof config?.shouldRecalculateOnResize === 'boolean'
-            ? config.shouldRecalculateOnResize
-            : true;
-        this.recalculateDebounce = typeof config?.recalculateDebounce === 'number'
-            ? config.recalculateDebounce
-            : 300;
+        this.slideWidth = extractCoerced(config?.slideWidth, 100);
+        this.autoplayEnabled = extractCoerced(config?.autoplayEnabled, true);
+        this.autoplayDelay = extractCoerced(config?.autoplayDelay, 6000);
+        this.dragEnabled = extractCoerced(config?.dragEnabled, true);
+        this.shouldLoop = extractCoerced(config?.shouldLoop, true);
+        this.transitionDuration = extractCoerced(config?.transitionDuration, 600);
+        this.shouldRecalculateOnResize = extractCoerced(config?.shouldRecalculateOnResize, true);
+        this.recalculateDebounce = extractCoerced(config?.recalculateDebounce, 300);
     }
+}
+
+function extractCoerced<T>(value: T | null | undefined, defaultValue: T): T {
+    if (isBoolean(defaultValue)) {
+
+        return isBoolean(value) ? value : defaultValue;
+    } else if (isNumber(defaultValue)) {
+
+        return isNumber(value) ? value : defaultValue;
+    }
+
+    return value ?? defaultValue;
+}
+
+function isBoolean(prop?: any): prop is boolean {
+    return typeof prop === 'boolean';
+}
+
+function isNumber(prop?: any): prop is number {
+    return isFinite(prop) && !isNaN(prop);
 }
