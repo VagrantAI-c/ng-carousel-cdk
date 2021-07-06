@@ -13,7 +13,7 @@
     "test:lib:coverage": "ng test ng-carousel --code-coverage --no-watch",
     "test:showcase:once": "ng test --no-watch --configuration=production",
     "build:gh": "ng build --configuration=production --base-href \"https://vagrantai-c.github.io/ng-carousel-cdk/\"",
-    "publish-demo": "npx angular-cli-ghpages --dir dist/browser --repo https://GH_TOKEN@github.com/VagrantAI-c/ng-carousel-cdk.git",
+    "publish-demo": "npx angular-cli-ghpages --dir dist/browser --repo https://github.com/VagrantAI-c/ng-carousel-cdk.git",
     "copy:readme": "copyfiles ./README.md ./dist/ng-carousel",
     "build:lib": "ng build ng-carousel --configuration=production && npm run copy:readme",
     "publish:lib": "npx semantic-release",
