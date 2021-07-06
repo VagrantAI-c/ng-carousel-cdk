@@ -6,9 +6,6 @@
     "declarationMap": true,
     "declaration": true,
     "inlineSources": true,
-    "types": [
-      "../../node_modules/@types/hammerjs",
-    ],
     "lib": [
       "dom",
       "es2018"
