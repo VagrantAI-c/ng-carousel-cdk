@@ -12,16 +12,6 @@ Angular version 7 or higher
 npm i ng-carousel-cdk
 ```
 
-### Additional installs
-- Hammer should be additionaly provided by user whether drag is wanted to be supported.
-    ```
-    npm i hammerjs
-    ```
-- After install, provide `hammerjs` in `main.ts` file:
-    ```
-    import 'hammerjs';
-    ```
-
 ## Usage
 1. Import carousel in module
     ```typescript
@@ -128,52 +118,52 @@ Possible options:
     ```typescript
     items: T[] = [];
     ```
-    Items to be rendered inside carouse
+    Items to be rendered inside carousel.
 -
     ```typescript
     slideWidth = 100;
     ```
-    All slides have same width and this field specifies it
+    All slides have same width and this field specifies it.
 -
     ```typescript
     widthMode: CarouselWidthMode = CarouselWidthMode.PERCENT;
     ```
-    How `slideWidth` should interpret its value, whether in pixels or percents
+    How `slideWidth` should interpret its value, whether in pixels or percents.
 -
     ```typescript
     alignMode: CarouselAlignMode = CarouselAlignMode.CENTER;
     ```
-    Regulates where active slide should be place
+    Regulates where active slide should be place.
 -
     ```typescript
     autoplayEnabled = true;
     ```
-    Whether active slide should change over time
+    Whether active slide should change over time/
 -
     ```typscript
     autoplayDelay = 6000;
     ```
-    Specifies how often active slide should change. Only applied if `autoplayEnabled` is set to true
+    Specifies how often active slide should change. Only applied if `autoplayEnabled` is set to true.
 -
     ```typescript
     dragEnabled = true;
     ```
-    Whether drag is enabled. Be adviced that drag only available when hammerjs is installed
+    Whether drag is enabled.
 -
     ```typescript
     shouldLoop = true;
     ```
-    Whether carousel is allowed to copy slides in order to fill empty space
+    Whether carousel is allowed to copy slides in order to fill empty space.
 -
     ```typescript
     transitionDuration = 280;
     ```
-    Animation duration on slide change
+    Animation duration on slide change.
 -
     ```typescript
     shouldRecalculateOnResize = true;
     ```
-    Whether carousel should recalculate upon window resize. Useful when carousel takes full page width or carousel width is relative to viewport width (either in `%` or `vw`)
+    Whether carousel should recalculate upon window resize. Useful when carousel takes full page width or carousel width is relative to viewport width (either in `%` or `vw`).
 -
     ```typescript
     recalculateDebounce = 300;

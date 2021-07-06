@@ -9,34 +9,7 @@ import { CarouselSlide } from '../models/carousel-slide';
 import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
-import { HammerProviderService } from '../service/hammer-provider.service';
-
-// TODO declared until https://github.com/Microsoft/TypeScript/issues/28502 is resolved
-declare class ResizeObserver {
-    constructor(callback: ResizeObserverCallback);
-    observe: (target: Element) => void;
-    unobserve: (target: Element) => void;
-    disconnect: () => void;
-}
-
-type ResizeObserverCallback = (entries: ResizeObserverEntry[], observer: ResizeObserver) => void;
-
-declare class ResizeObserverEntry {
-  /**
-   * @param target The Element whose size has changed.
-   */
-  constructor(target: Element);
-
-  /**
-   * The Element whose size has changed.
-   */
-  readonly target: Element;
-
-  /**
-   * Element's content rect when ResizeObserverCallback is invoked.
-   */
-  readonly contentRect: DOMRectReadOnly;
-}
+import { PanRecognizerService } from '../service/pan-recognizer.service';
 
 @Component({
   selector: 'carousel-engine',
@@ -62,7 +35,6 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     private keyboardListener: (() => void) | null = null;
     private containerScrollListener: (() => void) | null = null;
     private visibilityListener: (() => void) | null = null;
-    private hammerManager: HammerManager | null = null;
 
     private get htmlElement(): HTMLElement {
         return this.elementRef.nativeElement;
@@ -72,8 +44,8 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         private carousel: CarouselService<T>,
         private elementRef: ElementRef<HTMLElement>,
         private renderer: Renderer2,
-        private hammer: HammerProviderService,
         private zone: NgZone,
+        private panRecognizer: PanRecognizerService<T>,
         @Inject(DOCUMENT) private document: any, // TODO make Document type when Ivy library is out
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
@@ -194,63 +166,18 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
             return;
         }
+
         this.carousel.carouselStateChanges()
             .pipe(
                 map((state: CarouselState<T>) => state.config.dragEnabled),
                 distinctUntilChanged(),
+                switchMap((dragEnabled: boolean) => dragEnabled
+                    ? this.panRecognizer.listen(this.htmlElement)
+                    : NEVER
+                ),
                 takeUntil(this.destroyed$),
             )
-            .subscribe((dragEnabled: boolean) => {
-                if (this.hammerManager) {
-                    this.hammerManager.destroy();
-                }
-                if (!dragEnabled) {
-
-                    return;
-                }
-                this.hammerManager = this.hammer.managerFor(this.htmlElement);
-                if (!this.hammerManager) {
-
-                    return;
-                }
-                let lastDelta = 0;
-                let lastTouchAction: string | null;
-
-                this.hammerManager.on('panstart', (event: HammerInput) => {
-                    // Checking whether pan started with horizontal gesture,
-                    // we should block all scroll attempts during current pan session then
-                    // tslint:disable-next-line: no-bitwise
-                    if (event.offsetDirection & Hammer.DIRECTION_HORIZONTAL) {
-                        lastDelta = Math.round(event.deltaX);
-                        this.carousel.dragStart();
-                        lastTouchAction = this.htmlElement.style.touchAction;
-                        this.renderer.setStyle(this.htmlElement, 'touch-action', 'none');
-                    }
-                });
-
-                this.hammerManager.on('panright panleft', (event: HammerInput) => {
-                    // We should not treat vertical pans as horizontal.
-                    // Be adviced that pan right/left events still counts
-                    // vertical pans as legitimate horizontal pan.
-
-                    // Next check clarifies that initial gesture was horizontal,
-                    // otherwise this variable would be falsy
-                    if (lastTouchAction) {
-                        const x = Math.round(event.center.x);
-                        const deltaX = Math.round(event.deltaX);
-                        this.carousel.drag(x, x + (deltaX - lastDelta));
-                        lastDelta = deltaX;
-                    }
-                });
-
-                this.hammerManager.on('panend pancancel', (event: HammerInput) => {
-                    if (lastTouchAction) {
-                        this.carousel.dragEnd(event.deltaX);
-                        this.renderer.setStyle(this.htmlElement, 'touch-action', lastTouchAction);
-                        lastTouchAction = null;
-                    }
-                });
-            });
+            .subscribe();
     }
 
     private listenToResizeEvents(): void {
