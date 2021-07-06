@@ -30,9 +30,9 @@ jobs:
       - name: Lint
         run: npm run lint
       - name: Test library
-        run: npm run test:lib
+        run: npm run test:lib:once
       - name: Test showcase
-        run: npm run test
+        run: npm run test:showcase:once
       - name: Build library
         run: npm run build:lib
       - name: Build Github Pages
