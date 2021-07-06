@@ -29,8 +29,10 @@ jobs:
         run: npm ci
       - name: Lint
         run: npm run lint
-      - name: Test
+      - name: Test library
         run: npm run test:lib
+      - name: Test showcase
+        run: npm run test
       - name: Build library
         run: npm run build:lib
       - name: Build Github Pages
