@@ -1,3 +1,11 @@
+# [1.8.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.7.0...v1.8.0) (2021-07-19)
+
+
+### Features
+
+* allow to pass nullish values to carousel config input ([563e988](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/563e988288980ca3275f2c37222841b0286b9377))
+* remove peer dependency of hammerjs in favor of pointer events ([5d03ec4](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/5d03ec4925236d546736dccd766502c72a78a4fd))
+
 # [1.7.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.1...v1.7.0) (2021-04-29)
 
 
