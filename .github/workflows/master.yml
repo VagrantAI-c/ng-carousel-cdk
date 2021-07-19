@@ -1,0 +1,40 @@
+name: Master CI
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    env:
+      CHROME_BIN: /usr/bin/chromium-browser
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      - name: Install NodeJS
+        uses: actions/setup-node@v2.2.0
+        with:
+          node-version: 16
+      - name: Clean install
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Install Chromium
+        run: |
+          wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+          sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
+          sudo apt-get update
+          sudo apt-get install google-chrome-stable
+      - name: Test library
+        run: npm run test:lib:once
+      - name: Test showcase
+        run: npm run test:showcase:once
+      - name: Build library
+        run: npm run build:lib
+      - name: Publish lib
+        run: npm run publish:lib

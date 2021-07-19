@@ -96,6 +96,11 @@
               "src/styles.scss"
             ],
             "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "karmaConfig": "karma-headless.conf.js"
+            }
           }
         },
         "lint": {
@@ -199,6 +204,11 @@
             "main": "projects/ng-carousel/src/test.ts",
             "tsConfig": "projects/ng-carousel/tsconfig.spec.json",
             "karmaConfig": "projects/ng-carousel/karma.conf.js"
+          },
+          "configurations": {
+            "production": {
+              "karmaConfig": "karma-headless.conf.js"
+            }
           }
         },
         "lint": {

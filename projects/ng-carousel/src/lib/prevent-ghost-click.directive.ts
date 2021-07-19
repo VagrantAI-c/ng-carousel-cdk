@@ -1,55 +1,32 @@
 import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
-import { asyncScheduler } from 'rxjs';
 
-import { HammerProviderService } from './private/service/hammer-provider.service';
+import { PanRecognizerService } from './private/service/pan-recognizer.service';
 
 @Directive({
     selector: '[ngCarouselPreventGhostClick]',
 })
 export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
-    private hammerManager: HammerManager | null = null;
-    private shouldPreventClick = false;
-    private readonly boundPreventFn = this.preventEvent.bind(this);
+    private preventFn = this.preventEvent.bind(this);
+    private readonly opts = {capture: true};
+    private readonly element = this.elementRef.nativeElement;
 
     constructor(
         private elementRef: ElementRef<HTMLElement>,
-        private hammer: HammerProviderService,
+        private panRecognizer: PanRecognizerService<any>,
     ) {
     }
 
     ngOnInit() {
-        this.listenClickCaptureEvents();
-        this.listenPanEndEvents();
+        this.element.addEventListener('click', this.preventFn, this.opts);
     }
 
     ngOnDestroy() {
-        if (this.hammerManager) {
-            this.hammerManager.destroy();
-        }
-        this.elementRef.nativeElement.removeEventListener('click', this.boundPreventFn, {capture: true});
+        this.element.removeEventListener('click', this.preventFn, this.opts);
     }
 
-    private listenClickCaptureEvents(): void {
-        this.elementRef.nativeElement.addEventListener('click', this.boundPreventFn, {capture: true});
-    }
-
-    private listenPanEndEvents(): void {
-        this.hammerManager = this.hammer.managerFor(this.elementRef.nativeElement);
-        if (!this.hammerManager) {
-
-            return;
-        }
-        this.hammerManager.on('panend pancancel', () => {
-            this.shouldPreventClick = true;
-            asyncScheduler.schedule(() => {
-                this.shouldPreventClick = false;
-            });
-        });
-    }
-
-    private preventEvent(event: MouseEvent): void {
-        if (this.shouldPreventClick) {
+    private preventEvent(event: MouseEvent | TouchEvent): void {
+        if (this.panRecognizer.isPanning) {
             event.preventDefault();
             event.stopImmediatePropagation();
         }

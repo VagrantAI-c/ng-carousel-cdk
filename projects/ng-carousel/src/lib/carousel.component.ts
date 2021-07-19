@@ -7,6 +7,7 @@ import { CompleteCarouselConfig } from './private/models/carousel-config';
 import { CarouselState } from './private/models/carousel-state';
 import { IdGenerator } from './private/models/id-generator';
 import { CarouselService } from './private/service/carousel.service';
+import { PanRecognizerService } from './private/service/pan-recognizer.service';
 import { ANIMATION_ID_GENERATOR, SLIDE_ID_GENERATOR } from './private/tokens';
 
 export function idGeneratorFactory(): IdGenerator {
@@ -19,6 +20,7 @@ export function idGeneratorFactory(): IdGenerator {
     styleUrls: ['carousel.component.scss'],
     providers: [
         CarouselService,
+        PanRecognizerService,
         {
             provide: SLIDE_ID_GENERATOR,
             useFactory: idGeneratorFactory,
