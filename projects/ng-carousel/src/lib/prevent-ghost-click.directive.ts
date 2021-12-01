@@ -1,4 +1,4 @@
-import { Directive, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { Directive, ElementRef, OnDestroy, OnInit, Optional } from '@angular/core';
 
 import { PanRecognizerService } from './private/service/pan-recognizer.service';
 
@@ -13,7 +13,7 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
     constructor(
         private elementRef: ElementRef<HTMLElement>,
-        private panRecognizer: PanRecognizerService<any>,
+        @Optional() private panRecognizer: PanRecognizerService<any>,
     ) {
     }
 
@@ -26,7 +26,7 @@ export class PreventGhostClickDirective implements OnInit, OnDestroy {
     }
 
     private preventEvent(event: MouseEvent | TouchEvent): void {
-        if (this.panRecognizer.isPanning) {
+        if (this.panRecognizer?.isPanning) {
             event.preventDefault();
             event.stopImmediatePropagation();
         }

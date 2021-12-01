@@ -16,7 +16,7 @@ export class PanRecognizerService<T> {
 
     /**
      * Tells for the whole chain (pointer events -> click events),
-     * that pan is still ongoing (event after pointer is up),
+     * that pan is still ongoing (even after pointer is up),
      * so we can prevent ghost clicks
      */
     isPanning = false;
