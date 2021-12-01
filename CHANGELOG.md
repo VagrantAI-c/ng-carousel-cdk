@@ -1,3 +1,10 @@
+## [1.8.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.0...v1.8.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* allow ghost click directive to be used outside carousel ([acd3e39](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/acd3e392acf775b0da56eaffd64607f65d0a386b))
+
 # [1.8.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.7.0...v1.8.0) (2021-07-19)
 
 
