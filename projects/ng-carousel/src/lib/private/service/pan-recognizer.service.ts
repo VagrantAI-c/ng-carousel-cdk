@@ -113,6 +113,7 @@ export class PanRecognizerService<T> {
         // We should block all scroll attempts during current pan session
         this.renderer.setStyle(element, 'touch-action', 'none');
         this.isPanningSync = true;
+        this.isPanning = true;
         this.schedule$?.unsubscribe();
         this.lastX = Math.round(eventCoordinates[0]);
     }
