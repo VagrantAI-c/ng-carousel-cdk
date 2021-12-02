@@ -1,3 +1,10 @@
+## [1.8.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.1...v1.8.2) (2021-12-02)
+
+
+### Bug Fixes
+
+* fix ghost click not working ([c97e3f7](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/c97e3f72a210547036daf89ab785a87596a9290d))
+
 ## [1.8.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.0...v1.8.1) (2021-12-01)
 
 
