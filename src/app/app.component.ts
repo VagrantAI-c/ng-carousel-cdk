@@ -74,6 +74,10 @@ export class AppComponent implements OnInit, OnDestroy {
         this.itemIndex = newIndex;
     }
 
+    emitLog(): void {
+        console.log('Button was clicked');
+    }
+
     private slideWidthChanges(): Observable<number> {
         return this.configForm.valueChanges
             .pipe(
