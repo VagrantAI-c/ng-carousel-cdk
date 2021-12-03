@@ -23,12 +23,14 @@
                     {{item.name}}
                 </h2>
                 <button
+                    (click)="emitLog()"
                     mat-raised-button
                     ngCarouselPreventGhostClick
                     color="primary">
                     Primary action
                 </button>
                 <button
+                    (click)="emitLog()"
                     mat-button
                     ngCarouselPreventGhostClick
                     color="primary">
