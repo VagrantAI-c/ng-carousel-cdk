@@ -35,11 +35,11 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
                     localHandler = !localHandler
                         ? procedure(nextState, procedureChainString)
                         : localHandler(nextState, procedureChainString);
-                } catch (e) {
+                } catch (e: unknown) {
                     if (!(e instanceof ProcedureError)) {
                         console.error(`Procedure interrupted at ${procedureChainString}`);
                     }
-                    throw new ProcedureError(e);
+                    throw new ProcedureError(e as Error);
                 }
             }
             state = localHandler.state;
