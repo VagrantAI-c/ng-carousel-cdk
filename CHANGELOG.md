@@ -1,3 +1,10 @@
+## [1.9.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.0...v1.9.1) (2021-12-03)
+
+
+### Bug Fixes
+
+* use partial library compilation ([5d93115](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/5d931152a1d932c349c3858f8d0e818fc6a7d46c))
+
 # [1.9.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.2...v1.9.0) (2021-12-03)
 
 
