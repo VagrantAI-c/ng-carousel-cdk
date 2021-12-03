@@ -169,6 +169,11 @@ Possible options:
     recalculateDebounce = 300;
     ```
     Specifies time for which carousel would wait after resize event to recalculate its positions. 0 means no debounce is applied.
+-
+    ```typescript
+    allowKeyboardNavigation = true;
+    ```
+    Whether carousel shoul listen to arrow keypresses and navigate to prev and next slide accordingly after left or right arrow key is pressed.
 
 #### Outputs
 `itemIndexChange`
