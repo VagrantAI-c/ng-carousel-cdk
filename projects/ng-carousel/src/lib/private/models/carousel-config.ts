@@ -86,6 +86,11 @@ export class CompleteCarouselConfig<T = any> {
      * Default: 5
      */
     threshold = 5;
+    /**
+     * Whether carousel is listening to arrow keypresses and navigates to prev and
+     * next slide accordingly after left or right arrow key is pressed
+     */
+    allowKeyboardNavigation = true;
 
     constructor(config?: CarouselConfig<T> | null) {
         this.items = config?.items ?? [];
@@ -99,6 +104,7 @@ export class CompleteCarouselConfig<T = any> {
         this.transitionDuration = extractCoerced(config?.transitionDuration, 600);
         this.shouldRecalculateOnResize = extractCoerced(config?.shouldRecalculateOnResize, true);
         this.recalculateDebounce = extractCoerced(config?.recalculateDebounce, 300);
+        this.allowKeyboardNavigation = extractCoerced(config?.allowKeyboardNavigation, true);
     }
 }
 
