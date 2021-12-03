@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.2...v1.9.0) (2021-12-03)
+
+
+### Features
+
+* allow to disable keyboard navigation ([4bfa6ee](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/4bfa6ee1052c896f43120beb8889096ab1428157))
+
 ## [1.8.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.1...v1.8.2) (2021-12-02)
 
 
