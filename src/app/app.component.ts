@@ -27,6 +27,7 @@ export class AppComponent implements OnInit, OnDestroy {
         dragEnabled: true,
         shouldRecalculateOnResize: true,
         recalculateDebounce: 300,
+        allowKeyboardNavigation: true,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
         dragEnabled: new FormControl(this.config.dragEnabled),
         shouldRecalculateOnResize: new FormControl(this.config.shouldRecalculateOnResize),
         recalculateDebounce: new FormControl(this.config.recalculateDebounce),
+        allowKeyboardNavigation: new FormControl(this.config.allowKeyboardNavigation),
     });
     readonly slideWidth$ = this.slideWidthChanges();
     readonly widthMode$ = this.widthModeChanges();

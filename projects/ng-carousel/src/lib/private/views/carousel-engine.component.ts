@@ -216,18 +216,31 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
             return;
         }
-        this.keyboardListener = this.renderer.listen(
-            this.htmlElement,
-            'keydown',
-            (event: KeyboardEvent) => {
-                const key = event.key.toLowerCase();
-                if (['arrowright', 'right'].includes(key)) {
-                    this.carousel.next();
-                } else if (['arrowleft', 'left'].includes(key)) {
-                    this.carousel.prev();
+        this.carousel.carouselStateChanges()
+            .pipe(
+                map((state: CarouselState<T>) => state.config.allowKeyboardNavigation),
+                distinctUntilChanged(),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe((canListen: boolean) => {
+                this.keyboardListener?.();
+                if (!canListen) {
+
+                    return;
                 }
-            }
-        );
+                this.keyboardListener = this.renderer.listen(
+                    this.htmlElement,
+                    'keydown',
+                    (event: KeyboardEvent) => {
+                        const key = event.key.toLowerCase();
+                        if (['arrowright', 'right'].includes(key)) {
+                            this.carousel.next();
+                        } else if (['arrowleft', 'left'].includes(key)) {
+                            this.carousel.prev();
+                        }
+                    }
+                );
+            });
     }
 
     /**
