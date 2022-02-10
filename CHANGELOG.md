@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.1...v1.10.0) (2022-02-10)
+
+
+### Features
+
+* expose prevent ghost click directive ([0cc0112](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/0cc01129843875b20d26919e59b354df8a480487))
+
 ## [1.9.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.0...v1.9.1) (2021-12-03)
 
 
