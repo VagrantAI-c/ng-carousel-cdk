@@ -219,3 +219,19 @@ Use directive on button, anchor or any clickable/draggable element. This will pr
 </ng-carousel>
 ```
 When drag starts on button element, it won't be clicked upon drag end.
+
+#### Usage on custom carousels
+```HTML
+<!-- Put element selector on draggable containers -->
+<ul #dragContainer>
+    <!-- Carousel slide -->
+    <li>
+        <!-- Interactive element -->
+        <a
+            [ngCarouselPreventGhostClick]="dragContainer"
+            href="...">
+            ...
+        </a>
+    </li>
+</ul>
+```

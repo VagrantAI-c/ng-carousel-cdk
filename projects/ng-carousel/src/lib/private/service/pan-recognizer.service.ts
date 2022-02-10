@@ -1,5 +1,5 @@
 import { DOCUMENT } from '@angular/common';
-import { Inject, Injectable, NgZone, RendererFactory2 } from '@angular/core';
+import { Inject, Injectable, NgZone, Optional, RendererFactory2 } from '@angular/core';
 import { asyncScheduler, Observable, Subscription } from 'rxjs';
 
 import { CarouselService } from './carousel.service';
@@ -32,9 +32,9 @@ export class PanRecognizerService<T> {
     private readonly renderer = this.rendererFactory.createRenderer(null, null);
 
     constructor(
-        private carousel: CarouselService<T>,
         private zone: NgZone,
         private rendererFactory: RendererFactory2,
+        @Optional() private carousel: CarouselService<T> | null,
         @Inject(DOCUMENT) private document: any,
     ) {
     }
@@ -91,7 +91,7 @@ export class PanRecognizerService<T> {
 
         if (this.isPanningSync) {
             this.zone.run(() => {
-                this.carousel.drag(this.lastX || 0, Math.round(eventCoordinates[0]));
+                this.carousel?.drag(this.lastX || 0, Math.round(eventCoordinates[0]));
             });
             this.lastX = Math.round(eventCoordinates[0]);
 
@@ -109,7 +109,7 @@ export class PanRecognizerService<T> {
 
             return;
         }
-        this.carousel.dragStart();
+        this.carousel?.dragStart();
         // We should block all scroll attempts during current pan session
         this.renderer.setStyle(element, 'touch-action', 'none');
         this.isPanningSync = true;
@@ -132,7 +132,7 @@ export class PanRecognizerService<T> {
             return;
         }
         event.preventDefault();
-        this.carousel.dragEnd(Math.round(x - startX));
+        this.carousel?.dragEnd(Math.round(x - startX));
         this.renderer.removeStyle(element, 'touch-action');
     }
 
