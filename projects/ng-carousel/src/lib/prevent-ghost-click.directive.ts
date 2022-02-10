@@ -9,7 +9,7 @@ import { PanRecognizerService } from './private/service/pan-recognizer.service';
 })
 export class PreventGhostClickDirective implements OnInit, OnDestroy {
 
-    @Input('ngCarouselPreventGhostClick') parentElement: HTMLElement | null = null;
+    @Input('ngCarouselPreventGhostClick') parentElement?: HTMLElement | '' | null = null;
 
     private preventFn = this.preventEvent.bind(this);
     private readonly opts = {capture: true};
