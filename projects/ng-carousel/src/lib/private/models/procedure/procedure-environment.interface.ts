@@ -1,5 +1,3 @@
-import { AnimationBuilder } from '@angular/animations';
-
 import { IdGenerator } from '../id-generator';
 
 /**
@@ -11,7 +9,6 @@ export interface ProcedureEnvironment {
     autoplayAction: () => void;
     afterAnimationAction: () => void;
     isBrowser: boolean;
-    animationBuilder: AnimationBuilder | null;
     animationBezierArgs: number[];
     swipeThreshold: number;
     maxOverscroll: number;

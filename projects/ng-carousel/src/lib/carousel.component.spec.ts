@@ -1,7 +1,6 @@
 import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CarouselComponent } from '../public-api';
 import { CarouselSlideDirective } from './carousel-slide.directive';
@@ -16,7 +15,6 @@ describe('VirtualCarouselComponent smoke test suite', () => {
         TestBed.configureTestingModule({
             imports: [
                 CommonModule,
-                BrowserAnimationsModule,
                 A11yModule,
             ],
             declarations: [

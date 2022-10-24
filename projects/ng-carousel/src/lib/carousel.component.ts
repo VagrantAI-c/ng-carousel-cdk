@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ContentChild, Input, Output, ViewEncapsulation } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { CarouselConfig } from './carousel-config.type';
 import { CarouselSlideDirective } from './carousel-slide.directive';
@@ -54,6 +54,7 @@ export class CarouselComponent<T = any> {
     @Output() itemIndexChange = this.carousel.carouselStateChanges()
         .pipe(
             map((state: CarouselState<T>) => state.activeItemIndex),
+            distinctUntilChanged(),
         );
 
     get slideIndex(): number {

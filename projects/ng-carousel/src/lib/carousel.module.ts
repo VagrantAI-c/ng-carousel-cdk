@@ -1,5 +1,5 @@
 import { A11yModule } from '@angular/cdk/a11y';
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, NgForOf, NgTemplateOutlet } from '@angular/common';
 import { NgModule } from '@angular/core';
 
 import { CarouselSlideDirective } from './carousel-slide.directive';
@@ -10,7 +10,9 @@ import { CarouselEngineComponent } from './private/views/carousel-engine.compone
 
 @NgModule({
     imports: [
-        CommonModule,
+        NgForOf,
+        AsyncPipe,
+        NgTemplateOutlet,
         A11yModule,
         CarouselPreventGhostClickModule,
     ],
