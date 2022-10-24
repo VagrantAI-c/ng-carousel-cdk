@@ -80,42 +80,42 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log('Button was clicked');
     }
 
-    private slideWidthChanges(): Observable<number> {
+    private slideWidthChanges(): Observable<number | null | undefined> {
         return this.configForm.valueChanges
             .pipe(
-                map((form: {slideWidth: number}) => form.slideWidth),
+                map((form: {slideWidth?: number | null}) => form.slideWidth),
                 startWith(this.configForm.controls.slideWidth.value),
             );
     }
 
-    private widthModeChanges(): Observable<CarouselWidthMode> {
+    private widthModeChanges(): Observable<CarouselWidthMode | null | undefined> {
         return this.configForm.valueChanges
             .pipe(
-                map((form: {widthMode: CarouselWidthMode}) => form.widthMode),
+                map((form: {widthMode?: CarouselWidthMode | null}) => form.widthMode),
                 startWith(this.configForm.controls.widthMode.value),
             );
     }
 
-    private transitionDurationChanges(): Observable<number> {
+    private transitionDurationChanges(): Observable<number | null | undefined> {
         return this.configForm.valueChanges
             .pipe(
-                map((form: {transitionDuration: number}) => form.transitionDuration),
+                map((form: {transitionDuration?: number | null}) => form.transitionDuration),
                 startWith(this.configForm.controls.transitionDuration.value),
             );
     }
 
-    private slidesQuantityChanges(): Observable<number> {
+    private slidesQuantityChanges(): Observable<number | null | undefined> {
         return this.configForm.valueChanges
             .pipe(
-                map((form: {slidesQuantity: number}) => form.slidesQuantity),
+                map((form: {slidesQuantity?: number | null}) => form.slidesQuantity),
                 startWith(this.configForm.controls.slidesQuantity.value),
             );
     }
 
-    private recalculateDebounceChanges(): Observable<number> {
+    private recalculateDebounceChanges(): Observable<number | null | undefined> {
         return this.configForm.valueChanges
             .pipe(
-                map((form: {recalculateDebounce: number}) => form.recalculateDebounce),
+                map((form: {recalculateDebounce?: number | null}) => form.recalculateDebounce),
                 startWith(this.configForm.controls.recalculateDebounce.value),
             );
     }
@@ -125,7 +125,7 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(
                 takeUntil(this.destroyed$),
             )
-            .subscribe((value: CarouselConfig & {slidesQuantity: number}) => {
+            .subscribe((value: CarouselConfig & {slidesQuantity?: number | null}) => {
                 const maxWidthNew = this.getMaxWidth(value.widthMode);
                 const widthPercentage = 100 * (value?.slideWidth ?? 1) / this.maxWidth;
                 value.slideWidth = Math.floor(maxWidthNew * widthPercentage / 100);
@@ -137,15 +137,15 @@ export class AppComponent implements OnInit, OnDestroy {
             });
     }
 
-    private getMaxWidth(mode?: CarouselWidthMode): number {
+    private getMaxWidth(mode?: CarouselWidthMode | null): number {
         return mode === CarouselWidthMode.PERCENT
             ? this.MAX_WIDTH_PERCENTS
             : this.MAX_WIDTH_PIXELS;
     }
 
-    private assignItems(quantity: number): CarouselItem[] {
+    private assignItems(quantity?: number | null): CarouselItem[] {
         const items = [];
-        for (let i = 0; i < quantity; i++) {
+        for (let i = 0; i < (quantity ?? 3); i++) {
             items.push({name: i + 1, image: `url(https://via.placeholder.com/150)`});
         }
 
