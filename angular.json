@@ -219,5 +219,7 @@
       }
     }
   },
-  "defaultProject": "ng-carousel-demo"
+  "cli": {
+    "analytics": "3fb2613e-8ab5-4236-a886-853dcd1a96f8"
+  }
 }

@@ -1,3 +1,7 @@
+# Changelog continues in releases
+[Releases section](https://github.com/VagrantAI-c/ng-carousel-cdk/releases)
+
+
 # [1.7.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.1...v1.7.0) (2021-04-29)
 
 
