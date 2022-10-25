@@ -23,6 +23,7 @@ export function markVisibleAndActiveProcedure(): Procedure {
         const modifiedState: CarouselState = {
             ...state,
             slides: result.slides,
+            slideIndex: state.slideIndex + (result.slidesModified ? 1 : 0),
             activeItemIndex: result.slides[state.activeSlideIndex]?.itemIndex ?? 0, // 0 when no slides available
         };
         const modifiedProcedureState: Partial<ProcedureCarouselState> = {

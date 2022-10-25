@@ -19,6 +19,7 @@ export function initializeCarouselProcedure(): Procedure {
             slides: result,
             offset: 0,
             activeSlideIndex: 0,
+            slideIndex: state.slideIndex + 1,
         };
 
         return new ContinueWith(modifiedState);
