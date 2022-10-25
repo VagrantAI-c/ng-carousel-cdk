@@ -1,14 +1,11 @@
 <ul
     #galleryRef
-    #focusTrapRef="cdkTrapFocus"
-    [cdkTrapFocus]="false"
     (focusin)="focusIn()"
     (focusout)="focusOut()"
     class="ng-carousel-block">
     <li
         *ngFor="let slide of slides; trackBy: trackByFn;"
         [untabbable]="!slide.options.isActive"
-        [untabbableFocusTrapRef]="focusTrapRef"
         [untabbableFocused]="focused"
         class="ng-carousel-slide">
         <ng-container *ngTemplateOutlet="templateRef; context: slide.context;"></ng-container>
