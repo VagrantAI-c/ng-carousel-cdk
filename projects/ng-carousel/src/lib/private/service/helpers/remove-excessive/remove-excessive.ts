@@ -17,7 +17,7 @@ export function removeExcessive(
 ): RemoveExcessiveResult {
     if (!slides || !slides.length || viewportStart === null || viewportEnd === null) {
 
-        return new RemoveExcessiveResult([], offset, 0, 0);
+        return new RemoveExcessiveResult([], offset, 0, 0, false);
     }
     // Validate inputs
     viewportStart = Math.max(0, Math.min(viewportStart, viewportEnd));
@@ -31,19 +31,21 @@ export function removeExcessive(
     let leftActiveSlideIndex = -1;
     let rightActiveSlideIndex = -1;
     let removedSlidesFromLeftSide = 0;
+    let removedSlidesFromRightSide = 0;
     // Next fancy loop traverses through slides array, but in specified order:
     // first we travel through slides in viewport, so we can collect item ids,
     // next we go through right and left side outside viewport, cleaning all
     // found copies. Thus we can cleanse all copies in O(n)
-    for (let i = viewportStart; i <= viewportEnd; i++) {
+    for (let i = viewportStart; i <= viewportEnd; i++) { // viewport traverse
         itemIndexes.add(slides[i].itemIndex);
         rightSlides.push(slides[i]);
         if (slides[i].options.isActive) {
             rightActiveSlideIndex = rightSlides.length - 1;
         }
     }
-    for (let i = viewportEnd + 1; i < slides.length; i++) {
+    for (let i = viewportEnd + 1; i < slides.length; i++) { // right side traverse
         if (itemIndexes.has(slides[i].itemIndex)) {
+            removedSlidesFromRightSide++;
             continue;
         }
         itemIndexes.add(slides[i].itemIndex);
@@ -52,7 +54,7 @@ export function removeExcessive(
             rightActiveSlideIndex = rightSlides.length - 1;
         }
     }
-    for (let i = 0; i < viewportStart; i++) {
+    for (let i = 0; i < viewportStart; i++) { // left side traverse
         if (itemIndexes.has(slides[i].itemIndex)) {
             newOffset += slideWidth;
             removedSlidesFromLeftSide++;
@@ -79,6 +81,7 @@ export function removeExcessive(
             ? leftActiveSlideIndex
             : activeSlideIndex - removedSlidesFromLeftSide;
     const activeItemIndex = newSlides[newActiveSlideIndex].itemIndex;
+    const slidesChanged = Boolean(removedSlidesFromLeftSide || removedSlidesFromRightSide || newActiveSlideIndex !== activeSlideIndex);
 
-    return new RemoveExcessiveResult(newSlides, newOffset, newActiveSlideIndex, activeItemIndex);
+    return new RemoveExcessiveResult(newSlides, newOffset, newActiveSlideIndex, activeItemIndex, slidesChanged);
 }

@@ -10,7 +10,7 @@ const captureOptions = {capture: true};
 @Injectable()
 export class PanRecognizerService<T> {
 
-    // Be adviced that pan does not start when user presses the pointer,
+    // Be advised that pan does not start when user presses the pointer,
     // it should move by a certain threshold first before recognizing
     // as a pan gesture. Otherwise, it is just a click.
 

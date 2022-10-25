@@ -54,6 +54,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(0, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(1, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(2, 'incorrect 2 item index');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must shuffle with offset', () => {
@@ -93,6 +94,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(1, 'incorrect 2 item index');
             expect(result.slides[0].options?.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-85, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move slides from right side', () => {
@@ -121,6 +123,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(1, 'incorrect 2 item index');
             expect(result.slides[0].options?.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move minimal amount of slides from right side', () => {
@@ -145,6 +148,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[5].itemIndex).toBe(4, 'incorrect 5 item index');
             expect(result.slides[0].options.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must copy from right side if there are no donors', () => {
@@ -174,6 +178,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].options.inViewport).toBeTruthy('incorrect 2 inViewport');
             expect(result.slides[3].options.inViewport).toBeTruthy('incorrect 3 inViewport');
             expect(result.modifiedOffset).toBe(-21, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must not move from right side even with available donors but no free space to move to', () => {
@@ -197,6 +202,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.slides[5].itemIndex).toBe(5, 'incorrect 5 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must move slides from left side', () => {
@@ -218,6 +224,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
             expect(result.slides[2].options.inViewport).toBeTruthy('incorrect 2 inViewport');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move minimal amount of slides from left side', () => {
@@ -242,6 +249,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[5].itemIndex).toBe(0, 'incorrect 5 item index');
             expect(result.slides[5].options.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.modifiedOffset).toBe(-130, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must not move whether no free slots are present', () => {
@@ -262,6 +270,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[1].itemIndex).toBe(1, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(2, 'incorrect 2 item index');
             expect(result.modifiedOffset).toBe(-5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must shuffle two full-width slides with drag intent', () => {
@@ -287,6 +296,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].options.inViewport).toBeTruthy('incorrect 0 inViewport');
             expect(result.slides[1].options.inViewport).toBeTruthy('incorrect 1 inViewport');
             expect(result.modifiedOffset).toBe(-1, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must copy slides to both sides', () => {
@@ -310,6 +320,7 @@ describe('weight calculation test suite', () => {
                 expect(result.slides[i].options.inViewport).toBeTruthy(`incorrect ${i} inViewport`);
             }
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must not shuffle for zero slide width', () => {
@@ -330,6 +341,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[1].itemIndex).toBe(1, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(2, 'incorrect 2 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must have only one active slide', () => {
@@ -356,6 +368,7 @@ describe('weight calculation test suite', () => {
                     : expect(result.slides[i].options.isActive).toBeFalsy(`incorrect ${i} isActive`);
             }
             expect(result.modifiedOffset).toBe(-5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must not shuffle when not looping', () => {
@@ -379,6 +392,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides.length).toBe(3, 'incorrect length');
             expect(result.slides === slides).toBeTruthy('slides should not change');
             expect(result.modifiedOffset).toBe(45, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must return empty array whether slides are not present', () => {
@@ -392,6 +406,7 @@ describe('weight calculation test suite', () => {
             );
             expect(emptyShuffle.slides).toEqual([]);
             expect(emptyShuffle.modifiedOffset).toEqual(0);
+            expect(emptyShuffle.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must mark copy slides', () => {
@@ -416,6 +431,7 @@ describe('weight calculation test suite', () => {
             );
             expect(result.modifiedOffset).toBe(-5, 'incorrect offset');
             expect(result.slides.length).toBe(11, 'incorrect slides length');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move slide to the right with active threshold', () => {
@@ -446,6 +462,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(1);
             expect(result.slides[1].itemIndex).toBe(2);
             expect(result.slides[2].itemIndex).toBe(0);
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move slide to the left with active threshold', () => {
@@ -476,6 +493,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(2);
             expect(result.slides[1].itemIndex).toBe(0);
             expect(result.slides[2].itemIndex).toBe(1);
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
     });
@@ -514,6 +532,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(2, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(3, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(20, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move slide to end for quantity equals one', () => {
@@ -534,6 +553,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(4, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(0, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move zero slides to end on negative quantity', () => {
@@ -554,6 +574,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(3, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must move zero slides to end on quantity is higher than slides length', () => {
@@ -603,6 +624,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 6 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must copy slides to end with viewport flag', () => {
@@ -649,6 +671,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 6 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill remaining slides to end', () => {
@@ -688,6 +711,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 4 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill and copy slides to end', () => {
@@ -723,6 +747,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 3 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill and move slides to end', () => {
@@ -754,6 +779,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 2 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
     });
 
@@ -791,6 +817,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(0, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(1, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(-15, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move zero slides to start on negative range', () => {
@@ -811,6 +838,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(3, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
+            expect(result.slidesChanged).toBe(false, 'incorrect slide change flag');
         });
 
         it('must copy slides to start on quantity is higher than slides length', () => {
@@ -860,6 +888,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 6 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2]});
             expect(result.modifiedOffset).toBe(-20, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must move slide to start on range equals one', () => {
@@ -882,6 +911,7 @@ describe('weight calculation test suite', () => {
             expect(result.slides[3].itemIndex).toBe(2, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(3, 'incorrect 4 item index');
             expect(result.modifiedOffset).toBe(-5, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must copy slides to start with viewport flag in the middle', () => {
@@ -928,6 +958,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 6 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true});
             expect(result.modifiedOffset).toBe(-15, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill remaining slides to start', () => {
@@ -966,6 +997,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 4 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill and copy slides to start', () => {
@@ -1000,6 +1032,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 3 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, item: items[1], inViewport: true});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
 
         it('must fill and move slides to start', () => {
@@ -1031,6 +1064,7 @@ describe('weight calculation test suite', () => {
                 .withContext('incorrect 2 options')
                 .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
+            expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
     });
 

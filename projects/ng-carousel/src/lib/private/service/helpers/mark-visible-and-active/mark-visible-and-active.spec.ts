@@ -43,6 +43,7 @@ describe('markVisibleAndActive test suite', () => {
         expect(result.slides[2].options.activeOnTheRight).toBeFalse();
         expect(result.inViewportRangeStart).toBe(0, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(2, 'incorrect viewport range end');
+        expect(result.slidesModified).toBeTrue();
     });
 
     it('should not mark slides outside viewport', () => {
@@ -67,6 +68,7 @@ describe('markVisibleAndActive test suite', () => {
         expect(result.slides[2].options.activeOnTheRight).toBeFalse();
         expect(result.inViewportRangeStart).toBe(1, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(2, 'incorrect viewport range end');
+        expect(result.slidesModified).toBeTrue();
     });
 
     it('should mark mixed content', () => {
@@ -91,6 +93,7 @@ describe('markVisibleAndActive test suite', () => {
         expect(result.slides[2].options.activeOnTheRight).toBeTrue();
         expect(result.inViewportRangeStart).toBe(0, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(1, 'incorrect viewport range end');
+        expect(result.slidesModified).toBeTrue();
     });
 
     it('should calculate ranges', () => {
@@ -113,6 +116,7 @@ describe('markVisibleAndActive test suite', () => {
         const result = markVisibleAndActive(slides, offset, slideWidth, viewportWidth, activeSlideIndex, threshold, alignMode);
         expect(result.inViewportRangeStart).toBe(0, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(7, 'incorrect viewport range end');
+        expect(result.slidesModified).toBeTrue();
     });
 
     it('should prolong range for active slide outside viewport', () => {
@@ -139,6 +143,23 @@ describe('markVisibleAndActive test suite', () => {
         const result = markVisibleAndActive(slides, offset, slideWidth, viewportWidth, activeSlideIndex, threshold, alignMode);
         expect(result.inViewportRangeStart).toBe(1, 'incorrect viewport range start');
         expect(result.inViewportRangeEnd).toBe(7, 'incorrect viewport range end');
+        expect(result.slidesModified).toBeTrue();
+    });
+
+    it('should not emit slide changes if nothing happened', () => {
+        const slides = [
+            new CarouselSlide(0, 0, { activeOnTheLeft: false, activeOnTheRight: true, inViewport: true, isActive: false, item: null }),
+            new CarouselSlide(0, 0, { activeOnTheLeft: false, activeOnTheRight: false, inViewport: true, isActive: true, item: null }),
+            new CarouselSlide(0, 0, { activeOnTheLeft: true, activeOnTheRight: false, inViewport: true, isActive: false, item: null }),
+        ];
+        const offset = -20;
+        const slideWidth = 50;
+        const viewportWidth = 100;
+        const activeSlideIndex = 1;
+        const threshold = 1;
+        const alignMode = CarouselAlignMode.CENTER;
+        const result = markVisibleAndActive(slides, offset, slideWidth, viewportWidth, activeSlideIndex, threshold, alignMode);
+        expect(result.slidesModified).toBeFalse();
     });
 
 });
