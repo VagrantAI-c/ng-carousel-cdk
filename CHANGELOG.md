@@ -1,3 +1,12 @@
+## [1.10.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.10.0...v1.10.1) (2022-10-25)
+
+
+### Bug Fixes
+
+* allow config to be nullable ([9abed90](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/9abed90c1b864fe2a884cf76e535c15d2cc74728))
+* bump deps ([4bb1103](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/4bb1103b3da897c6f37b86e917b3040ab52a4623))
+* prefer native Web Animations API instead of @angular/animations package ([03a0035](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/03a00351662fdad98503a5daaf418569c788e00e))
+
 # [1.10.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.1...v1.10.0) (2022-02-10)
 
 
