@@ -1,3 +1,5 @@
 import { CompleteCarouselConfig } from './private/models/carousel-config';
 
-export type CarouselConfig<T = any> = Partial<CompleteCarouselConfig<T>>;
+type Nullable<T> = { [K in keyof T]?: T[K] | null; };
+
+export type CarouselConfig<T = any> = Nullable<CompleteCarouselConfig<T>>;

@@ -1,5 +1,16 @@
-import { CdkTrapFocus, InteractivityChecker, IsFocusableConfig } from '@angular/cdk/a11y';
-import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Directive, ElementRef, Inject, Input, OnChanges, OnDestroy, PLATFORM_ID, SimpleChanges } from '@angular/core';
+
+const selectors = [
+    `a[href]`,
+    `button`,
+    `input`,
+    `select`,
+    `textarea`,
+    `area[href]`,
+    `[tabindex]`,
+].map((selector: string) => `${selector}:not([tabindex="-1"]):not([disabled])`);
+const selectorsString = selectors.join(', ');
 
 @Directive({
     selector: '[untabbable]',
@@ -10,7 +21,6 @@ import { AfterViewInit, Directive, ElementRef, Input, OnChanges, OnDestroy, Simp
 export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy {
 
     @Input() untabbable = false;
-    @Input() untabbableFocusTrapRef: CdkTrapFocus | null = null;
     /** Whether focus inside carousel */
     @Input() untabbableFocused = false;
 
@@ -20,7 +30,7 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
 
     constructor(
         private elementRef: ElementRef,
-        private interactivityChecker: InteractivityChecker,
+        @Inject(PLATFORM_ID) private platformId: Object,
     ) {
     }
 
@@ -34,20 +44,26 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
             change.currentValue
                 ? this.blockTabindex()
                 : this.unblockTabindex();
-            if (this.untabbableFocused && this.untabbableFocusTrapRef) {
-                this.untabbableFocusTrapRef.focusTrap.focusFirstTabbableElement();
+            if (this.untabbableFocused && isPlatformBrowser(this.platformId)) {
+                for (let selector of selectors) {
+                    const el = this.elementRef.nativeElement.querySelector(selector);
+                    if (el) {
+                        el.focus();
+                        break;
+                    }
+                }
             }
         }
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.viewInitiated = true;
         this.untabbable
             ? this.blockTabindex()
             : this.unblockTabindex();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.mutationObserver) {
             this.mutationObserver.disconnect();
             this.mutationObserver = null;
@@ -95,15 +111,9 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
     }
 
     private blockElement(element: HTMLElement): void {
-        const focusableConfig: IsFocusableConfig = {
-            // Performance flag to skip layout thrashing
-            ignoreVisibility: true,
-        };
-
         if (
             element.nodeType === Node.ELEMENT_NODE // Check only elements
-            && this.interactivityChecker.isFocusable(element, focusableConfig)
-            && this.interactivityChecker.isTabbable(element)
+            && element.matches(selectorsString)
         ) {
             const currentTabindexValue = element.getAttribute('tabindex');
             this.lastTabindexValueMap.set(element, currentTabindexValue);

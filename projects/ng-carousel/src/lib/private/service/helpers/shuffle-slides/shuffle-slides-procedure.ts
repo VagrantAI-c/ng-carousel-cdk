@@ -30,6 +30,7 @@ export function shuffleSlidesProcedure(): Procedure {
             slides: result.slides,
             activeSlideIndex: result.slides.findIndex((item: CarouselSlide) => item.options.isActive) || 0,
             offset: result.modifiedOffset,
+            slideIndex: state.slideIndex + (result.slidesChanged ? 1 : 0),
         };
         // Might be necessary for animations
         const modifiedProcedureState: Partial<ProcedureCarouselState> = {

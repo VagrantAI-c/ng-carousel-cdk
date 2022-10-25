@@ -1,5 +1,4 @@
 import { CarouselSlide } from '../../../models/carousel-slide';
-import { CarouselSlideParams } from '../../../models/carousel-slide-params';
 import { IdGenerator } from '../../../models/id-generator';
 import { CopySlidesResult } from './models/copy-slides-result';
 import { ShuffleSlidesResult } from './models/shuffle-slides-result';
@@ -12,10 +11,10 @@ import { ShuffleSlidesResult } from './models/shuffle-slides-result';
  *
  * Task of this function is to leave no empty spaces in viewport.
  *
- * **BE ADVICED**, that inViewport flag should be calculated for each slide
+ * **BE ADVISED**, that inViewport flag should be calculated for each slide
  * that should not be moved beforehand.
  *
- * **BE ADVICED**, that slides should be marked with active flag afterwards,
+ * **BE ADVISED**, that slides should be marked with active flag afterwards,
  * since shuffle might break actual order and does not care where the active
  * slide is.
  */
@@ -31,14 +30,15 @@ export function shuffleSlides<T>(
 ): ShuffleSlidesResult {
     if (!slides || !slides.length) {
 
-        return new ShuffleSlidesResult([], offset);
+        return new ShuffleSlidesResult([], offset, false);
     }
     if (slideWidth <= 0 || !shouldLoop) {
 
-        return new ShuffleSlidesResult(slides, offset);
+        return new ShuffleSlidesResult(slides, offset, false);
     }
 
     let shuffledSlides: CarouselSlide<T>[] = slides;
+    let slidesChanged = false;
     const slideSumWidth = slides.length * slideWidth;
 
     // Calculate missing slides for left and right sides
@@ -59,6 +59,7 @@ export function shuffleSlides<T>(
         );
         shuffledSlides = rightSideMoveResult.slides;
         offset = rightSideMoveResult.modifiedOffset;
+        slidesChanged =  slidesChanged ||rightSideMoveResult.slidesChanged;
     }
 
     // Should move slides to left side
@@ -73,9 +74,10 @@ export function shuffleSlides<T>(
         );
         shuffledSlides = leftSideMoveResult.slides;
         offset = leftSideMoveResult.modifiedOffset;
+        slidesChanged = slidesChanged || leftSideMoveResult.slidesChanged;
     }
 
-    const result = new ShuffleSlidesResult(shuffledSlides, offset);
+    const result = new ShuffleSlidesResult(shuffledSlides, offset, slidesChanged);
 
     return result;
 }
@@ -123,12 +125,14 @@ export function moveOrCopySlidesToEnd<T>(
 ): CopySlidesResult<T> {
     if (quantity < 1) {
 
-        return new CopySlidesResult(slides, offset);
+        return new CopySlidesResult(slides, offset, false);
     }
 
     slides = [...slides]; // Shallow copy, since we're going to mutate them;
 
     const newSlides: CarouselSlide<T>[] = [];
+    /** Whether we're modifying slides array */
+    let slidesChanged = false;
     /** Used as argument for splice call later */
     let spliceQuantity = 0;
     /**
@@ -193,6 +197,7 @@ export function moveOrCopySlidesToEnd<T>(
                 },
             );
             newSlides.push(newSlide);
+            slidesChanged = true;
 
             // Splice arguments processing
 
@@ -235,6 +240,7 @@ export function moveOrCopySlidesToEnd<T>(
                 },
             );
             newSlides.push(newSlide);
+            slidesChanged = true;
         }
 
         // Pick index for next item
@@ -246,6 +252,7 @@ export function moveOrCopySlidesToEnd<T>(
 
     if (spliceQuantity > 0) {
         slides.splice(0, spliceQuantity);
+        slidesChanged = true;
     }
     const resultSlides = [
         ...slides,
@@ -253,7 +260,7 @@ export function moveOrCopySlidesToEnd<T>(
     ];
     const resultOffset = offset + spliceQuantity * slideWidth;
 
-    return new CopySlidesResult(resultSlides, resultOffset);
+    return new CopySlidesResult(resultSlides, resultOffset, slidesChanged);
 }
 
 /**
@@ -305,6 +312,8 @@ export function moveOrCopySlidesToStart<T>(
     slides = [...slides]; // Shallow copy, since we're going to mutate them;
 
     const newSlides: CarouselSlide<T>[] = [];
+    /** Whether we're modifying slides array */
+    let slidesChanged = false;
     /** Used as argument for splice call later */
     let spliceFrom = null;
     /** Used as argument for splice call later */
@@ -367,6 +376,7 @@ export function moveOrCopySlidesToStart<T>(
                 },
             );
             newSlides.push(newSlide);
+            slidesChanged = true;
 
             // Prepare next slide index
             slideIndex--;
@@ -414,6 +424,7 @@ export function moveOrCopySlidesToStart<T>(
                 },
             );
             newSlides.push(newSlide);
+            slidesChanged = true;
         }
 
         // Pick index for next item
@@ -428,11 +439,12 @@ export function moveOrCopySlidesToStart<T>(
             ? slides.length - spliceQuantity
             : spliceFrom;
         slides.splice(spliceFrom, spliceQuantity);
+        slidesChanged = true;
     }
     const result = [
         ...newSlides.reverse(),
         ...slides,
     ];
 
-    return new CopySlidesResult(result, offset - newSlides.length * slideWidth);
+    return new CopySlidesResult(result, offset - newSlides.length * slideWidth, slidesChanged);
 }

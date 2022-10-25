@@ -1,4 +1,3 @@
-import { AnimationBuilder } from '@angular/animations';
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, OnDestroy, PLATFORM_ID, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -48,14 +47,12 @@ export class CarouselService<T> implements OnDestroy {
         isBrowser: isPlatformBrowser(this.platformId),
         autoplayAction: this.next.bind(this, true),
         afterAnimationAction: this.cleanup.bind(this),
-        animationBuilder: this.animationBuilder,
         animationBezierArgs: ANIMATION_BEZIER_ARGS,
         swipeThreshold: MAX_SWIPE_THRESHOLD,
         maxOverscroll: MAX_OVERSCROLL,
     };
 
     constructor(
-        private animationBuilder: AnimationBuilder,
         @Inject(SLIDE_ID_GENERATOR) private slideIdGenerator: IdGenerator,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,

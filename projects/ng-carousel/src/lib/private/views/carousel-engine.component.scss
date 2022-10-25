@@ -1,4 +1,6 @@
 .ng-carousel-block {
+    --ng-carousel-sw: 0;
+
     width: 100%;
     height: 100%;
     display: flex;
@@ -9,5 +11,6 @@
 
 .ng-carousel-slide {
     flex: none;
+    width: var(--ng-carousel-sw, 0);
     list-style: none;
 }

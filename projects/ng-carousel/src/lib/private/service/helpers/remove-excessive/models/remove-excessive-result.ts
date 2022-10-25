@@ -6,6 +6,7 @@ export class RemoveExcessiveResult {
         public offset: number,
         public activeSlideIndex: number,
         public activeItemIndex: number,
+        public slidesChanged: boolean,
     ) {
     }
 }

@@ -138,7 +138,7 @@ export function dragOffsetSnapshot(
 /**
  * Applies bezier on distance and limit with max overscroll distance
  *
- * BE ADVICED, that all argument values should be converted to current width mode
+ * BE ADVISED, that all argument values should be converted to current width mode
  * beforehand.
  */
 function applyDeltaFromOverscrollZone(
@@ -164,7 +164,7 @@ function applyDeltaFromOverscrollZone(
  * Applies delta to current offset which is currently in safe zone at this moment.
  * Applies bezier whether delta intersects overscroll zone.
  *
- * BE ADVICED, that all argument values should be converted to current width mode
+ * BE ADVISED, that all argument values should be converted to current width mode
  * beforehand.
  */
 function applyDeltaFromSafeZone(

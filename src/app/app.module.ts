@@ -19,7 +19,7 @@ import { appRoutes } from './app.routes';
         BrowserModule.withServerTransition({ appId: 'serverApp' }),
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, {
-            initialNavigation: 'enabled',
+            initialNavigation: 'enabledBlocking',
         }),
         MatToolbarModule,
         MatButtonModule,

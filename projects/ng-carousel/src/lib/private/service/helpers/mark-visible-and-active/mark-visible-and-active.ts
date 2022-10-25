@@ -17,7 +17,7 @@ export function markVisibleAndActive(
 ): MarkVisibleAndActiveResult {
     if (!slides || !slides.length) {
 
-        return new MarkVisibleAndActiveResult([], 0, 0);
+        return new MarkVisibleAndActiveResult([], 0, 0, false);
     }
 
     const newSlides: CarouselSlide[] = [];
@@ -25,6 +25,7 @@ export function markVisibleAndActive(
     let inViewportStart: number | null = null;
     /** Slide index representing last slide inside viewport */
     let inViewportEnd: number | null = null;
+    let slidesModified = false;
     for (let i = 0, currentOffset = offset; i < slides.length; i++, currentOffset += slideWidth) {
         // Calculate slide options
         const slideBeforeViewportEnd = currentOffset < viewportWidth + threshold;
@@ -37,6 +38,12 @@ export function markVisibleAndActive(
             activeOnTheRight: i < activeSlideIndex,
             activeOnTheLeft: i > activeSlideIndex,
         };
+        const context = slides[i].context;
+        slidesModified = slidesModified
+            || context.inViewport !== inViewport
+            || context.isActive !== options.isActive
+            || context.activeOnTheLeft !== options.activeOnTheLeft
+            || context.activeOnTheRight !== options.activeOnTheRight;
 
         // Construct new slide
         const newSlide = new CarouselSlide(slides[i].id, slides[i].itemIndex, options);
@@ -74,7 +81,7 @@ export function markVisibleAndActive(
         }
     }
 
-    const result = new MarkVisibleAndActiveResult(newSlides, inViewportStart || 0, inViewportEnd || 0);
+    const result = new MarkVisibleAndActiveResult(newSlides, inViewportStart || 0, inViewportEnd || 0, slidesModified);
 
     return result;
 }

@@ -19,7 +19,6 @@ export function startAnimationProcedure(): Procedure {
             environment?.animationBezierArgs ?? [],
             environment?.isBrowser ?? false,
             environment?.afterAnimationAction ?? (() => {}),
-            environment?.animationBuilder ?? null,
         );
         const modifiedState: CarouselState = {
             ...state,
