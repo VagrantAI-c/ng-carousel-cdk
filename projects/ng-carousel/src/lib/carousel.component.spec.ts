@@ -1,4 +1,3 @@
-import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
@@ -15,7 +14,6 @@ describe('VirtualCarouselComponent smoke test suite', () => {
         TestBed.configureTestingModule({
             imports: [
                 CommonModule,
-                A11yModule,
             ],
             declarations: [
                 CarouselComponent,
