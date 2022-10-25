@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
-import { fromEvent, interval, NEVER, Observable, Subject, Subscriber } from 'rxjs';
-import { debounce, distinctUntilChanged, map, mapTo, switchMap, takeUntil } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, RendererStyleFlags2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { combineLatest, interval, NEVER, Observable, of, Subject, Subscriber } from 'rxjs';
+import { debounce, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselError } from '../models/carousel-error';
@@ -24,10 +24,8 @@ import { PanRecognizerService } from '../service/pan-recognizer.service';
 export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
     @ViewChild('galleryRef', {static: true}) galleryRef: ElementRef<HTMLElement> | null = null;
-    public readonly transformValue$ = this.transformValueChanges();
-    public readonly slideWidth$ = this.slideWidthChanges();
-    public readonly template$ = this.templateChanges();
-    public readonly slides$ = this.slidesChanges();
+    public slides: CarouselSlide[] | null = null;
+    public templateRef: TemplateRef<CarouselSlideContext<T>> | null = null;
     public focused = false;
     private readonly destroyed$ = new Subject<void>();
     private mouseEnterDestructor: (() => void) | null = null;
@@ -46,10 +44,12 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         private renderer: Renderer2,
         private zone: NgZone,
         private panRecognizer: PanRecognizerService<T>,
-        @Inject(DOCUMENT) private document: any, // TODO make Document type when Ivy library is out
+        private cdr: ChangeDetectorRef,
+        @Inject(DOCUMENT) private document: Document,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
     ) {
+        this.cdr.detach();
     }
 
     ngOnInit(): void {
@@ -59,6 +59,9 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         this.listenToKeyEvents();
         this.listenToScrollEvents();
         this.listenToVisibilityEvents();
+        this.listenSlideChanges();
+        this.listenContainerStyleChanges();
+        this.listenTemplateChanges();
         if (this.galleryRef?.nativeElement) {
             this.carousel.setContainers(this.htmlElement, this.galleryRef?.nativeElement ?? null);
         } else {
@@ -80,17 +83,6 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         return item.id;
     }
 
-    contextOf(slide: CarouselSlide<T>): CarouselSlideContext<T> {
-        return {
-            $implicit: slide.options.item,
-            itemIndex: slide.itemIndex,
-            isActive: slide.options.isActive,
-            inViewport: slide.options.inViewport,
-            activeOnTheLeft: slide.options.activeOnTheLeft,
-            activeOnTheRight: slide.options.activeOnTheRight,
-        };
-    }
-
     focusIn(): void {
         this.focused = true;
         this.carousel.disableAutoplay(AutoplaySuspender.FOCUS);
@@ -99,35 +91,6 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     focusOut(): void {
         this.focused = false;
         this.carousel.enableAutoplay(AutoplaySuspender.FOCUS);
-    }
-
-
-    private transformValueChanges(): Observable<string> {
-        return this.carousel.carouselStateChanges()
-            .pipe(
-                map((state: CarouselState<T>) => `translateX(${state.offset}${state.config.widthMode})`),
-            );
-    }
-
-    private slideWidthChanges(): Observable<string> {
-        return this.carousel.carouselStateChanges()
-            .pipe(
-                map((state: CarouselState<T>) => `${state.config.slideWidth}${state.config.widthMode}`),
-            );
-    }
-
-    private slidesChanges(): Observable<CarouselSlide<T>[]> {
-        return this.carousel.carouselStateChanges()
-            .pipe(
-                map((state: CarouselState<T>) => state.slides),
-            );
-    }
-
-    private templateChanges(): Observable<TemplateRef<CarouselSlideContext<T>> | null> {
-        return this.carousel.carouselStateChanges()
-            .pipe(
-                map((state: CarouselState<T>) => state.template),
-            );
     }
 
     private listenToAutoplay(): void {
@@ -148,16 +111,18 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
 
                     return;
                 }
-                this.mouseEnterDestructor = this.renderer.listen(
-                    this.htmlElement,
-                    'mouseenter',
-                    () => this.carousel.disableAutoplay(AutoplaySuspender.MOUSE),
-                );
-                this.mouseLeaveDestructor = this.renderer.listen(
-                    this.htmlElement,
-                    'mouseleave',
-                    () => this.carousel.enableAutoplay(AutoplaySuspender.MOUSE),
-                );
+                this.zone.runOutsideAngular(() => {
+                    this.mouseEnterDestructor = this.renderer.listen(
+                        this.htmlElement,
+                        'mouseenter',
+                        () => this.carousel.disableAutoplay(AutoplaySuspender.MOUSE),
+                    );
+                    this.mouseLeaveDestructor = this.renderer.listen(
+                        this.htmlElement,
+                        'mouseleave',
+                        () => this.carousel.enableAutoplay(AutoplaySuspender.MOUSE),
+                    );
+                });
             });
     }
 
@@ -190,9 +155,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
                 map((state: CarouselState<T>) => state.config.shouldRecalculateOnResize),
                 distinctUntilChanged(),
                 switchMap((shouldRecalculate: boolean) => shouldRecalculate
-                    ? this.resizeObserverSupported()
-                        ? this.fromElementResize(this.elementRef.nativeElement)
-                        : fromEvent(window, 'resize', {passive: true}).pipe(mapTo(null))
+                    ? this.fromElementResize(this.elementRef.nativeElement)
                     : NEVER
                 ),
                 debounce(() => this.carousel.carouselStateChanges()
@@ -205,9 +168,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
                 takeUntil(this.destroyed$),
             )
             .subscribe(() => {
-                this.zone.run(() => { // ResizeObserver runs outside zone
-                    this.carousel.recalculate();
-                });
+                this.carousel.recalculate();
             });
     }
 
@@ -275,12 +236,8 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         });
     }
 
-    private resizeObserverSupported(): boolean {
-        return 'ResizeObserver' in this.document.defaultView;
-    }
-
     private fromElementResize(element: HTMLElement | null): Observable<void> {
-        if (!element) {
+        if (!element || !isPlatformBrowser(this.platformId)) {
             return NEVER;
         }
 
@@ -294,5 +251,56 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
                 observer.disconnect();
             };
         });
+    }
+
+    private listenSlideChanges(): void {
+        this.carousel.carouselStateChanges()
+            .pipe(
+                map((state: CarouselState<T>) => state.slides),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe((slides: CarouselSlide[]) => {
+                this.slides = slides ?? [];
+                this.cdr.detectChanges();
+            });
+    }
+
+    private listenContainerStyleChanges(): void {
+        this.carousel.carouselStateChanges()
+            .pipe(
+                switchMap((state: CarouselState<T>) => combineLatest([
+                    of(`translateX(${state.offset}${state.config.widthMode})`)
+                        .pipe(
+                            distinctUntilChanged(),
+                        ),
+                    of(`${state.config.slideWidth}${state.config.widthMode}`)
+                        .pipe(
+                            distinctUntilChanged(),
+                        ),
+                    of(state.animatableContainer)
+                        .pipe(
+                            distinctUntilChanged(),
+                        ),
+                ])),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe(([transform, width, container]: [string, string, HTMLElement | null]) => {
+                if (container) {
+                    this.renderer.setProperty(container, 'style', `transform:${transform};--ng-carousel-sw:${width}`);
+                }
+            });
+    }
+
+    private listenTemplateChanges(): void {
+        this.carousel.carouselStateChanges()
+            .pipe(
+                map((state: CarouselState<T>) => state.template),
+                distinctUntilChanged(),
+                takeUntil(this.destroyed$),
+            )
+            .subscribe((template: TemplateRef<CarouselSlideContext<T>> | null) => {
+                this.templateRef = template;
+                this.cdr.detectChanges();
+            });
     }
 }

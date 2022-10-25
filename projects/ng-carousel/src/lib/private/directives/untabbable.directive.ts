@@ -40,14 +40,14 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
         }
     }
 
-    ngAfterViewInit() {
+    ngAfterViewInit(): void {
         this.viewInitiated = true;
         this.untabbable
             ? this.blockTabindex()
             : this.unblockTabindex();
     }
 
-    ngOnDestroy() {
+    ngOnDestroy(): void {
         if (this.mutationObserver) {
             this.mutationObserver.disconnect();
             this.mutationObserver = null;
