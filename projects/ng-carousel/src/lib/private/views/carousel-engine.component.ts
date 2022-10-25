@@ -1,7 +1,7 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, RendererStyleFlags2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { combineLatest, interval, NEVER, Observable, of, Subject, Subscriber } from 'rxjs';
-import { debounce, distinctUntilChanged, map, switchMap, takeUntil, tap } from 'rxjs/operators';
+import { debounce, distinctUntilChanged, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CarouselError } from '../models/carousel-error';
@@ -33,10 +33,7 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
     private keyboardListener: (() => void) | null = null;
     private containerScrollListener: (() => void) | null = null;
     private visibilityListener: (() => void) | null = null;
-
-    private get htmlElement(): HTMLElement {
-        return this.elementRef.nativeElement;
-    }
+    private readonly htmlElement = this.elementRef.nativeElement;
 
     constructor(
         private carousel: CarouselService<T>,
