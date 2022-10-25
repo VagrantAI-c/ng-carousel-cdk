@@ -1,5 +1,5 @@
 /**
- * Represents how carousel calculates slide width. Be adviced
+ * Represents how carousel calculates slide width. Be advised
  * that actual enum value is used in code, so change with caution.
  */
 export enum CarouselWidthMode {

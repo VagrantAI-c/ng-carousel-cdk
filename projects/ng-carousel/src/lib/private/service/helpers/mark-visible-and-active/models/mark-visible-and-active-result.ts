@@ -8,6 +8,7 @@ export class MarkVisibleAndActiveResult {
         public slides: CarouselSlide[],
         public inViewportRangeStart: number,
         public inViewportRangeEnd: number,
+        public slidesModified: boolean,
     ) {
     }
 

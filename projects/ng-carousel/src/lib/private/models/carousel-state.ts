@@ -47,6 +47,7 @@ export class CarouselState<T = any> {
     postponedItemIndex: number | null = null;
     /** Whether drag is in process right now */
     isDragged = false;
+    slideIndex = 0;
 
     constructor(state?: CarouselState<T>) {
         if (state) {

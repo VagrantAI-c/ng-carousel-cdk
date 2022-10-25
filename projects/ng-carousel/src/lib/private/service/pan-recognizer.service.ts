@@ -10,7 +10,7 @@ const captureOptions = {capture: true};
 @Injectable()
 export class PanRecognizerService<T> {
 
-    // Be adviced that pan does not start when user presses the pointer,
+    // Be advised that pan does not start when user presses the pointer,
     // it should move by a certain threshold first before recognizing
     // as a pan gesture. Otherwise, it is just a click.
 
@@ -35,7 +35,7 @@ export class PanRecognizerService<T> {
         private zone: NgZone,
         private rendererFactory: RendererFactory2,
         @Optional() private carousel: CarouselService<T> | null,
-        @Inject(DOCUMENT) private document: any,
+        @Inject(DOCUMENT) private document: Document,
     ) {
     }
 
@@ -50,12 +50,14 @@ export class PanRecognizerService<T> {
 
         return new Observable(() => {
             listeners.forEach(([el, name, fn, options]) => {
-                el.addEventListener(name, fn, options);
+                this.zone.runOutsideAngular(() => {
+                    el.addEventListener(name, fn as () => void, options);
+                });
             });
 
             return () => {
                 listeners.forEach(([el, name, fn, options]) => {
-                    el.removeEventListener(name, fn, options);
+                    el.removeEventListener(name, fn as () => void, options);
                 });
             };
         });
@@ -90,9 +92,7 @@ export class PanRecognizerService<T> {
         event.preventDefault();
 
         if (this.isPanningSync) {
-            this.zone.run(() => {
-                this.carousel?.drag(this.lastX || 0, Math.round(eventCoordinates[0]));
-            });
+            this.carousel?.drag(this.lastX || 0, Math.round(eventCoordinates[0]));
             this.lastX = Math.round(eventCoordinates[0]);
 
             return;

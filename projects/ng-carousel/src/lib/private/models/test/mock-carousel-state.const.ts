@@ -23,4 +23,5 @@ export const MOCK_CAROUSEL_STATE: CarouselState = {
   slides: [],
   template: null,
   widthContainer: null,
+  slideIndex: 0,
 };

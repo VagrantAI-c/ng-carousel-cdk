@@ -24,6 +24,7 @@ export function removeExcessiveProcedure(): Procedure {
             offset: result.offset,
             activeSlideIndex: result.activeSlideIndex,
             activeItemIndex: result.activeItemIndex,
+            slideIndex: state.slideIndex + (result.slidesChanged ? 1 : 0),
         };
 
         return new ContinueWith(modifiedState);

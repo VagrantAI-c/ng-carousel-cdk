@@ -37,6 +37,7 @@ describe('removeExcessive test suite', () => {
         expect(result.slides.length).toBe(slides7.length, 'incorrect length');
         expect(result.activeSlideIndex).toBe(activeSlideIndex, 'incorrect slide index');
         expect(result.activeItemIndex).toBe(3, 'incorrect item index');
+        expect(result.slidesChanged).toBeFalse();
         for (let i = 0; i < result.slides.length; i++) {
             expect(result.slides[i].id).toBe(i, `incorrect slide ${i} id`);
         }
@@ -62,6 +63,7 @@ describe('removeExcessive test suite', () => {
         );
         expect(result.offset).toBe(0, 'incorrect offset');
         expect(result.slides.length).toBe(slides7.length, 'incorrect length');
+        expect(result.slidesChanged).toBeTrue();
         for (let i = 0; i < result.slides.length; i++) {
             expect(result.slides[i].id).toBe(i + 1, `incorrect slide ${i} id`);
         }
@@ -109,6 +111,7 @@ describe('removeExcessive test suite', () => {
         expect(result.slides.length).toBe(slides.length - 1, 'incorrect slides length');
         expect(result.activeSlideIndex).toBe(5, 'incorrect active slide index');
         expect(result.activeItemIndex).toBe(1, 'incorrect active item index');
+        expect(result.slidesChanged).toBeTrue();
         for (let i = 0; i < result.slides.length; i++) {
             expect(result.slides[i].id).toBe(i + 1, `incorrect slide ${i} id`);
         }
@@ -150,6 +153,7 @@ describe('removeExcessive test suite', () => {
         expect(result.slides.length).toBe(4, 'incorrect slides length');
         expect(result.activeSlideIndex).toBe(1, 'incorrect active slide index');
         expect(result.activeItemIndex).toBe(0, 'incorrect active item index');
+        expect(result.slidesChanged).toBeTrue();
         for (let i = 0; i < result.slides.length; i++) {
             expect(result.slides[i].id).toBe(i + 1, `incorrect slide ${i} id`);
         }
@@ -187,6 +191,7 @@ describe('removeExcessive test suite', () => {
         expect(result.slides.length).toBe(4, 'incorrect slides length');
         expect(result.activeSlideIndex).toBe(0, 'incorrect active slide index');
         expect(result.activeItemIndex).toBe(2, 'incorrect active item index');
+        expect(result.slidesChanged).toBeTrue();
         for (let i = 0; i < result.slides.length; i++) {
             expect(result.slides[i].id).toBe(i + 1, `incorrect slide ${i} id`);
         }
@@ -198,5 +203,6 @@ describe('removeExcessive test suite', () => {
         expect(emptyResult.activeSlideIndex).toBe(0, 'incorrect slide index');
         expect(emptyResult.activeItemIndex).toBe(0, 'incorrect item index');
         expect(emptyResult.slides).toEqual([], 'incorrect slides fallback');
+        expect(emptyResult.slidesChanged).toBeFalse();
     });
 });
