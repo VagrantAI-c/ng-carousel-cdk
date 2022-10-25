@@ -1,6 +1,45 @@
-# Changelog continues in releases
-[Releases section](https://github.com/VagrantAI-c/ng-carousel-cdk/releases)
+# [1.10.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.1...v1.10.0) (2022-02-10)
 
+
+### Features
+
+* expose prevent ghost click directive ([0cc0112](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/0cc01129843875b20d26919e59b354df8a480487))
+
+## [1.9.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.9.0...v1.9.1) (2021-12-03)
+
+
+### Bug Fixes
+
+* use partial library compilation ([5d93115](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/5d931152a1d932c349c3858f8d0e818fc6a7d46c))
+
+# [1.9.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.2...v1.9.0) (2021-12-03)
+
+
+### Features
+
+* allow to disable keyboard navigation ([4bfa6ee](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/4bfa6ee1052c896f43120beb8889096ab1428157))
+
+## [1.8.2](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.1...v1.8.2) (2021-12-02)
+
+
+### Bug Fixes
+
+* fix ghost click not working ([c97e3f7](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/c97e3f72a210547036daf89ab785a87596a9290d))
+
+## [1.8.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.8.0...v1.8.1) (2021-12-01)
+
+
+### Bug Fixes
+
+* allow ghost click directive to be used outside carousel ([acd3e39](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/acd3e392acf775b0da56eaffd64607f65d0a386b))
+
+# [1.8.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.7.0...v1.8.0) (2021-07-19)
+
+
+### Features
+
+* allow to pass nullish values to carousel config input ([563e988](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/563e988288980ca3275f2c37222841b0286b9377))
+* remove peer dependency of hammerjs in favor of pointer events ([5d03ec4](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/5d03ec4925236d546736dccd766502c72a78a4fd))
 
 # [1.7.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.6.1...v1.7.0) (2021-04-29)
 
