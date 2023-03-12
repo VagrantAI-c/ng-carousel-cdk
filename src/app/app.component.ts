@@ -128,11 +128,13 @@ export class AppComponent implements OnInit, OnDestroy {
             .subscribe((value: CarouselConfig & {slidesQuantity?: number | null}) => {
                 const maxWidthNew = this.getMaxWidth(value.widthMode);
                 const widthPercentage = 100 * (value?.slideWidth ?? 1) / this.maxWidth;
-                value.slideWidth = Math.floor(maxWidthNew * widthPercentage / 100);
                 this.maxWidth = maxWidthNew;
-                this.config = value;
+                this.config = {
+                    ...value,
+                    slideWidth: Math.floor(maxWidthNew * widthPercentage / 100),
+                    items: this.assignItems(value.slidesQuantity),
+                };
                 this.configForm.controls.slideWidth.setValue(value.slideWidth, {emitEvent: false});
-                this.config.items = this.assignItems(value.slidesQuantity);
                 this.cdr.markForCheck();
             });
     }

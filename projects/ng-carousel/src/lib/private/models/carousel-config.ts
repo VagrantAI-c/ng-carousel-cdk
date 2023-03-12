@@ -93,7 +93,7 @@ export class CompleteCarouselConfig<T = any> {
     allowKeyboardNavigation = true;
 
     constructor(config?: CarouselConfig<T> | null) {
-        this.items = config?.items ?? [];
+        this.items = [...(config?.items ?? [])];
         this.widthMode = config?.widthMode ?? CarouselWidthMode.PERCENT;
         this.alignMode = config?.alignMode ?? CarouselAlignMode.CENTER;
         this.slideWidth = extractCoerced(config?.slideWidth, 100);

@@ -61,19 +61,3 @@ export function procedurePipe(procedureName: string, ...args: (ComposedProcedure
         };
     };
 }
-
-function generateState(
-    handler: ProcedureHandler | null,
-    parentProcedureState: ProcedureStateFacade,
-): ProcedureStateFacade {
-    const procedureState = handler && Object.entries(handler?.procedureState ?? {}).length
-        ? handler.procedureState
-        : parentProcedureState.procedureState;
-    const nextState: ProcedureStateFacade = {
-        state: {...(handler?.state ?? parentProcedureState.state)},
-        procedureState: {...(procedureState || {})},
-        environment: {...parentProcedureState.environment},
-    };
-
-    return nextState;
-}
