@@ -7,7 +7,7 @@
     display: flex;
     flex-direction: column;
     background: #e8e8e8;
-    
+
     .toolbar-block {
         flex: none;
     }
@@ -16,7 +16,7 @@
         flex: none;
         width: 100%;
     }
-    
+
     .carousel-slide {
         height: 200px;
         display: flex;
@@ -39,50 +39,43 @@
         display: flex;
         justify-content: center;
         flex-wrap: wrap;
+        column-gap: 16px;
         max-height: 300px;
         overflow-y: auto;
         padding: 16px;
-
-        & > :not(:last-child) {
-            margin-right: 16px;
-        }
     }
 
     .bullet-button {
+        font-size: 16px;
+        font-weight: 500;
+        font-family: 'Roboto';
+
         &.active {
             background: lightgray;
         }
     }
 
     .card-block {
+        max-width: 1200px;
         flex: none;
         margin: 8px auto;
         display: flex;
-
-        & > :not(:last-child) {
-            margin-right: 40px;
-        }
+        column-gap: 40px;
+        color: white;
     }
 
     .form-block {
         display: flex;
         flex-wrap: wrap;
-
-        & > :not(:last-child) {
-            margin-right: 40px;
-            margin-bottom: 40px;
-        }
+        justify-content: center;
+        gap: 40px;
     }
 
     .control-block {
         display: flex;
         flex-direction: column;
+        gap: 16px;
         align-items: self-start;
-        margin-bottom: 40px;
-
-        & > :not(:last-child) {
-            margin-bottom: 16px;
-        }
     }
 
     .range-block {
