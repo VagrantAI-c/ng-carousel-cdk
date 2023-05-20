@@ -84,108 +84,118 @@
         </button>
     </div>
     <mat-card class="card-block">
-        <form
-            [formGroup]="configForm"
-            class="form-block">
-            <label class="control-block">
-                <div>Align mode</div>
-                <mat-button-toggle-group formControlName="alignMode">
-                    <mat-button-toggle [value]="LEFT">To the left</mat-button-toggle>
-                    <mat-button-toggle [value]="CENTER">To the center</mat-button-toggle>
-                </mat-button-toggle-group>
-            </label>
-            <label class="control-block">
-                <div>Width mode</div>
-                <mat-button-toggle-group formControlName="widthMode">
-                    <mat-button-toggle [value]="PX">In pixels</mat-button-toggle>
-                    <mat-button-toggle [value]="PERCENT">In percents</mat-button-toggle>
-                </mat-button-toggle-group>
-            </label>
-            <label class="control-block">
-                <div>Fill empty space</div>
-                <mat-button-toggle-group formControlName="shouldLoop">
-                    <mat-button-toggle [value]="true">Allow copies</mat-button-toggle>
-                    <mat-button-toggle [value]="false">Do not fill</mat-button-toggle>
-                </mat-button-toggle-group>
-            </label>
-            <label class="control-block">
-                <div>Slide width: {{slideWidth$ | async}}{{widthMode$ | async}}</div>
-                <div class="range-block">
-                    <mat-slider
-                        [max]="maxWidth"
-                        formControlName="slideWidth"
-                        thumbLabel>
-                    </mat-slider>
-                    <div
-                        aria-hidden="true"
-                        class="range-labels-block mat-caption">
-                        <div>0</div>
-                        <div>{{maxWidth}}</div>
+        <mat-card-content>
+            <form
+                [formGroup]="configForm"
+                class="form-block">
+                <label class="control-block">
+                    <div>Align mode</div>
+                    <mat-button-toggle-group formControlName="alignMode">
+                        <mat-button-toggle [value]="LEFT">To the left</mat-button-toggle>
+                        <mat-button-toggle [value]="CENTER">To the center</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </label>
+                <label class="control-block">
+                    <div>Width mode</div>
+                    <mat-button-toggle-group formControlName="widthMode">
+                        <mat-button-toggle [value]="PX">In pixels</mat-button-toggle>
+                        <mat-button-toggle [value]="PERCENT">In percents</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </label>
+                <label class="control-block">
+                    <div>Fill empty space</div>
+                    <mat-button-toggle-group formControlName="shouldLoop">
+                        <mat-button-toggle [value]="true">Allow copies</mat-button-toggle>
+                        <mat-button-toggle [value]="false">Do not fill</mat-button-toggle>
+                    </mat-button-toggle-group>
+                </label>
+                <label class="control-block">
+                    <div>Slide width: {{slideWidth$ | async}}{{widthMode$ | async}}</div>
+                    <div class="range-block">
+                        <mat-slider [max]="maxWidth">
+                            <input
+                                matSliderThumb
+                                formControlName="slideWidth">
+                        </mat-slider>
+                        <div
+                            aria-hidden="true"
+                            class="range-labels-block mat-caption">
+                            <div>0</div>
+                            <div>{{maxWidth}}</div>
+                        </div>
                     </div>
-                </div>
-            </label>
-            <label class="control-block">
-                <div>Animation duration: {{transitionDuration$ | async}}</div>
-                <div class="range-block">
-                    <mat-slider
-                        max="5000"
-                        formControlName="transitionDuration"
-                        thumbLabel>
-                    </mat-slider>
-                    <div
-                        aria-hidden="true"
-                        class="range-labels-block mat-caption">
-                        <div>0</div>
-                        <div>5000</div>
+                </label>
+                <label class="control-block">
+                    <div>Animation duration: {{transitionDuration$ | async}}</div>
+                    <div class="range-block">
+                        <mat-slider max="5000">
+                            <input
+                                matSliderThumb
+                                formControlName="transitionDuration">
+                        </mat-slider>
+                        <div
+                            aria-hidden="true"
+                            class="range-labels-block mat-caption">
+                            <div>0</div>
+                            <div>5000</div>
+                        </div>
                     </div>
-                </div>
-            </label>
-            <label class="control-block">
-                <div>Slide quantity: {{slidesQuantity$ | async}}</div>
-                <div class="range-block">
-                    <mat-slider
-                        max="100"
-                        formControlName="slidesQuantity"
-                        thumbLabel>
-                    </mat-slider>
-                    <div
-                        aria-hidden="true"
-                        class="range-labels-block mat-caption">
-                        <div>0</div>
-                        <div>100</div>
+                </label>
+                <label class="control-block">
+                    <div>Slide quantity: {{slidesQuantity$ | async}}</div>
+                    <div class="range-block">
+                        <mat-slider max="100">
+                            <input
+                                matSliderThumb
+                                formControlName="slidesQuantity">
+                        </mat-slider>
+                        <div
+                            aria-hidden="true"
+                            class="range-labels-block mat-caption">
+                            <div>0</div>
+                            <div>100</div>
+                        </div>
                     </div>
-                </div>
-            </label>
-            <label class="control-block">
-                <div>Recalculate debounce: {{recalculateDebounce$ | async}}</div>
-                <div class="range-block">
-                    <mat-slider
-                        max="3000"
-                        formControlName="recalculateDebounce"
-                        thumbLabel>
-                    </mat-slider>
-                    <div
-                        aria-hidden="true"
-                        class="range-labels-block mat-caption">
-                        <div>0</div>
-                        <div>3000</div>
+                </label>
+                <label class="control-block">
+                    <div>Recalculate debounce: {{recalculateDebounce$ | async}}</div>
+                    <div class="range-block">
+                        <mat-slider max="3000">
+                            <input
+                                matSliderThumb
+                                formControlName="recalculateDebounce">
+                        </mat-slider>
+                        <div
+                            aria-hidden="true"
+                            class="range-labels-block mat-caption">
+                            <div>0</div>
+                            <div>3000</div>
+                        </div>
                     </div>
+                </label>
+                <div class="control-block">
+                    <mat-checkbox
+                        formControlName="autoplayEnabled"
+                        color="primary">
+                        Autoplay
+                    </mat-checkbox>
+                    <mat-checkbox
+                        formControlName="dragEnabled"
+                        color="primary">
+                        Gestures
+                    </mat-checkbox>
+                    <mat-checkbox
+                        formControlName="shouldRecalculateOnResize"
+                        color="primary">
+                        Autoresize
+                    </mat-checkbox>
+                    <mat-checkbox
+                        formControlName="allowKeyboardNavigation"
+                        color="primary">
+                        Keyboard navigation
+                    </mat-checkbox>
                 </div>
-            </label>
-            <div class="control-block">
-                <mat-checkbox formControlName="autoplayEnabled">
-                    Autoplay
-                </mat-checkbox>
-                <mat-checkbox formControlName="dragEnabled">
-                    Gestures
-                </mat-checkbox>
-                <mat-checkbox formControlName="shouldRecalculateOnResize">
-                    Autoresize
-                </mat-checkbox>
-                <mat-checkbox formControlName="allowKeyboardNavigation">
-                    Keyboard navigation
-                </mat-checkbox>
-            </div>
-        </form>
+            </form>
+        </mat-card-content>
     </mat-card>
 </div>

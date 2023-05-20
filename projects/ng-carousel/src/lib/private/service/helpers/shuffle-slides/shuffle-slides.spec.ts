@@ -602,27 +602,13 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(1, 'incorrect 4 item index');
             expect(result.slides[5].itemIndex).toBe(2, 'incorrect 5 item index');
             expect(result.slides[6].itemIndex).toBe(0, 'incorrect 6 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[2]});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
-            expect(result.slides[4].options)
-                .withContext('incorrect 4 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
-            expect(result.slides[5].options)
-                .withContext('incorrect 5 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[6].options)
-                .withContext('incorrect 6 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[1]}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[2]}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false}, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}, 'incorrect 4 option');
+            expect(result.slides[5].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}), 'incorrect 5 option';
+            expect(result.slides[6].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false}, 'incorrect 6 option');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -652,24 +638,12 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(0, 'incorrect 4 item index');
             expect(result.slides[5].itemIndex).toBe(1, 'incorrect 5 item index');
             expect(result.slides[6].itemIndex).toBe(2, 'incorrect 6 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual(MOCK_SLIDE_PARAMS);
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual(MOCK_SLIDE_PARAMS);
-            expect(result.slides[4].options)
-               .withContext('incorrect 4 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
-            expect(result.slides[5].options)
-                .withContext('incorrect 5 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
-            expect(result.slides[6].options)
-                .withContext('incorrect 6 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true}, 'incorrect 0 option');
+            expect(result.slides[2].options).toEqual(MOCK_SLIDE_PARAMS, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual(MOCK_SLIDE_PARAMS, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 4 option');
+            expect(result.slides[5].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 5 option');
+            expect(result.slides[6].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 6 option');
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -695,21 +669,11 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(2, 'incorrect 2 item index');
             expect(result.slides[3].itemIndex).toBe(3, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(4, 'incorrect 4 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false});
-            expect(result.slides[4].options)
-                .withContext('incorrect 4 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false}, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false}, 'incorrect 4 option');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -735,17 +699,13 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(2, 'incorrect 2 item index');
             expect(result.slides[3].itemIndex).toBe(0, 'incorrect 3 item index');
             expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0]}, 'incorrect 0 option');
             expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
+                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]}, 'incorrect 1 option');
             expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 2 option');
             expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
+                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false}, 'incorrect 3 option');
             expect(result.modifiedOffset).toBe(0, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -769,15 +729,9 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(1, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(2, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[1]}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false}, 'incorrect 2 option');
             expect(result.modifiedOffset).toBe(5, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -866,27 +820,13 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(0, 'incorrect 4 item index');
             expect(result.slides[5].itemIndex).toBe(1, 'incorrect 5 item index');
             expect(result.slides[6].itemIndex).toBe(2, 'incorrect 6 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[4].options)
-                .withContext('incorrect 4 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
-            expect(result.slides[5].options)
-                .withContext('incorrect 5 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1]});
-            expect(result.slides[6].options)
-                .withContext('incorrect 6 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2]});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[0], isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[0]}, 'incorrect 4 option');
+            expect(result.slides[5].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[1]}, 'incorrect 5 option');
+            expect(result.slides[6].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2]}, 'incorrect 6 option');
             expect(result.modifiedOffset).toBe(-20, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -902,9 +842,7 @@ describe('weight calculation test suite', () => {
                 slideWidth,
                 items5,
             );
-            expect(result.slides.length)
-                .withContext('incorrect length')
-                .toBe(5);
+            expect(result.slides.length).toBe(5, 'incorrect length');
             expect(result.slides[0].itemIndex).toBe(4, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(0, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(1, 'incorrect 2 item index');
@@ -939,24 +877,12 @@ describe('weight calculation test suite', () => {
             expect(result.slides[4].itemIndex).toBe(1, 'incorrect 4 item index');
             expect(result.slides[5].itemIndex).toBe(2, 'incorrect 5 item index');
             expect(result.slides[6].itemIndex).toBe(3, 'incorrect 6 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual(MOCK_SLIDE_PARAMS);
-            expect(result.slides[4].options)
-                .withContext('incorrect 4 options')
-                .toEqual(MOCK_SLIDE_PARAMS);
-            expect(result.slides[6].options)
-                .withContext('incorrect 6 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, isActive: false}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual(MOCK_SLIDE_PARAMS, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual(MOCK_SLIDE_PARAMS, 'incorrect 4 option');
+            expect(result.slides[6].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true}, 'incorrect 6 option');
             expect(result.modifiedOffset).toBe(-15, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -981,21 +907,11 @@ describe('weight calculation test suite', () => {
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
             expect(result.slides[3].itemIndex).toBe(1, 'incorrect 3 item index');
             expect(result.slides[4].itemIndex).toBe(2, 'incorrect 4 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]});
-            expect(result.slides[4].options)
-                .withContext('incorrect 4 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[3], isActive: false}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items5[4], isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[0]}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[1]}, 'incorrect 3 option');
+            expect(result.slides[4].options).toEqual({...MOCK_SLIDE_PARAMS, item: items5[2]}, 'incorrect 4 option');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -1019,18 +935,10 @@ describe('weight calculation test suite', () => {
             expect(result.slides[1].itemIndex).toBe(2, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
             expect(result.slides[3].itemIndex).toBe(1, 'incorrect 3 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
-            expect(result.slides[3].options)
-                .withContext('incorrect 3 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[1], inViewport: true});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[0]}, 'incorrect 2 option');
+            expect(result.slides[3].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[1], inViewport: true}, 'incorrect 3 option');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });
@@ -1054,15 +962,9 @@ describe('weight calculation test suite', () => {
             expect(result.slides[0].itemIndex).toBe(1, 'incorrect 0 item index');
             expect(result.slides[1].itemIndex).toBe(2, 'incorrect 1 item index');
             expect(result.slides[2].itemIndex).toBe(0, 'incorrect 2 item index');
-            expect(result.slides[0].options)
-                .withContext('incorrect 0 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false});
-            expect(result.slides[1].options)
-                .withContext('incorrect 1 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false});
-            expect(result.slides[2].options)
-                .withContext('incorrect 2 options')
-                .toEqual({...MOCK_SLIDE_PARAMS, item: items[0]});
+            expect(result.slides[0].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[1], isActive: false}, 'incorrect 0 option');
+            expect(result.slides[1].options).toEqual({...MOCK_SLIDE_PARAMS, inViewport: true, item: items[2], isActive: false}, 'incorrect 1 option');
+            expect(result.slides[2].options).toEqual({...MOCK_SLIDE_PARAMS, item: items[0]}, 'incorrect 2 option');
             expect(result.modifiedOffset).toBe(-10, 'incorrect offset');
             expect(result.slidesChanged).toBe(true, 'incorrect slide change flag');
         });

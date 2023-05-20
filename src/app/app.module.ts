@@ -6,7 +6,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -16,7 +16,7 @@ import { appRoutes } from './app.routes';
 
 @NgModule({
     imports: [
-        BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        BrowserModule,
         BrowserAnimationsModule,
         RouterModule.forRoot(appRoutes, {
             initialNavigation: 'enabledBlocking',
@@ -34,7 +34,9 @@ import { appRoutes } from './app.routes';
     declarations: [
         AppComponent
     ],
-    providers: [],
+    providers: [
+        provideClientHydration(),
+    ],
     bootstrap: [
         AppComponent,
     ]

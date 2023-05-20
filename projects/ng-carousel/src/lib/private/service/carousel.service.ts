@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, OnDestroy, PLATFORM_ID, TemplateRef } from '@angular/core';
+import { Inject, Injectable, NgZone, OnDestroy, PLATFORM_ID, TemplateRef } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { AutoplaySuspender } from '../models/autoplay-suspender';
 import { CompleteCarouselConfig } from '../models/carousel-config';
@@ -50,12 +50,14 @@ export class CarouselService<T> implements OnDestroy {
         animationBezierArgs: ANIMATION_BEZIER_ARGS,
         swipeThreshold: MAX_SWIPE_THRESHOLD,
         maxOverscroll: MAX_OVERSCROLL,
+        zone: this.ngZone,
     };
 
     constructor(
         @Inject(SLIDE_ID_GENERATOR) private slideIdGenerator: IdGenerator,
         // tslint:disable-next-line: ban-types
         @Inject(PLATFORM_ID) private platformId: Object,
+        private ngZone: NgZone,
     ) {
     }
 
