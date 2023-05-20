@@ -19,6 +19,7 @@ export function enableAutoplayProcedure(suspender: AutoplaySuspender | null = nu
             environment?.autoplayAction ?? (() => {}),
             suspender,
             state.autoplay,
+            environment.zone,
         );
         const modifiedState: CarouselState = {
             ...state,
