@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import { interval } from 'rxjs';
 
 import { AutoplaySuspender } from '../../../models/autoplay-suspender';
@@ -12,6 +13,7 @@ export function enableAutoplay(
     autoplayAction: () => void,
     suspender?: AutoplaySuspender | null,
     autoplay?: CarouselAutoplay,
+    zone?: NgZone,
 ): CarouselAutoplay {
     if (!autoplay) {
         autoplay = new CarouselAutoplay();
@@ -25,8 +27,17 @@ export function enableAutoplay(
     }
     if (autoplayEnabled && !autoplay.autoplaySuspenders.size && isBrowser) {
         // Delay can't be smaller than transition itself in order to avoid endless animation
-        autoplay.interval = Math.max(transitionDuration, autoplayDelay);
-        autoplay.autoplaySubscription = interval(autoplay.interval).subscribe(autoplayAction);
+        const autoplayInterval = Math.max(transitionDuration, autoplayDelay);
+        autoplay.interval = autoplayInterval;
+        if (zone) {
+            zone.runOutsideAngular(() => {
+                if (autoplay) {
+                    autoplay.autoplaySubscription = interval(autoplayInterval).subscribe(autoplayAction);
+                }
+            });
+        } else {
+            autoplay.autoplaySubscription = interval(autoplay.interval).subscribe(autoplayAction);
+        }
     }
 
     return autoplay;

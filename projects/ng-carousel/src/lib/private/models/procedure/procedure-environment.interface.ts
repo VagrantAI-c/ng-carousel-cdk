@@ -1,3 +1,4 @@
+import { NgZone } from '@angular/core';
 import { IdGenerator } from '../id-generator';
 
 /**
@@ -12,4 +13,5 @@ export interface ProcedureEnvironment {
     animationBezierArgs: number[];
     swipeThreshold: number;
     maxOverscroll: number;
+    zone: NgZone;
 }

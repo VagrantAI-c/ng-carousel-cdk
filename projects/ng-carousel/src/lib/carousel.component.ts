@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ContentChild, Input, NgZone, Output, ViewEncapsulation } from '@angular/core';
 import { distinctUntilChanged, map } from 'rxjs/operators';
 
 import { CarouselConfig } from './carousel-config.type';
@@ -7,6 +7,7 @@ import { CompleteCarouselConfig } from './private/models/carousel-config';
 import { CarouselState } from './private/models/carousel-state';
 import { IdGenerator } from './private/models/id-generator';
 import { CarouselService } from './private/service/carousel.service';
+import { enterZone } from './private/service/helpers/enter-zone';
 import { PanRecognizerService } from './private/service/pan-recognizer.service';
 import { ANIMATION_ID_GENERATOR, SLIDE_ID_GENERATOR } from './private/tokens';
 
@@ -55,6 +56,7 @@ export class CarouselComponent<T = any> {
         .pipe(
             map((state: CarouselState<T>) => state.activeItemIndex),
             distinctUntilChanged(),
+            enterZone(this.ngZone),
         );
 
     get slideIndex(): number {
@@ -63,6 +65,7 @@ export class CarouselComponent<T = any> {
 
     constructor(
         private carousel: CarouselService<T>,
+        private ngZone: NgZone,
     ) {
     }
 
