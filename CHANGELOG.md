@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.10.1...v2.0.0) (2023-05-20)
+
+
+### Features
+
+* support Angular v16 ([ca049f5](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/ca049f5108ab7e999f3c5c7ed16e12ac2c510645))
+
+
+### BREAKING CHANGES
+
+* index change output will now always emit in NgZone. Some events weren't in zone before this change.
+
 ## [1.10.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.10.0...v1.10.1) (2022-10-25)
 
 
