@@ -127,7 +127,7 @@ export class PanRecognizerService<T> {
         const x = eventCoordinates?.[0] ?? this.lastX ?? null;
         const startX = this.startCoordinates[0];
         this.reset();
-        if (x === null) {
+        if (x === null || !this.isPanning) {
 
             return;
         }
