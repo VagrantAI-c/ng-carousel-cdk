@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v2.0.0...v2.0.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* fix index change on pointer up event ([f5a5f5d](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/f5a5f5d3ccc1b15022c3e079ffdba62bc77da985)), closes [#163](https://github.com/VagrantAI-c/ng-carousel-cdk/issues/163)
+
 # [2.0.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v1.10.1...v2.0.0) (2023-05-20)
 
 
