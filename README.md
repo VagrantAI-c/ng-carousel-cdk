@@ -5,7 +5,7 @@ Basic carousel engine on Angular
 https://vagrantai-c.github.io/ng-carousel-cdk/
 
 ## Requirements
-Angular version 7 or higher
+Angular, current major version. Library might work on Angular version 9 or higher, but not guaranteed
 
 ## Install
 ```
