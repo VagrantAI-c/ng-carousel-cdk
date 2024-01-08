@@ -53,7 +53,7 @@
     </ng-carousel>
     <div class="control-panel">
         <button
-            *ngFor="let item of config.items; index as i;"
+            *ngFor="let item of carouselRef?.items; index as i;"
             [class.active]="i === itemIndex"
             (click)="carouselRef.setIndex(i)"
             class="bullet-button"

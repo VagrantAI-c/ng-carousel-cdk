@@ -1,14 +1,27 @@
+import { NEVER, Observable } from 'rxjs';
 import { CarouselAlignMode } from '../../carousel-align-mode';
 import { CarouselConfig } from '../../carousel-config.type';
 import { CarouselWidthMode } from '../../carousel-width-mode';
 
 export class CompleteCarouselConfig<T = any> {
     /**
-     * Array of data to display
+     * Array of data to display. There are two fields responsible
+     * for providing data and both are respected: first `items` would be
+     * emitted to a combined stream, then values from `items$` would be
+     * read
      *
      * Default: []
      */
     items: T[] = [];
+    /**
+     * Stream of data array to display. There are two fields responsible
+     * for providing data and both are respected: first `items` would be
+     * emitted to a combined stream, then values from `items$` would be
+     * read
+     *
+     * Default: `NEVER`
+     */
+    items$: Observable<T[]> = NEVER;
     /**
      * Describes how carousel calculates its content width.
      * Consult with corresponding enum to see what options
@@ -94,6 +107,7 @@ export class CompleteCarouselConfig<T = any> {
 
     constructor(config?: CarouselConfig<T> | null) {
         this.items = [...(config?.items ?? [])];
+        this.items$ = config?.items$ ?? NEVER;
         this.widthMode = config?.widthMode ?? CarouselWidthMode.PERCENT;
         this.alignMode = config?.alignMode ?? CarouselAlignMode.CENTER;
         this.slideWidth = extractCoerced(config?.slideWidth, 100);

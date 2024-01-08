@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, ContentChild, Input, NgZone, Output, ViewEncapsulation } from '@angular/core';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, Input, NgZone, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
+import { concat, of, ReplaySubject, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 
 import { CarouselConfig } from './carousel-config.type';
 import { CarouselSlideDirective } from './carousel-slide.directive';
@@ -38,7 +39,7 @@ export function idGeneratorFactory(): IdGenerator {
 /**
  * Defines carousel API to work with
  */
-export class CarouselComponent<T = any> {
+export class CarouselComponent<T = any> implements OnDestroy {
 
     @ContentChild(CarouselSlideDirective) set slideRef(newSlideRef: CarouselSlideDirective<T>) {
         this.carousel.setSlideTemplate(newSlideRef
@@ -49,7 +50,8 @@ export class CarouselComponent<T = any> {
 
     @Input() set config(newConfig: CarouselConfig<T> | null | undefined) {
         const configInstance = new CompleteCarouselConfig<T>(newConfig);
-        this.carousel.setConfig(configInstance);
+        this.config$.next(configInstance);
+        this.listenConfigChanges();
     }
 
     @Output() itemIndexChange = this.carousel.carouselStateChanges()
@@ -63,10 +65,24 @@ export class CarouselComponent<T = any> {
         return this.carousel.getItemIndex();
     }
 
+    get items(): T[] {
+        return this.unwrappedItems;
+    }
+
+    private readonly config$ = new ReplaySubject<CompleteCarouselConfig<T>>(1);
+    private readonly subscriptions$ = new Subscription();
+    private configListenerInitialized = false;
+    private unwrappedItems: T[] = [];
+
     constructor(
         private carousel: CarouselService<T>,
         private ngZone: NgZone,
+        private cdr: ChangeDetectorRef,
     ) {
+    }
+
+    ngOnDestroy(): void {
+        this.subscriptions$.unsubscribe();
     }
 
     next(): void {
@@ -87,6 +103,29 @@ export class CarouselComponent<T = any> {
      */
     recalculate(): void {
         this.carousel.recalculate();
+    }
+
+    private listenConfigChanges(): void {
+        if (this.configListenerInitialized) {
+
+            return;
+        }
+        this.configListenerInitialized = true;
+        const configSubscription$ = this.config$
+            .pipe(
+                switchMap((config: CompleteCarouselConfig<T>) =>
+                    concat(of(config.items), config.items$)
+                        .pipe(
+                            map((items: T[]) => ({ ...config, items })),
+                        )
+                ),
+            )
+            .subscribe((config: CompleteCarouselConfig<T>) => {
+                this.unwrappedItems = config.items;
+                this.cdr.markForCheck();
+                this.carousel.setConfig(config);
+            });
+        this.subscriptions$.add(configSubscription$);
     }
 
 }
