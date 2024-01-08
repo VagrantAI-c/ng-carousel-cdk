@@ -178,7 +178,20 @@ Possible options and their default values:
     ```typescript
     allowKeyboardNavigation = true;
     ```
-    Whether carousel shoul listen to arrow keypresses and navigate to prev and next slide accordingly after left or right arrow key is pressed.
+    Whether carousel should listen to arrow keypresses and navigate to prev and next slide accordingly after left or right arrow key is pressed.
+-
+    ```typescript
+    initialIndex: () => 0;
+    ```
+    Navigates carousel after initialization instantly to specified index. Might be enriched with callback argument to precisely restore previous index after config change, e.g.
+    ```typescript
+    initialIndex: ({ currentItemIndex, maxIndex }) => currentItemIndex
+    ```
+    `currentItemIndex` - item index that was active at the time of the config change
+
+    `maxIndex` - items array length - 1
+
+    **callback result** - new item index that should be applied, defaults to 0. Would clamp between 0 and `maxIndex` if overflows
 
 #### Outputs
 `itemIndexChange`

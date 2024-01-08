@@ -11,7 +11,7 @@ import { setOffsetSnapshotProcedure } from './set-offset-snapshot/set-offset-sna
 /**
  * Calculates corresponding parts for current active slide
  */
-export function setSlideIndexProcedure(): Procedure {
+export function setSlideIndexProcedure(immediate: boolean): Procedure {
     return procedurePipe('setSlideIndex',
         animationOffsetSnapshotProcedure(),
         destroyAnimationProcedure(),
@@ -20,6 +20,6 @@ export function setSlideIndexProcedure(): Procedure {
         calculateOffsetProcedure(),
         shuffleSlidesProcedure(),
         markVisibleAndActiveProcedure(),
-        startAnimationProcedure(),
+        startAnimationProcedure(immediate),
     );
 }

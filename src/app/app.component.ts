@@ -28,6 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
         shouldRecalculateOnResize: true,
         recalculateDebounce: 300,
         allowKeyboardNavigation: true,
+        initialIndex: ({ currentItemIndex }) => currentItemIndex,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -133,6 +134,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     ...value,
                     slideWidth: Math.floor(maxWidthNew * widthPercentage / 100),
                     items: this.assignItems(value.slidesQuantity),
+                    initialIndex: ({ currentItemIndex }) => currentItemIndex,
                 };
                 this.configForm.controls.slideWidth.setValue(value.slideWidth, {emitEvent: false});
                 this.cdr.markForCheck();
