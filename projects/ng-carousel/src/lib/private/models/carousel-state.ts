@@ -42,7 +42,8 @@ export class CarouselState<T = any> {
     /**
      * When no slides available and user intents to set index,
      * this field would be initialized with desired index, which
-     * should be to activeSlideIndex when slides become available
+     * should be assigned to activeSlideIndex when slides become
+     * available
      */
     postponedItemIndex: number | null = null;
     /** Whether drag is in process right now */

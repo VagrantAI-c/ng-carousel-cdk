@@ -6,6 +6,7 @@ import { PanRecognizerService } from './private/service/pan-recognizer.service';
 
 @Directive({
     selector: '[ngCarouselPreventGhostClick]',
+    standalone: true
 })
 export class PreventGhostClickDirective implements OnInit, OnDestroy {
 

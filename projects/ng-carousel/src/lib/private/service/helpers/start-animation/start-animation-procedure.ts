@@ -8,14 +8,14 @@ import { startAnimation } from './start-animation';
 /**
  * Creates new transition from one slide to another
  */
-export function startAnimationProcedure(): Procedure {
+export function startAnimationProcedure(noop: boolean): Procedure {
     return ({state, procedureState, environment}: ProcedureStateFacade): ProcedureHandler => {
         const animation = startAnimation(
             state.animatableContainer,
             procedureState?.offsetSnapshot ?? null,
             state.offset,
             state.config.widthMode,
-            state.config.transitionDuration,
+            noop ? 0 : state.config.transitionDuration,
             environment?.animationBezierArgs ?? [],
             environment?.isBrowser ?? false,
             environment?.afterAnimationAction ?? (() => {}),

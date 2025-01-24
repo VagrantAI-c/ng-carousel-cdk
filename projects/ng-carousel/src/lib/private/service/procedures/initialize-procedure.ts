@@ -7,10 +7,10 @@ import { enableAutoplayProcedure } from '../helpers/enable-autoplay/enable-autop
 import { initializeCarouselProcedure } from '../helpers/initialize-carousel/initialize-carousel-procedure';
 import { markVisibleAndActiveProcedure } from '../helpers/mark-visible-and-active/mark-visible-and-active-procedure';
 import { shuffleSlidesProcedure } from '../helpers/shuffle-slides/shuffle-slides-procedure';
+import { goToInitialIndexProcedure } from './go-to-initial-index/go-to-initial-index-procedure';
 import { postponeInitializationProcedure } from './postpone-initialization/postpone-initialization-procedure';
 import { setBeziersProcedure } from './set-beziers/set-beziers-procedure';
 import { setFirstInitializationProcedure } from './set-first-initalization/set-first-initialization-procedure';
-import { setPostponedIndexProcedure } from './set-postponed-index/set-postponed-index-procedure';
 
 /**
  * Creates slides from scratch
@@ -30,6 +30,6 @@ export function initializeProcedure(): Procedure {
         calculateActiveSlideProcedure(),
         setBeziersProcedure(),
 
-        setPostponedIndexProcedure(),
+        goToInitialIndexProcedure(),
     );
 }

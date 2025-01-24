@@ -5,7 +5,7 @@ Basic carousel engine on Angular
 https://vagrantai-c.github.io/ng-carousel-cdk/
 
 ## Requirements
-Angular version 7 or higher
+Current major version of Angular. Package might work on Angular version 9 or higher, but not guaranteed
 
 ## Install
 ```
@@ -112,13 +112,18 @@ readonly config: CarouselConfig<number> = {
 
 `config: CarouselConfig`
 
-Possible options:
+Possible options and their default values:
 
 -
     ```typescript
     items: T[] = [];
     ```
     Items to be rendered inside carousel.
+-
+    ```typescript
+    items$: Observable<T[]> = NEVER;
+    ```
+    Stream of items to be rendered inside carousel. If both `items` and `items$` are present, first `items` would be used synchronously and then there would be a subscription to `items$`.
 -
     ```typescript
     slideWidth = 100;
@@ -138,7 +143,7 @@ Possible options:
     ```typescript
     autoplayEnabled = true;
     ```
-    Whether active slide should change over time/
+    Whether active slide should change over time.
 -
     ```typscript
     autoplayDelay = 6000;
@@ -173,7 +178,20 @@ Possible options:
     ```typescript
     allowKeyboardNavigation = true;
     ```
-    Whether carousel shoul listen to arrow keypresses and navigate to prev and next slide accordingly after left or right arrow key is pressed.
+    Whether carousel should listen to arrow keypresses and navigate to prev and next slide accordingly after left or right arrow key is pressed.
+-
+    ```typescript
+    initialIndex: () => 0;
+    ```
+    Navigates carousel after initialization instantly to specified index. Might be enriched with callback argument to precisely restore previous index after config change, e.g.
+    ```typescript
+    initialIndex: ({ currentItemIndex, maxIndex }) => currentItemIndex
+    ```
+    `currentItemIndex` - item index that was active at the time of the config change
+
+    `maxIndex` - items array length - 1
+
+    **callback result** - new item index that should be applied, defaults to 0. Would clamp between 0 and `maxIndex` if overflows
 
 #### Outputs
 `itemIndexChange`
@@ -201,6 +219,7 @@ Use this reference to programmaticaly trigger next events:
 - `carouselRef.setIndex(newIndex: number)`: focus slide with provided item index. When no slides are available, index change would postpone till slide initialization.
 - `carouselRef.recalculate()`: recalculate positions. Might be useful when `shouldRecalculateOnResize` is turned off and carousel width mode is `CarouselWidthMode.PX` (pixels).
 - `carouselRef.slideIndex`: returns current active slide index, might be useful for composing paginators
+- `carouselRef.items`: returns unwrapped set of items. It might be helpful to syncrhonously obtain list of items when `items$` config field is used
 
 ### PreventGhostClickDirective
 

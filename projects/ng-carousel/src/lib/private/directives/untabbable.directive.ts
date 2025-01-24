@@ -13,16 +13,17 @@ const selectors = [
 const selectorsString = selectors.join(', ');
 
 @Directive({
-    selector: '[untabbable]',
+    selector: '[ngCarouselUntabbable]',
+    standalone: true,
 })
 /**
  * Applies tabindex=-1 for interactive elements inside container
  */
-export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy {
+export class CarouselUntabbableDirective implements OnChanges, AfterViewInit, OnDestroy {
 
-    @Input() untabbable = false;
+    @Input() ngCarouselUntabbable = false;
     /** Whether focus inside carousel */
-    @Input() untabbableFocused = false;
+    @Input() ngCarouselUntabbableFocused = false;
 
     private readonly lastTabindexValueMap = new Map<HTMLElement, string | null>();
     private viewInitiated = false;
@@ -44,7 +45,7 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
             change.currentValue
                 ? this.blockTabindex()
                 : this.unblockTabindex();
-            if (this.untabbableFocused && isPlatformBrowser(this.platformId)) {
+            if (this.ngCarouselUntabbableFocused && isPlatformBrowser(this.platformId)) {
                 for (let selector of selectors) {
                     const el = this.elementRef.nativeElement.querySelector(selector);
                     if (el) {
@@ -58,7 +59,7 @@ export class FocusBlockDirective implements OnChanges, AfterViewInit, OnDestroy 
 
     ngAfterViewInit(): void {
         this.viewInitiated = true;
-        this.untabbable
+        this.ngCarouselUntabbable
             ? this.blockTabindex()
             : this.unblockTabindex();
     }

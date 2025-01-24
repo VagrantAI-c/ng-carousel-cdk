@@ -11,6 +11,6 @@ export function prevProcedure(): Procedure {
     return procedurePipe('prev',
         enableAutoplayProcedure(),
         getPrevIndexProcedure(),
-        setSlideIndexProcedure(),
+        setSlideIndexProcedure(false),
     );
 }

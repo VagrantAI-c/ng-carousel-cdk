@@ -6,11 +6,11 @@ import { postponeItemIndexProcedure } from './postpone-item-index/postpone-item-
 import { setSlideIndexProcedure } from './set-slide-index-procedure';
 
 /** Assigns item index and shuffles slides accordingly */
-export function goToProcedure(newItemIndex: number): Procedure {
+export function goToProcedure(newItemIndex: number, immediate: boolean): Procedure {
     return procedurePipe('goTo',
         postponeItemIndexProcedure(newItemIndex),
         enableAutoplayProcedure(),
         findSlideIndexProcedure(newItemIndex),
-        setSlideIndexProcedure(),
+        setSlideIndexProcedure(immediate),
     );
 }

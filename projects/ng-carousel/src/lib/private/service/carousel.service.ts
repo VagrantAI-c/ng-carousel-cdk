@@ -74,7 +74,7 @@ export class CarouselService<T> implements OnDestroy {
     }
 
     setItemIndex(newItemIndex: number): void {
-        this.apply(goToProcedure(newItemIndex));
+        this.apply(goToProcedure(newItemIndex, false));
     }
 
     prev(): void {
@@ -142,7 +142,13 @@ export class CarouselService<T> implements OnDestroy {
      */
     private apply(procedure: Procedure): void {
         const state: CarouselState<T> = Object.assign({}, this.carouselState$.getValue());
-        const result = procedurePipe('applier', procedure)({state, procedureState: {}, environment: this.procedureEnvironment});
+        const result = procedurePipe('applier', procedure)({
+            state,
+            procedureState: {
+                activeItemIndex: state.activeItemIndex,
+            },
+            environment: this.procedureEnvironment
+        });
         this.carouselState$.next(result.state);
     }
 }

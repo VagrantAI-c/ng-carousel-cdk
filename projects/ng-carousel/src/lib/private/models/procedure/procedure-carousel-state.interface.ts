@@ -15,4 +15,6 @@ export interface ProcedureCarouselState {
     offsetSnapshot: number;
     /** Represents distance passed during single drag session */
     passedDistance: number;
+    /** Item index that was active before procedure */
+    activeItemIndex: number;
 }

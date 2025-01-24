@@ -14,6 +14,6 @@ export function dragEndProcedure(passedDistance: number): Procedure {
         enableAutoplayProcedure(AutoplaySuspender.DRAG),
         normalizePassedDistanceProcedure(passedDistance),
         calculateActiveSlideProcedure(),
-        setSlideIndexProcedure(),
+        setSlideIndexProcedure(false),
     );
 }

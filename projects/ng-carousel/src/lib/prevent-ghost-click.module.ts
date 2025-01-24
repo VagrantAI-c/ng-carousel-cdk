@@ -5,8 +5,6 @@ import { PreventGhostClickDirective } from './prevent-ghost-click.directive';
 @NgModule({
     imports: [
       CommonModule,
-    ],
-    declarations: [
       PreventGhostClickDirective,
     ],
     exports: [

@@ -36,30 +36,33 @@
                     color="primary">
                     Secondary action
                 </button>
-                <span *ngIf="active">
-                    This slide is active
-                </span>
-                <span *ngIf="activeOnTheLeft || activeOnTheRight">
-                    <ng-container *ngIf="activeOnTheLeft">
-                        ←
-                    </ng-container>
-                    <span> Active slide this side </span>
-                    <ng-container *ngIf="activeOnTheRight">
-                        →
-                    </ng-container>
-                </span>
+                @if (active) {
+                    <span>This slide is active</span>
+                }
+                @if (activeOnTheLeft || activeOnTheRight) {
+                    <span>
+                        @if (activeOnTheLeft) {
+                            ←
+                        }
+                        <span> Active slide this side </span>
+                        @if (activeOnTheRight) {
+                            →
+                        }
+                    </span>
+                }
             </div>
         </ng-template>
     </ng-carousel>
     <div class="control-panel">
-        <button
-            *ngFor="let item of config.items; index as i;"
-            [class.active]="i === itemIndex"
-            (click)="carouselRef.setIndex(i)"
-            class="bullet-button"
-            mat-icon-button>
-            {{i + 1}}
-        </button>
+        @for (item of carouselRef?.items; track item; let i = $index) {
+            <button
+                [class.active]="i === itemIndex"
+                (click)="carouselRef.setIndex(i)"
+                class="bullet-button"
+                mat-icon-button>
+                {{i + 1}}
+            </button>
+        }
     </div>
     <div class="control-panel">
         <button

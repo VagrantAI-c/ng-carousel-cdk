@@ -1,15 +1,34 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-
-import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
+import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselModule, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
 import { CarouselItem } from './models/carousel-item.interface';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatCardModule,
+        MatSliderModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CarouselModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit, OnDestroy {
@@ -28,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
         shouldRecalculateOnResize: true,
         recalculateDebounce: 300,
         allowKeyboardNavigation: true,
+        initialIndex: ({ currentItemIndex }) => currentItemIndex,
     };
     readonly configForm = new FormGroup({
         widthMode: new FormControl(this.config.widthMode),
@@ -133,6 +153,7 @@ export class AppComponent implements OnInit, OnDestroy {
                     ...value,
                     slideWidth: Math.floor(maxWidthNew * widthPercentage / 100),
                     items: this.assignItems(value.slidesQuantity),
+                    initialIndex: ({ currentItemIndex }) => currentItemIndex,
                 };
                 this.configForm.controls.slideWidth.setValue(value.slideWidth, {emitEvent: false});
                 this.cdr.markForCheck();
@@ -148,7 +169,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private assignItems(quantity?: number | null): CarouselItem[] {
         const items = [];
         for (let i = 0; i < (quantity ?? 3); i++) {
-            items.push({name: i + 1, image: `url(https://via.placeholder.com/150)`});
+            items.push({name: i + 1, image: `url(https://placehold.co/150)`});
         }
 
         return items;

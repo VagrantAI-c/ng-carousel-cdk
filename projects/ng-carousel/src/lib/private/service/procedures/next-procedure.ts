@@ -11,6 +11,6 @@ export function nextProcedure(omitAutoplayReset = false): Procedure {
     return procedurePipe('next',
         omitAutoplayReset ? null : enableAutoplayProcedure(),
         getNextIndexProcedure(),
-        setSlideIndexProcedure(),
+        setSlideIndexProcedure(false),
     );
 }

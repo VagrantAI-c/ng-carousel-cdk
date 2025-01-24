@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CarouselComponent } from '../public-api';
 import { CarouselSlideDirective } from './carousel-slide.directive';
-import { FocusBlockDirective } from './private/directives/untabbable.directive';
 import { CarouselEngineComponent } from './private/views/carousel-engine.component';
 
 describe('VirtualCarouselComponent smoke test suite', () => {
@@ -14,12 +13,9 @@ describe('VirtualCarouselComponent smoke test suite', () => {
         TestBed.configureTestingModule({
             imports: [
                 CommonModule,
-            ],
-            declarations: [
                 CarouselComponent,
                 CarouselSlideDirective,
                 CarouselEngineComponent,
-                FocusBlockDirective,
             ],
         })
         .compileComponents();

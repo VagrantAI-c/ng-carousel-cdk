@@ -1,4 +1,4 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { DOCUMENT, NgTemplateOutlet, isPlatformBrowser } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, NgZone, OnDestroy, OnInit, PLATFORM_ID, Renderer2, TemplateRef, ViewChild, ViewEncapsulation } from '@angular/core';
 import { combineLatest, interval, NEVER, Observable, of, Subject, Subscriber } from 'rxjs';
 import { debounce, distinctUntilChanged, distinctUntilKeyChanged, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -10,13 +10,19 @@ import { CarouselSlideContext } from '../models/carousel-slide-context';
 import { CarouselState } from '../models/carousel-state';
 import { CarouselService } from '../service/carousel.service';
 import { PanRecognizerService } from '../service/pan-recognizer.service';
+import { CarouselUntabbableDirective } from '../directives/untabbable.directive';
 
 @Component({
-  selector: 'carousel-engine',
-  templateUrl: './carousel-engine.component.html',
-  styleUrls: ['./carousel-engine.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ng-carousel-engine',
+    standalone: true,
+    templateUrl: './carousel-engine.component.html',
+    styleUrls: ['./carousel-engine.component.scss'],
+    imports: [
+        NgTemplateOutlet,
+        CarouselUntabbableDirective,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
 })
 /**
  * Contains listeners and other DOM controllers
@@ -74,10 +80,6 @@ export class CarouselEngineComponent<T> implements OnInit, OnDestroy {
         this.visibilityListener?.();
         this.destroyed$.next();
         this.destroyed$.complete();
-    }
-
-    trackByFn(index: number, item: CarouselSlide<T>): number {
-        return item.id;
     }
 
     focusIn(): void {
