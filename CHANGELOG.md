@@ -1,3 +1,15 @@
+# [2.1.0](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v2.0.1...v2.1.0) (2025-01-24)
+
+
+### Features
+
+* bump angular to v17 ([758a05e](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/758a05ec56bb9f3a9af7ea791192580d74aea989))
+* bump angular to v18 ([65505a5](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/65505a576f4d4717631e5348cc0b5ceb3f0b9192))
+* bump angular to v18.2 ([dd7e550](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/dd7e550068df02ac271d7a7abda659f17ddfb752))
+* bump angular to v19 ([7ad52a9](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/7ad52a997197c9efbd39fb8ca7d775006810289c))
+* introduce `initialIndex` callback which navigates carousel to provided index after config is applied ([cba0b4b](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/cba0b4b8f64f25842d659f9042f883f53e13ee21))
+* introduce `items$` config field and `items` carousel reference getter ([7628acb](https://github.com/VagrantAI-c/ng-carousel-cdk/commit/7628acbb87a7a45154037240846df9b01483ab27))
+
 ## [2.0.1](https://github.com/VagrantAI-c/ng-carousel-cdk/compare/v2.0.0...v2.0.1) (2023-08-08)
 
 
