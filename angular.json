@@ -75,14 +75,14 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "ng-carousel-demo:build"
+            "buildTarget": "ng-carousel-demo:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "ng-carousel-demo:build:production"
+              "buildTarget": "ng-carousel-demo:build:production"
             },
             "development": {
-              "browserTarget": "ng-carousel-demo:build:development"
+              "buildTarget": "ng-carousel-demo:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -90,7 +90,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "ng-carousel-demo:build"
+            "buildTarget": "ng-carousel-demo:build"
           }
         },
         "test": {
@@ -163,7 +163,7 @@
           }
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "options": {
             "browserTarget": "ng-carousel-demo:build",
             "serverTarget": "ng-carousel-demo:server"
@@ -176,7 +176,7 @@
           }
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "options": {
             "browserTarget": "ng-carousel-demo:build:production",
             "serverTarget": "ng-carousel-demo:server:production",
