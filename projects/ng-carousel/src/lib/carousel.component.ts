@@ -35,6 +35,7 @@ export function idGeneratorFactory(): IdGenerator {
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
     exportAs: 'ngCarousel',
+    standalone: false
 })
 /**
  * Defines carousel API to work with

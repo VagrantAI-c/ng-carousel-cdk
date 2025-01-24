@@ -12,11 +12,12 @@ import { CarouselService } from '../service/carousel.service';
 import { PanRecognizerService } from '../service/pan-recognizer.service';
 
 @Component({
-  selector: 'carousel-engine',
-  templateUrl: './carousel-engine.component.html',
-  styleUrls: ['./carousel-engine.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  encapsulation: ViewEncapsulation.None,
+    selector: 'carousel-engine',
+    templateUrl: './carousel-engine.component.html',
+    styleUrls: ['./carousel-engine.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 /**
  * Contains listeners and other DOM controllers

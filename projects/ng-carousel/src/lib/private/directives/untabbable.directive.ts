@@ -14,6 +14,7 @@ const selectorsString = selectors.join(', ');
 
 @Directive({
     selector: '[untabbable]',
+    standalone: false
 })
 /**
  * Applies tabindex=-1 for interactive elements inside container
