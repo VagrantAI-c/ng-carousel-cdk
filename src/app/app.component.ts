@@ -1,17 +1,35 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatCardModule } from '@angular/material/card';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSliderModule } from '@angular/material/slider';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { Observable, Subject } from 'rxjs';
 import { map, startWith, takeUntil } from 'rxjs/operators';
-
-import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
+import { CarouselAlignMode, CarouselComponent, CarouselConfig, CarouselModule, CarouselWidthMode } from '../../projects/ng-carousel/src/public-api';
 import { CarouselItem } from './models/carousel-item.interface';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
+    standalone: true,
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
+    imports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatCardModule,
+        MatSliderModule,
+        MatButtonToggleModule,
+        MatCheckboxModule,
+        CarouselModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+    ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
 })
 export class AppComponent implements OnInit, OnDestroy {
 
