@@ -5,7 +5,7 @@ import { CarouselSlideContext } from './private/models/carousel-slide-context';
 
 @Directive({
     selector: '[ngCarouselSlide]',
-    standalone: false
+    standalone: true
 })
 export class CarouselSlideDirective<T> {
 

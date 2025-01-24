@@ -11,6 +11,7 @@ import { CarouselService } from './private/service/carousel.service';
 import { enterZone } from './private/service/helpers/enter-zone';
 import { PanRecognizerService } from './private/service/pan-recognizer.service';
 import { ANIMATION_ID_GENERATOR, SLIDE_ID_GENERATOR } from './private/tokens';
+import { CarouselEngineComponent } from './private/views/carousel-engine.component';
 
 export function idGeneratorFactory(): IdGenerator {
     return new IdGenerator();
@@ -18,8 +19,13 @@ export function idGeneratorFactory(): IdGenerator {
 
 @Component({
     selector: 'ng-carousel',
+    exportAs: 'ngCarousel',
+    standalone: true,
     templateUrl: 'carousel.component.html',
     styleUrls: ['carousel.component.scss'],
+    imports: [
+        CarouselEngineComponent,
+    ],
     providers: [
         CarouselService,
         PanRecognizerService,
@@ -34,8 +40,6 @@ export function idGeneratorFactory(): IdGenerator {
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.None,
-    exportAs: 'ngCarousel',
-    standalone: false
 })
 /**
  * Defines carousel API to work with

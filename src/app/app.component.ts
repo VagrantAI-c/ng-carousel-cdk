@@ -151,7 +151,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private assignItems(quantity?: number | null): CarouselItem[] {
         const items = [];
         for (let i = 0; i < (quantity ?? 3); i++) {
-            items.push({name: i + 1, image: `url(https://via.placeholder.com/150)`});
+            items.push({name: i + 1, image: `url(https://placehold.co/150)`});
         }
 
         return items;

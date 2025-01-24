@@ -1,12 +1,12 @@
 
-import * as BezierEasing from 'bezier-easing';
+import bezier from 'bezier-easing';
 
 import { animationOffsetSnapshot } from './animation-offset-snapshot';
 
 describe('animationOffsetSnapshot test suite', () => {
 
     // Imitate linear function so we can predict results
-    const bezierFn = BezierEasing(0, 0, 1, 1);
+    const bezierFn = bezier(0, 0, 1, 1);
 
     it('must calculate common pattern', () => {
         const currentDuration = 50;

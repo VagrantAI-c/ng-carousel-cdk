@@ -8,7 +8,7 @@ if (environment.production) {
     enableProdMode();
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    platformBrowserDynamic().bootstrapModule(AppModule)
-        .catch(err => console.error(err));
-});
+platformBrowserDynamic().bootstrapModule(AppModule, {
+  ngZoneEventCoalescing: true,
+})
+  .catch(err => console.error(err));

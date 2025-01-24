@@ -3,11 +3,12 @@
     (focusin)="focusIn()"
     (focusout)="focusOut()"
     class="ng-carousel-block">
-    <li
-        *ngFor="let slide of slides; trackBy: trackByFn;"
-        [untabbable]="!slide.options.isActive"
-        [untabbableFocused]="focused"
-        class="ng-carousel-slide">
-        <ng-container *ngTemplateOutlet="templateRef; context: slide.context;"></ng-container>
-    </li>
+    @for (slide of slides; track slide.id) {
+        <li
+            [ngCarouselUntabbable]="!slide.options.isActive"
+            [ngCarouselUntabbableFocused]="focused"
+            class="ng-carousel-slide">
+            <ng-container *ngTemplateOutlet="templateRef; context: slide.context;"></ng-container>
+        </li>
+    }
 </ul>

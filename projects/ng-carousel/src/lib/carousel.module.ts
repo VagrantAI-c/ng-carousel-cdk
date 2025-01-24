@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { CarouselSlideDirective } from './carousel-slide.directive';
 import { CarouselComponent } from './carousel.component';
 import { CarouselPreventGhostClickModule } from './prevent-ghost-click.module';
-import { FocusBlockDirective } from './private/directives/untabbable.directive';
 import { CarouselEngineComponent } from './private/views/carousel-engine.component';
+import { CarouselUntabbableDirective } from './private/directives/untabbable.directive';
 
 @NgModule({
     imports: [
@@ -13,12 +13,10 @@ import { CarouselEngineComponent } from './private/views/carousel-engine.compone
         AsyncPipe,
         NgTemplateOutlet,
         CarouselPreventGhostClickModule,
-    ],
-    declarations: [
+        CarouselUntabbableDirective,
         CarouselComponent,
         CarouselSlideDirective,
         CarouselEngineComponent,
-        FocusBlockDirective,
     ],
     exports: [
         CarouselComponent,
